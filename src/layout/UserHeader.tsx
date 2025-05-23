@@ -36,7 +36,8 @@ const UserHeader = () => {
             </div> */}
             
             <div style={{backgroundColor:"#7E57C2"}} className="flex items-center justify-between h-16 px-4 border-b border-gray-700">
-              <div style={{fontWeight:"bold"}}> Snap'em </div>
+              
+              <img src="images/snapem_logo.png" alt="menu-2" width="100" height="50"/>
               <ul className="flex space-x-4">
               <li className="hover:bg-purple-700 hover:rounded-lg p-2"><Link to={ !isAuthenticated? "/home":"/user-home"}> Home </Link></li>
               { !isAuthenticated ? (
@@ -48,8 +49,8 @@ const UserHeader = () => {
                 <>
                  <li className="hover:bg-purple-700 hover:rounded-lg p-2"><Link to={"/subscription"}> Subscription</Link></li>
                   <li className="hover:bg-purple-700 hover:rounded-lg p-2"><Link to={"/account"}> Account</Link></li>
-                <li className=" p-2">
-                <button onClick={handleLogout} className="bg-purple-500 text-white px-2 py-1.5 rounded hover:bg-purple-700">
+                <li className=" p-1">
+                <button onClick={handleLogout} className="bg-purple-500 text-white px-2 py-1.5 rounded-lg hover:bg-purple-700">
                   Logout
                 </button>
                 </li>

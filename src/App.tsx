@@ -32,6 +32,7 @@ import Success from "./layout/Success";
 import Cancel from "./layout/Cancel";
 import UserAccount from "./layout/UserAccount";
 import ForgotPassword from "./components/auth/ForgotPassword";
+import LandingPage from "./layout/LandingPage";
 
 interface RedirectToSignInProps {
   isUser: boolean;
@@ -297,6 +298,10 @@ const routes = useRoutes([
         index: true,
         element: <UserContent />,
       },
+      // {
+      //   index: true,
+      //   element: <UserContent />,
+      // },
     ],
   },
   

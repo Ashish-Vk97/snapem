@@ -20,9 +20,9 @@ export default function AuthLayout({
             <div className="flex flex-col items-center max-w-xs">
               <Link to="/" className="block mb-4">
                 <img
-                  width={231}
-                  height={48}
-                  src={snapem}
+                  width={150}
+                  height={30}
+                  src="images/snapem_logo.png"
                   alt="Logo"
                 />
               </Link>
