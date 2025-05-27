@@ -24,7 +24,26 @@ export default function UserDropdown() {
        window.localStorage.clear();
        setIsOpen(false);
        setIsAuthenticated(false);
-       setCurrentUser({ id: "", role: "", name: "", email: "" });
+         setCurrentUser({
+              name: "",
+              email: "",
+              _id: "",
+              role: "",
+               isSubscribed: false,
+               stripeCustomerId: "",
+              subscription: {
+                id: "",
+                status: "",
+                start_date: "",
+                plan: {
+                  id: "",
+                  currency: "",
+                  interval: "",
+                  interval_count: "",
+                  amount: "",
+                },
+              },
+            });
        navigate(`/signin`, { replace: true });
    };
   function closeDropdown() {

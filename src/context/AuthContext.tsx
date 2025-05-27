@@ -12,7 +12,7 @@ interface Plan {
 interface User {
   name: string;
   email: string;
-  id: string;
+  _id: string;
   role: string;
   isSubscribed: boolean;
   stripeCustomerId: string;
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [currentUser, setCurrentUser] = useState({
     name: "",
     email: "",
-    id: "",
+    _id: "",
     role: "",
     isSubscribed: false,
     stripeCustomerId: "",
@@ -157,7 +157,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setCurrentUser({
               name: "",
               email: "",
-              id: "",
+              _id: "",
               role: "",
                isSubscribed: false,
                stripeCustomerId: "",
@@ -182,7 +182,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setCurrentUser({
             name: "",
             email: "",
-            id: "",
+            _id: "",
             role: "",
             stripeCustomerId: "",
              isSubscribed: false,
@@ -211,7 +211,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setCurrentUser({
         name: "",
         email: "",
-        id: "",
+        _id: "",
         role: "",
          isSubscribed: false,
          stripeCustomerId: "",

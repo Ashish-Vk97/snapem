@@ -3,11 +3,15 @@ import { Modal } from "../ui/modal";
 import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { updateUserProfile } from "../../service/user.service";
+import { AuthContext } from "../../context/AuthContext";
 
 interface CurrentUser {
   name: string;
   email: string;
-  id: string;
+  _id: string;
   role: string;
   phone?: string;
   address?: {
@@ -20,11 +24,92 @@ interface CurrentUser {
 export default function UserAddressCard({ currentUser }: { currentUser: CurrentUser }) {
   const { isOpen, openModal, closeModal } = useModal();
   const { address = { country: 'Unknown',state:"unknown",city:"unknown",pincode:"unknown" } } = currentUser
-  const handleSave = () => {
+  const [userAddress, setUserAddress] = useState({
+    country: address.country || "Unknown",
+    state: address.state || "Unknown",
+    city: address.city || "Unknown",
+    pincode: address.pincode || "Unknown",
+  });
+   const [id, setId] = useState("");
+
+
+    const authContext = useContext(AuthContext); 
+         
+             if (!authContext) {
+               throw new Error("AuthContext must be used within an AuthProvider");
+             }
+         
+             const {  setCurrentUser  } = authContext;
+
+//  const notify = (str: string) => toast(str);
+
+  const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+try {
+   if (
+      !userAddress.country.trim() ||
+      !userAddress.state.trim() ||
+      !userAddress.city.trim() ||
+      !userAddress.pincode.trim()
+    ) {
+      alert("All address fields are required.");
+      return;
+    }
+
+      const { data } = await updateUserProfile(id, userAddress,true);
+    
+          if (data.status) {
+             setCurrentUser((prevState) => ({
+                  ...prevState,
+                  ...data.data,
+                }));
+            // localStorage.setItem("USER", JSON.stringify({_id,email,role,name}));
+            setUserAddress({
+             country: "",
+              state: "",
+              city: "",
+              pincode: "",
+            });
+    
+            toast.success("registration successfull");
+            closeModal();
+          }
+          else {
+            toast.error(data.message || "Something went wrong");
+          }
     // Handle save logic here
     console.log("Saving changes...");
-    closeModal();
+    // closeModal();
+  
+} catch (error) {
+    const { response } = error as {
+        response: { data: { code: number;data:string; message: string } };
+      };
+
+      console.log(response.data, "error....");
+      if (response?.data?.code === 404) {
+        alert(response?.data?.message);
+      }else{
+        alert(response?.data?.data || "Unable to update profile!");
+      }
+}
+   
   };
+
+  useEffect(() => {
+      console.log(currentUser, "currentUser in UserInfoCard");
+      const { address = { country: 'Unknown',state:"unknown",city:"unknown",pincode:"unknown" } } = currentUser
+      setUserAddress(() => ({
+        country: address.country || "Unknown",
+        state: address.state || "Unknown",
+        city: address.city || "Unknown",
+        pincode: address.pincode || "Unknown",
+      }));
+      setId(currentUser._id || "");
+    }, [currentUser]);
+
+
+
   return (
     <>
       <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
@@ -63,14 +148,14 @@ export default function UserAddressCard({ currentUser }: { currentUser: CurrentU
                 </p>
               </div>
 
-              {/* <div>
+              <div>
                 <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
-                  TAX ID
+                 State
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  AS4568384
+                  {address?.state}
                 </p>
-              </div> */}
+              </div>
             </div>
           </div>
 
@@ -107,27 +192,40 @@ export default function UserAddressCard({ currentUser }: { currentUser: CurrentU
               Update your details to keep your profile up-to-date.
             </p>
           </div>
-          <form className="flex flex-col">
+          <form onSubmit={handleSave} className="flex flex-col">
             <div className="px-2 overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                 <div>
                   <Label>Country</Label>
-                  <Input type="text" value="United States" />
+                  <Input type="text"
+                  onChange={(e) => setUserAddress({ ...userAddress, country: e.target.value })}
+                  placeholder="Enter your country" 
+                  value={userAddress?.country}/>
                 </div>
 
                 <div>
-                  <Label>City/State</Label>
-                  <Input type="text" value="Arizona, United States." />
+                  <Label>City</Label>
+                  <Input type="text"
+                  onChange={(e) => setUserAddress({ ...userAddress, city: e.target.value })}
+                  placeholder="Enter your city"
+                   value={userAddress?.city} />
                 </div>
 
                 <div>
                   <Label>Postal Code</Label>
-                  <Input type="text" value="ERT 2489" />
+                  
+                  <Input type="text"
+                   onChange={(e) => setUserAddress({ ...userAddress, pincode: e.target.value })}
+                  placeholder="Enter your pincode"
+                   value={userAddress?.pincode} />
                 </div>
 
                 <div>
-                  <Label>TAX ID</Label>
-                  <Input type="text" value="AS4568384" />
+                  <Label>State</Label>
+                  <Input type="text"
+                    onChange={(e) => setUserAddress({ ...userAddress, state: e.target.value })}
+                    placeholder="Enter your state"
+                   value={userAddress?.state} />
                 </div>
               </div>
             </div>
@@ -135,7 +233,7 @@ export default function UserAddressCard({ currentUser }: { currentUser: CurrentU
               <Button size="sm" variant="outline" onClick={closeModal}>
                 Close
               </Button>
-              <Button size="sm" onClick={handleSave}>
+              <Button size="sm" type="submit" className="bg-purple-600 text-white hover:bg-purple-700">
                 Save Changes
               </Button>
             </div>

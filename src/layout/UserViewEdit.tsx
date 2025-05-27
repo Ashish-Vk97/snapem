@@ -6,7 +6,7 @@ import { ShieldCheck, Share2, AlertTriangle } from 'lucide-react';
 
 const UserViewEdit = () => {
  
-
+console.log("UserViewEdit component loaded");
 
   
   return (

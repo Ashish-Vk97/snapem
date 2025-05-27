@@ -20,7 +20,29 @@ export async function hitGetUserById(id:string, token:string) {
   return await apis.hitAxiosGetIdApi(path, id, token);
 }
 
+export async function fetchUserDetailsById(id:string) {
+
+  console.log("hellooo api call");
+  return await apis.hitAxiosGetIdApi(path, id, localStorage.getItem("AUTH_TOKEN") || "");
+}
+
 export async function hitGetAllUsers() {
   
   return await apis.hitAxiosGetApi(`${path}/all`);
 }
+ export async function updateUserProfile(id:String,body:any, isAdressUpdate:boolean = false) {
+  if (isAdressUpdate) {
+    let payload: Record<string, any> = {};
+    const address = {
+      country: body.country,  
+      state: body.state,
+      city: body.city,
+      pincode: body.pincode,
+    };
+    payload['address'] = address;
+   
+
+  return await apis.hitAxiosPutApi(`${path}/update/${id}`, payload);
+  }
+  return await apis.hitAxiosPutApi(`${path}/update/${id}`, body);
+ }

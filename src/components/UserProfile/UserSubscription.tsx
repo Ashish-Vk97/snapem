@@ -69,7 +69,13 @@ const UserSubscription = () => {
     }
   };
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
+   
+    const cleanedDateString = dateString.replace(" at", "");
+    const date = new Date(cleanedDateString);
+     console.log( "dateString=====>", date);
+    if (isNaN(date.getTime())) {
+      return "Invalid date";
+    }
     return (
       date.toLocaleDateString("en-US", {
         year: "numeric",
@@ -140,7 +146,7 @@ const UserSubscription = () => {
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                 {/* {amount ||" NA"} */}
-                {amount ? `$${amount}` : " NA"}
+                {amount ? `$${Number(amount)/100}` : " NA"}
               </p>
             </div>
 
