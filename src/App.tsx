@@ -32,7 +32,7 @@ import Success from "./layout/Success";
 import Cancel from "./layout/Cancel";
 import UserAccount from "./layout/UserAccount";
 import ForgotPassword from "./components/auth/ForgotPassword";
-import LandingPage from "./layout/LandingPage";
+import UserViewEdit from "./layout/UserViewEdit";
 
 interface RedirectToSignInProps {
   isUser: boolean;
@@ -378,6 +378,12 @@ const routes = useRoutes([
         path: "/user-home",
         element: (
           <UserWrapper isUser={isUser} Component={<UserContent />} />
+        ),
+      },
+      {
+        path: "/users/view-edit-profile/:id",
+        element: (
+          <UserWrapper isUser={isUser} Component={<UserViewEdit />} />
         ),
       },
     ],
