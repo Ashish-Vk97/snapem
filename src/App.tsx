@@ -299,6 +299,10 @@ const routes = useRoutes([
         index: true,
         element: <UserContent />,
       },
+      // {
+      //   index: true,
+      //   element: <UserContent />,
+      // },
     ],
   },
   
