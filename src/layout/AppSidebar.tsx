@@ -62,7 +62,7 @@ const navItems: NavItem[] = [
     // name: "Tables",
     name: "Content",
     icon: <TableIcon />,
-    subItems: [{ name: "video manage", path: "/basic-tables", pro: false }],
+    subItems:[{ name: "video manage", path:"/videos", pro: false },{ name: "screenshot manage", path: "/images", pro: false }],
   },
   // {
   //   name: "Pages",

@@ -77,7 +77,7 @@ useEffect(() => {
         const { token,_id,email,role,name } = data.data;
         console.log(token,data.data,"token....");
         
-
+   
         // Save the token to localStorage if login is successful
         localStorage.setItem("AUTH_TOKEN", token);
         localStorage.setItem("USER", JSON.stringify({_id,email,role,name}));

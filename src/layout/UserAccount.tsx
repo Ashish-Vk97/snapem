@@ -29,7 +29,7 @@ const UserAccount = () => {
                 </h3>
                 <div className="space-y-6">
               
-                  <UserInfoCard currentUser={currentUser} />
+                  <UserInfoCard isUserAccount ={true} currentUser={currentUser} />
                   <UserAddressCard currentUser={currentUser} />
                   <UserSubscription />
                 </div>

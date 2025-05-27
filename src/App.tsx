@@ -32,6 +32,8 @@ import Success from "./layout/Success";
 import Cancel from "./layout/Cancel";
 import UserAccount from "./layout/UserAccount";
 import ForgotPassword from "./components/auth/ForgotPassword";
+import TransactionsTable from "./components/users/TransactionTable";
+import EmergencyContact from "./components/UserProfile/EmergencyContact";
 
 interface RedirectToSignInProps {
   isUser: boolean;
@@ -131,7 +133,7 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
           setCurrentUser({
               name: "",
               email: "",
-              id: "",
+              _id: "",
               role: "",
                isSubscribed: false,
                stripeCustomerId: "",
@@ -159,7 +161,7 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
          setCurrentUser({
               name: "",
               email: "",
-              id: "",
+              _id: "",
               role: "",
                isSubscribed: false,
                stripeCustomerId: "",
@@ -197,7 +199,7 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
          setCurrentUser({
               name: "",
               email: "",
-              id: "",
+              _id: "",
               role: "",
                isSubscribed: false,
                stripeCustomerId: "",
@@ -332,10 +334,16 @@ const routes = useRoutes([
         element: <AdminWrapper isAdmin={isAdmin} Component={<Users />} />,
       },
       {
-        path: "/basic-tables",
+        path: "/content",
       
-        element: <AdminWrapper isAdmin={isAdmin} Component={<Videos />} />,
+        element: <AdminWrapper isAdmin={isAdmin} Component={<TransactionsTable />} />,
       },
+       {
+        path: "/emergency",
+        
+        element: <UserWrapper isUser={isUser} Component={<EmergencyContact />} />,
+      }, 
+
       {
         path: "/images",
         element: <AdminWrapper isAdmin={isAdmin} Component={<Images />} />,
@@ -344,6 +352,7 @@ const routes = useRoutes([
         path: "/videos",
         element: <AdminWrapper isAdmin={isAdmin} Component={<Videos />} />,
       },
+      
       {
         path: "/subscription",
         element: (

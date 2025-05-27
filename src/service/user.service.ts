@@ -24,3 +24,19 @@ export async function hitGetAllUsers() {
   
   return await apis.hitAxiosGetApi(`${path}/all`);
 }
+ export async function updateUserProfile(id:String,body:any, isAdressUpdate:boolean = false) {
+  if (isAdressUpdate) {
+    let payload: Record<string, any> = {};
+    const address = {
+      country: body.country,  
+      state: body.state,
+      city: body.city,
+      pincode: body.pincode,
+    };
+    payload['address'] = address;
+   
+
+  return await apis.hitAxiosPutApi(`${path}/update/${id}`, payload);
+  }
+  return await apis.hitAxiosPutApi(`${path}/update/${id}`, body);
+ }
