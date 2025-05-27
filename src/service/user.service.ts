@@ -20,6 +20,12 @@ export async function hitGetUserById(id:string, token:string) {
   return await apis.hitAxiosGetIdApi(path, id, token);
 }
 
+export async function fetchUserDetailsById(id:string) {
+
+  console.log("hellooo api call");
+  return await apis.hitAxiosGetIdApi(path, id, localStorage.getItem("AUTH_TOKEN") || "");
+}
+
 export async function hitGetAllUsers() {
   
   return await apis.hitAxiosGetApi(`${path}/all`);
