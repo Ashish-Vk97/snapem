@@ -356,7 +356,7 @@ const [users, setAllUsers] = useState<User[]>([]);
                             }
                           >
                             <svg
-                              onClick={() => navigate("/view-edit-profile")}
+                              onClick={() => navigate(`/users/view-edit-profile/edit/${order?._id}`)}
                               className="w-6 h-6 text-gray-500 dark:text-white"
                               aria-hidden="true"
                               xmlns="http://www.w3.org/2000/svg"
@@ -375,7 +375,7 @@ const [users, setAllUsers] = useState<User[]>([]);
                             </svg>
                             &nbsp;
                             <svg
-                              onClick={() => navigate("/view-edit-profile")}
+                              onClick={() => navigate(`/users/view-edit-profile/view/${order?._id}`)}
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
                               viewBox="0 0 24 24"

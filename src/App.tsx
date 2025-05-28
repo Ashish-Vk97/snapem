@@ -390,9 +390,9 @@ const routes = useRoutes([
         ),
       },
       {
-        path: "/view-edit-profile",
+        path: "/users/view-edit-profile/:mode/:id",
         element: (
-          <UserWrapper isUser={isUser} Component={<UserViewEdit />} />
+          <AdminWrapper isAdmin={isAdmin} Component={<UserViewEdit />} />
         ),
       },
     ],
