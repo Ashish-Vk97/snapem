@@ -1,6 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 const Cancel = () => {
+
+ 
+  const Navigate = useNavigate();
   return (
     <div className="bg-gray-100 h-screen">
     <div className="bg-white p-6 md:mx-auto">
@@ -16,9 +20,9 @@ const Cancel = () => {
         <p className="text-gray-600 my-2">Unfortunately, your payment was not successful.</p>
         <p>Please try again or contact support if the issue persists.</p>
         <div className="py-10 text-center">
-          <a href="#" className="px-12 bg-red-600 hover:bg-red-500 text-white font-semibold py-3">
+          <button onClick={()=>Navigate("/subscription")} className="px-12 bg-red-600 hover:bg-red-500 text-white font-semibold py-3">
             TRY AGAIN
-          </a>
+          </button>
         </div>
       </div>
   
