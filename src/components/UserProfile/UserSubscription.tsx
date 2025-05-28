@@ -70,7 +70,10 @@ const UserSubscription = () => {
   };
   const formatDate = (dateString: string) => {
    
-    const cleanedDateString = dateString.replace(" at", "");
+    if (!dateString) {
+      return "NA"; 
+    }
+    const cleanedDateString = dateString?.replace(" at", "");
     const date = new Date(cleanedDateString);
      console.log( "dateString=====>", date);
     if (isNaN(date.getTime())) {

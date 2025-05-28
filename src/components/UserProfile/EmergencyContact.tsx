@@ -3,6 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
 import {
   addEmergencyContact,
+  editEmergencyContactApi,
   hitEmergencyContactApi,
 } from "../../service/emergency.service";
 import { useNavigate } from "react-router";
@@ -13,6 +14,7 @@ import Input from "../form/input/InputField";
 import { Modal } from "../ui/modal";
 
 type EmergencyUser = {
+    _id?: string;
   name?: string;
   email?: string;
   phone?: string;
@@ -30,6 +32,7 @@ const EmergencyContact = () => {
     email: "",
     phone: "",
   });
+  const [id, setId] = useState<string>("");
   const authContext = useContext(AuthContext);
 
   if (!authContext) {
@@ -67,18 +70,21 @@ const EmergencyContact = () => {
 
       if (response.data.status) {
         console.log("Emergency contact added successfully:", response.data);
-
+         setUserData({ name: "", email: "", phone: "" });
+       closeModal();
+        notify("Emergency contact added successfully!");
         fetchEmergencyContact();
-        setUserData({ name: "", email: "", phone: "" });
+       
       } else {
         console.error(
           "Failed to add emergency contact:",
           response.data.message
         );
+         notify("Failed to add emergency contact:"+
+          response.data.message);
       }
 
-      closeModal();
-      notify("Emergency contact added successfully!");
+      
     } catch (error) {
       console.error("Error saving emergency contact:", error);
       const { response } = error as {
@@ -121,9 +127,76 @@ const EmergencyContact = () => {
       }
     }
   };
+
+
   useEffect(() => {
     fetchEmergencyContact();
   }, []);
+  const handelOpen = (item: EmergencyUser,isEdit:boolean) => {
+    if (isEdit) {
+       setId(item?._id || "");
+    setUserData({
+      name: item.name || "",
+      email: item.email || "",
+      phone: item.phone || "",
+    });
+    }
+    
+    openModal();
+  }
+
+  const editEmergencyContact = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+         if (
+        !(userData.name ?? "").trim() ||
+      
+        !(userData.phone ?? "").trim()
+      ) {
+        notify("All fields are required.");
+        return;
+      }
+
+      // Here you would typically send the data to your API
+      // For example: 
+      const response = await editEmergencyContactApi( id,userData);
+      
+      // console.log(response.data, "response data");
+
+      if (response.data.status) {
+        console.log("Emergency contact added successfully:", response.data);
+         setUserData({ name: "", email: "", phone: "" });
+         setId("");
+       closeModal();
+        notify("Emergency contact edited successfully!");
+        fetchEmergencyContact();
+       
+      } else {
+        console.error(
+          "Failed to add emergency contact:",
+          response.data.message
+        );
+         notify("Failed to add emergency contact:"+
+          response.data.message);
+      }
+
+        
+    } catch (error) {
+        console.error("Error editing emergency contact:", error);
+        const { response } = error as {
+            response: { data: { code: number; data: string; message: string } };
+        };
+    
+        console.log(response.data, "error....");
+        if (response?.data?.code === 404) {
+            notify(response?.data?.message);
+        } else {
+            notify(response?.data?.data || "Unable to update profile!");
+        }
+        
+    }
+}
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -190,7 +263,7 @@ const EmergencyContact = () => {
                   </dl>
                 </div>
                 <div className="flex mt-4 mx-3 mb-4 md:mt-6">
-                  <button className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  <button onClick={()=>handelOpen(item,true)} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     {" "}
                     Edit{" "}
                   </button>
@@ -248,6 +321,7 @@ const EmergencyContact = () => {
      
       <Modal isOpen={isOpen} onClose={()=>{
                 setUserData({ name: "", email: "", phone: "" });
+                setId("");
                 closeModal();
 
               }} className="max-w-[700px] m-4">
@@ -260,7 +334,7 @@ const EmergencyContact = () => {
               Add your details to keep your emergency contact up-to-date.
             </p>
           </div>
-          <form onSubmit={handleSave} className="flex flex-col">
+          <form onSubmit={ id ? editEmergencyContact :handleSave} className="flex flex-col">
             <div className="px-2 overflow-y-auto custom-scrollbar">
               <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                 <div>
@@ -303,12 +377,14 @@ const EmergencyContact = () => {
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
               <Button size="sm" variant="outline" onClick={()=>{
-                setUserData({ name: "", email: "", phone: "" });
+               setUserData({ name: "", email: "", phone: "" });
+                setId("");
                 closeModal();
 
               }}>
                 Close
               </Button>
+              {/* {  id ? ():()} */}
               <Button size="sm" type="submit" className="bg-purple-600 text-white hover:bg-purple-700">Save Changes</Button>
             </div>
           </form>

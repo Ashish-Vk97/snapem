@@ -11,4 +11,13 @@ export async function hitEmergencyContactApi(): Promise<any> {
   return await apis.hitPostApi(`${path}/create`, body);
 
   }
+
+   export async function editEmergencyContactApi( id:string,body:any): Promise<any> {
+  return await apis.hitAxiosPutApi(`${path}/update/${id}`, body);
+
+  }
+export async function deleteEmergencyContact(id:string): Promise<any> {
+  // return await apis.hitPostApi(`${path}/delete/${id}`, {});
+
+  }
   
