@@ -93,13 +93,13 @@ export const environment = {
     });
   }
   
-  // async function hitAxiosDeleteApi(url:string): Promise<any> {
-  //   return await axios.delete(url, {
-  //     headers: {
-  //       accept: "*/*",
-  //       contentType: "application/json",
-  //       authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
-  //     },
-  //   });
-  // }
+ export async function hitAxiosDeleteApi(url:string): Promise<any> {
+    return await axios.delete(`${API_URL}${url}`, {
+      headers: {
+        accept: "*/*",
+        contentType: "application/json",
+        authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+      },
+    });
+  }
   
