@@ -42,31 +42,31 @@ const UserAccount = () => {
           className={`${activeTab === "profile" ? "text-purple-600 border-b-2 border-purple-600" : ""}`}
           onClick={() => setActiveTab("profile")}
         >
-          Profile
+          <span className='font-bold'> Profile </span>
         </button>
         <button
           className={`${activeTab === "app" ? "text-purple-600 border-b-2 border-purple-600" : ""}`}
           onClick={() => setActiveTab("app")}
         >
-          App Download
+          <span className='font-bold'> App Download </span>
         </button>
         <button
           className={`${activeTab === "subscription" ? "text-purple-600 border-b-2 border-purple-600" : ""}`}
           onClick={() => setActiveTab("subscription")}
         >
-          Subscription
+          <span className='font-bold'> Subscription </span>
         </button>
         <button
           className={`${activeTab === "emergency" ? "text-purple-600 border-b-2 border-purple-600" : ""}`}
           onClick={() => setActiveTab("emergency")}
         >
-          Emergency Contact
+          <span className='font-bold'> Emergency Contact </span>
         </button>
         <button
           className={`${activeTab === "media" ? "text-purple-600 border-b-2 border-purple-600" : ""}`}
           onClick={() => setActiveTab("media")}
         >
-          Screenshot & Video
+          <span className='font-bold'> Screenshot & Video </span>
         </button>
       </div>
 
