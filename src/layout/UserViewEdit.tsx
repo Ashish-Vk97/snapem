@@ -5,7 +5,7 @@ import UserAddressCard from "../components/UserProfile/UserAddressCard";
 import PageMeta from "../components/common/PageMeta";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import UserSubscription from "../components/UserProfile/UserSubscription";
 import { fetchUserDetailsById } from "../service/user.service";
 
@@ -13,6 +13,22 @@ export default function UserViewEdit() {
 
   const authContext = useContext(AuthContext);
   const { id, mode } = useParams<{ id: string; mode: string }>();
+  interface User {
+     name: string;
+  email: string;
+  _id: string;
+  role: string;
+  phone?: string;
+  address?: {
+    country?: string;
+    city?: string;
+    pincode?: string;
+    state?: string;
+  };
+    subscription?: any;
+    // Add other user properties as needed
+  }
+
   const [selectedUser, setSelectedUser] = useState([]);
 
     if (!authContext) {
