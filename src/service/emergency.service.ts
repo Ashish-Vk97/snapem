@@ -17,7 +17,7 @@ export async function hitEmergencyContactApi(): Promise<any> {
 
   }
 export async function deleteEmergencyContact(id:string): Promise<any> {
-  // return await apis.hitPostApi(`${path}/delete/${id}`, {});
+  return await apis.hitAxiosDeleteApi(`${path}/delete/${id}`);
 
   }
   
