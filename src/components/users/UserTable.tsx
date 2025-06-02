@@ -257,6 +257,12 @@ const [users, setAllUsers] = useState<User[]>([]);
                     isHeader
                     className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                   >
+                    Subscription
+                  </TableCell>
+                  <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
                     Status
                   </TableCell>
                   <TableCell
@@ -311,6 +317,9 @@ const [users, setAllUsers] = useState<User[]>([]);
                         </TableCell>
                         <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                           {order.phone}
+                        </TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                            {order.isSubscribed ? 'Subscribed' : 'Not Subscribed'}
                         </TableCell>
                         {/* <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                           <div className="flex -space-x-2">
@@ -394,8 +403,45 @@ const [users, setAllUsers] = useState<User[]>([]);
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                               />
                             </svg>
+                            {/* Toggle Button */}
+                            <label className="inline-flex items-center cursor-pointer ml-2">
+                              <input
+                                type="checkbox"
+                                className="sr-only peer"
+                                checked={order.status === "active"}
+                                onChange={async () => {
+                                  const newStatus = order.status === "active" ? "Cancel" : "active";
+                                  // Optimistically update UI
+                                  setAllUsers((prev) =>
+                                    prev.map((u) =>
+                                      u._id === order._id ? { ...u, status: newStatus } : u
+                                    )
+                                  );
+                                  try {
+                                    await hitGetAllUsers.updateStatus(order._id, newStatus);
+                                  } catch (e) {
+                                    // Revert UI on failure
+                                    setAllUsers((prev) =>
+                                      prev.map((u) =>
+                                        u._id === order._id ? { ...u, status: order.status } : u
+                                      )
+                                    );
+                                    alert("Failed to update status");
+                                  }
+                                }}
+                                disabled={loading}
+                              />
 
+                              {/* Toggle track & knob */}
+                              <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full relative transition-colors duration-300">
+                                <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-5"></span>
+                              </div>
 
+                              {/* Toggle Label */}
+                              {/* <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {order.status === "active" ? "Enabled" : "Disabled"}
+                              </span> */}
+                            </label>
                           </Badge>
                         </TableCell>
                       </TableRow>

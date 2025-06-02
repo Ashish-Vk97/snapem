@@ -35,11 +35,11 @@ export default function UserInfoCard({
 
   const authContext = useContext(AuthContext); 
       
-          if (!authContext) {
-            throw new Error("AuthContext must be used within an AuthProvider");
-          }
-      
-          const {  setCurrentUser  } = authContext;
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProvider");
+  }
+
+  const {  setCurrentUser  } = authContext;
       
          
   const [userData, setUserData] = useState({
@@ -48,6 +48,8 @@ export default function UserInfoCard({
     phone: currentUser.phone || "",
     role: currentUser.role || "",
   });
+
+  console.log(userData, "userData details in UserInfoCard");
   const [id, setId] = useState("");
   const { isOpen, openModal, closeModal } = useModal();
   // const notify = (str: string) => toast(str);
@@ -124,6 +126,7 @@ export default function UserInfoCard({
     }));
     setId(currentUser._id || "");
   }, [currentUser]);
+  
   return (
     <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -320,22 +323,22 @@ export default function UserInfoCard({
                     />
                   </div>
 
-                  <div className="col-span-2">
+                  {/* <div className="col-span-2">
                     <Label>Bio</Label>
                     <Input
                       type="text"
                       onChange={(e) =>
-                        setUserData({ ...userData, phone: e.target.value })
+                        setUserData({ ...userData, role: e.target.value })
                       }
                       value={userData.role}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
               <Button size="sm" variant="outline" onClick={()=>{
-                setUserData({ name: "", email: "", phone: "",role: "" });
+                // setUserData({ name: "", email: "", phone: "",role: "" });
                 setId("");
                 closeModal();
 
