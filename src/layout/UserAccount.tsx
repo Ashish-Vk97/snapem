@@ -3,6 +3,7 @@ import UserInfoCard from '../components/UserProfile/UserInfoCard'
 import UserAddressCard from '../components/UserProfile/UserAddressCard'
 import { AuthContext } from '../context/AuthContext';
 import UserSubscription from '../components/UserProfile/UserSubscription';
+import EmergencyContact from '../components/UserProfile/EmergencyContact';
 
 const UserAccount = () => {
   const authContext = useContext(AuthContext);
@@ -27,7 +28,7 @@ const UserAccount = () => {
       case "subscription":
         return <UserSubscription />;
       case "emergency":
-        return <p>emergency Tab</p>;
+        return <EmergencyContact/>;
       case "media":
         return <p>Screenshot Tab</p>;
       default:

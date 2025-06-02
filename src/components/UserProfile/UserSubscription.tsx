@@ -69,9 +69,14 @@ const UserSubscription = ({selectedUser = [], mode = "edit" }: { mode?: "view" |
       setLoading(false);
       console.log(response, response.data, "error....");
       if (response?.data?.code === 404) {
-        notify(response?.data?.message);
+
+        notify(response?.data?.message + " Please take your subscription plan");
+        setLoading(false);
+        closeModal();
       } else {
         notify(response?.data?.message || "Something went wrong");
+        setLoading(false);
+        closeModal();
       }
     }
   };
