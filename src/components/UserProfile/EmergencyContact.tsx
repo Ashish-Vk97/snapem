@@ -340,10 +340,10 @@ const EmergencyContact = () => {
               >
                 <div className="px-4 py-5">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    User database
+                    Emergency User 
                   </h3>
                   <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                    Details and informations about user.
+                    Details and informations about emergency user.
                   </p>
                 </div>
                 <div className="border-t border-gray-200">

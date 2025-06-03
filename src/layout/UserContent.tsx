@@ -4,18 +4,30 @@ import { useNavigate } from "react-router";
 import { useModal } from "../hooks/useModal";
 import snapImg from "../../snap.png";
 import { ShieldCheck, Share2, AlertTriangle } from 'lucide-react';
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const UserContent = () => {
  
     const Navigate = useNavigate();
     const { isOpen, openModal, closeModal } = useModal();
-    const isSubscribed = localStorage.getItem("isSubscribed") === "true";
+    // const isSubscribed = localStorage.getItem("isSubscribed") === "true";
+     const authContext = useContext(AuthContext); 
+          
+              if (!authContext) {
+                throw new Error("AuthContext must be used within an AuthProvider");
+              }
+          
+              const {   currentUser } = authContext;
+
+              const {isSubscribed: isUserSubscribed, stripeCustomerId} = currentUser || {};
+          
     const handelDownload = () => {
 
-        const isSubscribed = localStorage.getItem("isSubscribed") === "true";
+       
 
-        if (isSubscribed) {
-            // Logic to download the APK file
+        if (isUserSubscribed && stripeCustomerId) {
+           
             const link = document.createElement("a");
             link.href = "/path-to-your-apk-file.apk"; // Replace with the actual APK file path
             link.download = "Snapem.apk";
@@ -136,22 +148,7 @@ const UserContent = () => {
 )}
 
 
-    <section className="flex flex-col">
-        <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
-            <div className="max-w-screen-sm mx-auto text-center">
-                <h2 className="mb-4 text-3xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white">Download Your <b  style={{color:"#7E57C2"}}>Snap'em </b>Application</h2>
-                <p className="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">Use our mobile application for your saftey . Click below!</p>
-                <button 
-                //  onClick={openModal}
-                // disabled={!isSubscribed ? false : true}
-                onClick={handelDownload}
-                className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">
-                  {/* {isSubscribed ?"App downloaded stay safe":"Download"} */}
-                  Download
-             </button>
-            </div>
-        </div>
-    </section>
+  
 
     <section className="bg-gray-50 py-16 px-6 md:px-20">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">

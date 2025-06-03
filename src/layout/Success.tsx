@@ -210,7 +210,7 @@ const Success = () => {
 
           <div className="py-8 text-center">
             <button
-              onClick={() => Navigate("/user-home")}
+              onClick={() => Navigate("/account")}
               className="px-6 py-2 bg-purple-600 hover:bg-purple-800 text-white font-semibold rounded"
             >
               GO BACK

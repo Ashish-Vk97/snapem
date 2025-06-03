@@ -36,9 +36,9 @@ const UserAppLayout = () => {
 
       {/* Copyright */}
       <p className="text-sm text-gray-500">
-        © 2024–2025 Landwind™. All Rights Reserved. Built with{' '}
-        <a href="https://snapem.com" className="text-purple-600 hover:underline">snapem</a> and{' '}
-        <a href="https://virtualemployee.com" className="text-purple-600 hover:underline">Virtual Employee</a>.
+        © 2024–2025  All Rights Reserved. Built with{' '}
+        <a href="https://snapem.com" className="text-purple-600 hover:underline">snapem</a> 
+        {/* <a href="https://virtualemployee.com" className="text-purple-600 hover:underline">Virtual Employee</a>. */}
       </p>
     </div>
         {/* <div className="h-16 bg-white border-t border-gray-200">Footer</div> */}

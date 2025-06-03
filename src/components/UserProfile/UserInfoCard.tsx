@@ -203,7 +203,7 @@ export default function UserInfoCard({
             Edit
           </button>
         )}
-       { isUserAccount && (  <button
+       {/* { isUserAccount && (  <button
           onClick={() => {
            Navigate( "/emergency");
           }
@@ -226,7 +226,7 @@ export default function UserInfoCard({
             />
           </svg>
           Manage emergency contacts 
-        </button>)}
+        </button>)} */}
       </div>
        
       </div>

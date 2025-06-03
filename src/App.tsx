@@ -35,6 +35,8 @@ import ForgotPassword from "./components/auth/ForgotPassword";
 import TransactionsTable from "./components/users/TransactionTable";
 import EmergencyContact from "./components/UserProfile/EmergencyContact";
 import UserViewEdit from "./layout/UserViewEdit";
+import UserScreenshotsList from "./components/UserProfile/UserScreenshotsList";
+import UserVideosList from "./components/UserProfile/UserVideosList";
 
 interface RedirectToSignInProps {
   isUser: boolean;
@@ -370,10 +372,23 @@ const routes = useRoutes([
           <UserWrapper isUser={isUser} Component={<UserAccount />} />
         ),
       },
+       {
+        path: "/screenshots/:id",
+        element: (
+          <UserWrapper isUser={isUser} Component={<UserScreenshotsList />} />
+        ),
+      },
+       {
+        path: "/videos/:id",
+        element: (
+          <UserWrapper isUser={isUser} Component={<UserVideosList />} />
+        ),
+      },
+     
       {
         path: "/admin-subscription",
         element: (
-          <AdminWrapper isAdmin={isAdmin} Component={ <SubscriptionTable/>} />
+          <AdminWrapper isAdmin={isAdmin} Component={ <UserScreenshotsList/>} />
         ),
       },
     

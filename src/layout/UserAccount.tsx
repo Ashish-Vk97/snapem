@@ -4,13 +4,16 @@ import UserAddressCard from '../components/UserProfile/UserAddressCard'
 import { AuthContext } from '../context/AuthContext';
 import UserSubscription from '../components/UserProfile/UserSubscription';
 import EmergencyContact from '../components/UserProfile/EmergencyContact';
+import UserAppDownload from '../components/UserProfile/UserAppDownload';
+import UserScreenshotsView from '../components/UserProfile/UserScreenshotsView';
+import UserScreenshotsList from '../components/UserProfile/UserScreenshotsList';
 
 const UserAccount = () => {
   const authContext = useContext(AuthContext);
   if (!authContext) {
     throw new Error("AuthContext must be used within an AuthProvider");
   }
-  const {  currentUser  } = authContext
+  const {  currentUser   } = authContext
 
   const [activeTab, setActiveTab] = useState("profile");
 
@@ -24,13 +27,13 @@ const UserAccount = () => {
           </div>
         );
       case "app":
-        return <p>app download Tab</p>;
+        return <UserAppDownload />;
       case "subscription":
         return <UserSubscription />;
       case "emergency":
         return <EmergencyContact/>;
       case "media":
-        return <p>Screenshot Tab</p>;
+        return <p><UserScreenshotsView/></p>;
       default:
         return null;
     }
