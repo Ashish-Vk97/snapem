@@ -46,3 +46,10 @@ export async function hitGetAllUsers() {
   }
   return await apis.hitAxiosPutApi(`${path}/update/${id}`, body);
  }
+
+  export async function updateStatus(id: string, status: string) {
+    
+    const statusParam = status.toLowerCase().includes('inactive') ? 'inactive' : 'active';
+    const payload = { status: statusParam };
+    return await apis.hitAxiosPutApi(`${path}/active-status/${id}`, payload);
+  }
