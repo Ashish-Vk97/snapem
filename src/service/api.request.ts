@@ -92,6 +92,7 @@ export const environment = {
       },
     });
   }
+ 
   
  export async function hitAxiosDeleteApi(url:string): Promise<any> {
     return await axios.delete(`${API_URL}${url}`, {
