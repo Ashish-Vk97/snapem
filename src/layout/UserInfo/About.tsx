@@ -1,6 +1,15 @@
 // import React from 'react'
 
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+
 const About = () => {
+    const authContext =  useContext(AuthContext);
+    if (!authContext) {
+     throw new Error("AuthContext must be used within an AuthProvider");
+   }
+  
+   const {  isAuthenticated  } = authContext;
   return (
    <section className="bg-white px-6 md:px-16 py-12">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-col items-start gap-12">
@@ -36,14 +45,14 @@ const About = () => {
       </div>
 
       {/* CTA Banner */}
-      <div className="mt-12 bg-purple-100 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between">
+    { !isAuthenticated && <div className="mt-12 bg-purple-100 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between">
         <h3 className="text-purple-900 font-semibold text-lg md:text-xl text-center md:text-left mb-4 md:mb-0">
           Join Snap’em and Stay Secure
         </h3>
         <button className="bg-purple-800 hover:bg-purple-900 text-white text-xs px-4 py-2 rounded shadow-sm">
           Sign Up
         </button>
-      </div>
+      </div>}
     </section>
   )
 }
