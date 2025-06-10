@@ -15,7 +15,7 @@ const dates = [
 };
 
 
-const UserVideosFolders = () => {
+const UserVideosFolders = ({userId}:{userId?:string;}) => {
    interface Folder {
     date: string;
     _id: string;
@@ -33,7 +33,7 @@ const UserVideosFolders = () => {
       try {
         // Simulate an API call
         setLoading(true);
-        const response = await hitVideoFolders();
+        const response = await hitVideoFolders(userId);
         if (response.data.status) {
           console.log("users response data=====>", response);
   
@@ -51,10 +51,10 @@ const UserVideosFolders = () => {
   
         console.log(response.data, "error....");
         if (response?.data?.code === 404) {
-          notify(response?.data?.message);
+          // notify(response?.data?.message);
           setLoading(false);
         } else {
-          notify(response?.data?.data || "Unable to update profile!");
+          // notify(response?.data?.data || "Unable to update profile!");
           setLoading(false);
         }
       }

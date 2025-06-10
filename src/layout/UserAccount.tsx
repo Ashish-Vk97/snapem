@@ -23,13 +23,13 @@ const UserAccount = () => {
         return (
           <div className="space-y-6">
             <UserInfoCard isUserAccount={true} currentUser={currentUser} />
-            <UserAddressCard currentUser={currentUser} />
+            <UserAddressCard isUserAccount={true} currentUser={currentUser} />
           </div>
         );
       case "app":
         return <UserAppDownload />;
       case "subscription":
-        return <UserSubscription />;
+        return <UserSubscription isUserAccount={true} />;
       case "emergency":
         return <EmergencyContact/>;
       case "media":

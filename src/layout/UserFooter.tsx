@@ -1,17 +1,37 @@
 import React from 'react'
+import { FaHeart } from 'react-icons/fa'
+import { Link } from 'react-router'
 
 const UserFooter = () => {
   return (
-    <div className="text-center">
-    <a href="#" style={{color:"#7E57C2"}} className="flex items-center justify-center mb-5 text-2xl font-semibold text-gray-900 dark:text-white">
-        <img src="snap.png" className="h-6 mr-3 sm:h-9" alt="Landwind Logo" />
-        Snap'em    
-    </a>
-    <span className="block text-sm text-center text-gray-500 dark:text-gray-400">
-      © 2024-2025 Landwind™. All Rights Reserved. Built with <a href="https://flowbite.com" className="text-purple-600 hover:underline dark:text-purple-500">snapem</a> and 
-      <a href="https://tailwindcss.com" className="text-purple-600 hover:underline dark:text-purple-500">Virtual Employee</a>.
-    </span>
-    </div>
+       <footer className="flex flex-col md:flex-row items-center justify-between px-6 py-6 w-full text-sm bg-gray-100 text-gray-700">
+               
+                <div className="flex flex-col items-start">
+                  <h1 className="text-xl font-bold">
+                    snap<span className="text-purple-700">’em</span>
+                  </h1>
+                  <p className="flex items-center text-xs mt-1">
+                    built with <FaHeart className="text-red-500 mx-1" size={10} /> by
+                    Snap'em
+                  </p>
+                </div>
+        
+               
+                <div className="flex space-x-6 mt-4 md:mt-0">
+                  <Link to="/about" className="hover:underline">
+                    About Us
+                  </Link>
+                  <Link to="/contact" className="hover:underline">
+                    Contact
+                  </Link>
+                  <Link to="/privacy" className="hover:underline">
+                    Privacy Policy
+                  </Link>
+                  <Link to="/terms" className="hover:underline">
+                    Terms of Service
+                  </Link>
+                </div>
+              </footer>
   )
 }
 

@@ -52,7 +52,7 @@ if (name === "country" || name === "state" || name === "city" || name === "pinco
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
-    const phoneRegex = /^[0-9]{10}$/;
+    const phoneRegex = /^[0-9]{10,15}$/;
     try {
 
  
@@ -202,13 +202,16 @@ if (name === "country" || name === "state" || name === "city" || name === "pinco
                     <Label style={{color:"#6b00ad"}}>
                        Gender<span className="text-error-500">*</span>
                     </Label>
-                    <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    <select
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       id="gender"
                       name="gender"
                       value={signUpData.gender}
                       onChange={(e) => inputHandler(e)}
                     >
-                    <option selected disabled >Select Gender</option>
+                      <option value="" disabled>
+                        Select Gender
+                      </option>
                       <option value="M">Male</option>
                       <option value="F">Female</option>
                     </select>
@@ -372,7 +375,7 @@ if (name === "country" || name === "state" || name === "city" || name === "pinco
                   </div>
                 </div>
                 {/* <!-- Checkbox --> */}
-                <div className="flex items-center gap-3">
+                {/* <div className="flex items-center gap-3">
                   <Checkbox
                     className="w-5 h-5"
                     checked={isChecked}
@@ -388,7 +391,7 @@ if (name === "country" || name === "state" || name === "city" || name === "pinco
                       Privacy Policy
                     </span>
                   </p>
-                </div>
+                </div> */}
                 {/* <!-- Button --> */}
                 <div>
                   <button type="submit" style={{backgroundColor:"#6b00ad"}} className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">

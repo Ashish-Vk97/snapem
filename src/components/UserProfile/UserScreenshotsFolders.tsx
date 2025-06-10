@@ -10,7 +10,7 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const UserScreenshotsFolders = () => {
+const UserScreenshotsFolders = ({userId}:{userId:string;}) => {
   interface Folder {
     date: string;
     _id: string;
@@ -19,16 +19,17 @@ const UserScreenshotsFolders = () => {
   const [folderList, setFoldersList] = useState<Folder[]>([]);
   const [Loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  console.log("userId===>", userId);
   const Navigate = useNavigate();
 
   const notify = (str: string) => toast(str);
 
-  const fetchScreenshotsFolders = async () => {
+  const fetchScreenshotsFolders = async (userId) => {
     setLoading(true);
     try {
       // Simulate an API call
       setLoading(true);
-      const response = await hitScreenshotsFolders();
+      const response = await hitScreenshotsFolders(userId);
       if (response.data.status) {
         console.log("users response data=====>", response);
 
@@ -46,10 +47,10 @@ const UserScreenshotsFolders = () => {
 
       console.log(response.data, "error....");
       if (response?.data?.code === 404) {
-        notify(response?.data?.message);
+        // notify(response?.data?.message);
         setLoading(false);
       } else {
-        notify(response?.data?.data || "Unable to update profile!");
+        // notify(response?.data?.data || "Unable to update profile!");
         setLoading(false);
       }
     }
@@ -60,7 +61,7 @@ const UserScreenshotsFolders = () => {
   };
 
   useEffect(() => {
-    fetchScreenshotsFolders();
+    fetchScreenshotsFolders(userId);
   }, []);
 
   if (Loading) {

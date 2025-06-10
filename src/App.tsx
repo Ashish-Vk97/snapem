@@ -37,6 +37,11 @@ import EmergencyContact from "./components/UserProfile/EmergencyContact";
 import UserViewEdit from "./layout/UserViewEdit";
 import UserScreenshotsList from "./components/UserProfile/UserScreenshotsList";
 import UserVideosList from "./components/UserProfile/UserVideosList";
+import About from "./layout/UserInfo/About";
+import Contact from "./layout/UserInfo/Contact";
+import Privacy from "./layout/UserInfo/Privacy";
+import Terms from "./layout/UserInfo/Terms";
+
 
 interface RedirectToSignInProps {
   isUser: boolean;
@@ -255,21 +260,24 @@ const routes = useRoutes([
     index: true,
     element: <Navigate to="/home" />,
   },
-  // Public Routes
-  { 
-    path: "/signin", 
-    element: isLoggedIn ? <Navigate to="/home" /> : <SignIn /> 
+  // Public Routes under UserAppLayout
+  {
+    element: <UserAppLayout />,
+    children: [
+    
+      { path: "/about", element: <About /> },
+      { path: "/contact", element: <Contact /> },
+      { path: "/privacy", element: <Privacy /> },
+      { path: "/terms", element: <Terms /> },
+      { path: "*", element: <NotFound /> },
+    ],
   },
-  { 
-    path: "/signup", 
-    element: isLoggedIn ? <Navigate to="/home" /> : <SignUp /> 
-  },
-  
-   { path: "/reset-password", element: <ForgotPassword /> },
-  { path: "/changePassword/:token", element: <ChangePassword /> },
-  { path: "/success", element: <Success /> },
-  { path: "/cancel", element: <Cancel /> },
-  { path: "*", element: <NotFound /> },
+    { path: "/signin", element: <SignIn /> },
+      { path: "/signup", element: <SignUp /> },
+      { path: "/reset-password", element: <ForgotPassword /> },
+      { path: "/changePassword/:token", element: <ChangePassword /> },
+      { path: "/success", element: <Success /> },
+      { path: "/cancel", element: <Cancel /> },
 
   // Unauthenticated /home (default for unauthenticated users)
   // {
@@ -326,7 +334,7 @@ const routes = useRoutes([
       },
       {
         path: "/dashboard",
-        element: (
+        element: (  
           <AdminWrapper isAdmin={isAdmin} Component={<Home />} />
         ),
       },
@@ -388,7 +396,7 @@ const routes = useRoutes([
       {
         path: "/admin-subscription",
         element: (
-          <AdminWrapper isAdmin={isAdmin} Component={ <UserScreenshotsList/>} />
+          <AdminWrapper isAdmin={isAdmin} Component={ <SubscriptionTable/>} />
         ),
       },
     
@@ -404,12 +412,17 @@ const routes = useRoutes([
           <UserWrapper isUser={isUser} Component={<UserContent />} />
         ),
       },
+
       {
         path: "/users/view-edit-profile/:mode/:id",
         element: (
           <AdminWrapper isAdmin={isAdmin} Component={<UserViewEdit />} />
         ),
       },
+       { path: "/about",  element: <About /> },
+  { path: "/contact", element: <Contact /> },
+  { path: "/privacy", element: <Privacy /> },
+  { path: "/terms", element: <Terms /> },
     ],
   },
 ]);

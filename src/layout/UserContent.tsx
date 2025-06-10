@@ -1,48 +1,143 @@
 // import React from 'react'
 
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useModal } from "../hooks/useModal";
 import snapImg from "../../snap.png";
-import { ShieldCheck, Share2, AlertTriangle } from 'lucide-react';
+import { ShieldCheck, Share2, AlertTriangle } from "lucide-react";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import Emergency from "/images/Animation.gif";
+import sos from "/images/sos.gif";
+import sosGuy from "/images/sos_guy.gif";
+import { FaHeart } from "react-icons/fa";
+
+const plans = [
+  {
+    name: "Monthly",
+    price: "$5",
+    note: "per subscription\nBilled monthly",
+    features: [
+      "SOS Emergency Alerts",
+      "Auto Screenshot Uploads",
+      "30-Day Cloud Storage",
+      "Real-Time Location Sharing",
+      "Emergency Contact Notifications",
+    ],
+    highlight: false,
+  },
+  {
+    name: "Quarterly",
+    price: "$25",
+    note: "per month\nBilled monthly",
+    features: [
+      "SOS Emergency Alerts",
+      "Auto Screenshot Uploads",
+      "30-Day Cloud Storage",
+      "Real-Time Location Sharing",
+      "Emergency Contact Notifications",
+    ],
+    highlight: true,
+    tag: "Most Popular",
+  },
+  {
+    name: "Yearly",
+    price: "$50",
+    note: "per subscription\nBilled monthly",
+    features: [
+      "SOS Emergency Alerts",
+      "Auto Screenshot Uploads",
+      "30-Day Cloud Storage",
+      "Real-Time Location Sharing",
+      "Emergency Contact Notifications",
+    ],
+    highlight: false,
+  },
+];
 
 const UserContent = () => {
- 
-    const Navigate = useNavigate();
-    const { isOpen, openModal, closeModal } = useModal();
-    // const isSubscribed = localStorage.getItem("isSubscribed") === "true";
-     const authContext = useContext(AuthContext); 
-          
-              if (!authContext) {
-                throw new Error("AuthContext must be used within an AuthProvider");
-              }
-          
-              const {   currentUser } = authContext;
+  const Navigate = useNavigate();
+  const { isOpen, openModal, closeModal } = useModal();
+  // const isSubscribed = localStorage.getItem("isSubscribed") === "true";
+  const authContext = useContext(AuthContext);
 
-              const {isSubscribed: isUserSubscribed, stripeCustomerId} = currentUser || {};
-          
-    const handelDownload = () => {
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProvider");
+  }
 
-       
+  const { isAuthenticated, currentUser } = authContext;
 
-        if (isUserSubscribed && stripeCustomerId) {
-           
-            const link = document.createElement("a");
-            link.href = "/path-to-your-apk-file.apk"; // Replace with the actual APK file path
-            link.download = "Snapem.apk";
-            link.click();
-        } else {
-            openModal();
-        }
-      
-    };
+  const { isSubscribed: isUserSubscribed, stripeCustomerId } =
+    currentUser || {};
 
-  
+  const handelDownload = () => {
+    if (isUserSubscribed && stripeCustomerId) {
+      const link = document.createElement("a");
+      link.href = "/path-to-your-apk-file.apk"; // Replace with the actual APK file path
+      link.download = "Snapem.apk";
+      link.click();
+    } else {
+      openModal();
+    }
+  };
+
+  console.log(isAuthenticated, currentUser, "isAuthenticated");
+
   return (
     <>
-    {/* Hero Section */}
-      <section className="flex flex-col lg:flex-row justify-between items-center px-8 py-20">
+      <div className="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-20 py-16 gap-10 bg-white text-gray-100">
+        {/* Left Text Section */}
+        <div className="md:w-1/2 text-center md:text-left">
+          <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
+            Smart Protection,
+            <br />
+            Wherever You Go
+          </h1>
+          <p className="text-gray-600 mb-6">
+            Snap'em is your personal safety companion. Designed to provide
+            instant emergency response, real-time location sharing, and
+            continuous visual monitoring — all through one easy-to-use Android
+            app. Whether you're traveling, commuting, or at home, Snap'em
+            ensures that your loved ones are just one tap away.
+          </p>
+          {!isAuthenticated ? (
+            <div className="flex justify-center md:justify-start gap-4">
+              <button className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200">
+                Sign Up
+              </button>
+              <button className="bg-purple-900 text-white px-4 py-2 rounded-md hover:bg-purple-800">
+                Sign In &nbsp; &rarr;
+              </button>
+            </div>
+          ) : (
+            <div className="flex justify-center md:justify-start gap-4">
+              <button
+                onClick={() => Navigate("/account")}
+                className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200"
+              >
+                Download App
+              </button>
+              {/* <button
+                onClick={() => Navigate("/account")}
+                className="bg-purple-900 text-white px-4 py-2 rounded-md hover:bg-purple-800"
+              >
+                My Account &nbsp; &rarr;
+              </button> */}
+            </div>
+          )}
+        </div>
+
+        {/* Right Image Section */}
+        <div className="md:w-1/2">
+          <img
+            src={"./images/Android.png"} // Replace with your actual image path
+            alt="Snap'em App"
+            className="max-w-xs mx-auto rounded-xl"
+          />
+        </div>
+      </div>
+      {/* Hero Section */}
+
+      {/* <section className="flex flex-col lg:flex-row justify-between items-center px-8 py-20">
         <div className="lg:w-1/2 space-y-6">
           <h2 className="text-5xl font-extrabold text-[#6a1b9a] leading-tight">
             Building digital<br />Secure & Safe.
@@ -58,13 +153,55 @@ const UserContent = () => {
             className="w-3/4 max-w-sm drop-shadow-lg rounded-lg"
           />
         </div>
+      </section> */}
+      {/* how  it works updated  */}
+
+      <section className="bg-white px-6 md:px-20 py-16 text-center">
+        <div className="mb-12">
+          <p className="text-sm font-semibold text-purple-700">
+            How Snap'em Works
+          </p>
+          <h2 className="text-2xl md:text-3xl font-bold mt-1">
+            Emergency Help in Seconds
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+          {/* Step 1 */}
+          <div className="flex flex-col items-center">
+            <img src={Emergency} alt="Sign up" className="w-32 h-32 mb-4" />
+            <p className="text-sm text-gray-700">
+              Sign up & add your emergency contacts
+            </p>
+          </div>
+
+          {/* Step 2 */}
+          <div className="flex flex-col items-center">
+            <img src={sos} alt="Tap SOS" className="w-32 h-32 mb-4" />
+            <p className="text-sm text-gray-700">
+              Tap SOS in case of emergency
+            </p>
+          </div>
+
+          {/* Step 3 */}
+          <div className="flex flex-col items-center">
+            <img
+              src={sosGuy}
+              alt="Notification sent"
+              className="w-32 h-32 mb-4"
+            />
+            <p className="text-sm text-gray-700">
+              Your contacts get notified instantly
+            </p>
+          </div>
+        </div>
       </section>
 
-        {/* How it works */}
-      <section className="bg-gray-50 py-16 px-6 md:px-20">
+      {/* How it works */}
+      {/* <section className="bg-gray-50 py-16 px-6 md:px-20">
       <h2 className="text-center text-4xl font-bold text-purple-700 mb-12">How It Works</h2>
       <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {/* Step 1 */}
+      
         <div className="bg-white rounded-2xl shadow-md p-8 text-center hover:shadow-xl transition">
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full">
             <AlertTriangle className="text-purple-600 w-8 h-8" />
@@ -73,7 +210,7 @@ const UserContent = () => {
           <p className="text-gray-700 text-lg">Trigger the emergency SOS feature with single tap.</p>
         </div>
 
-        {/* Step 2 */}
+       
         <div className="bg-white rounded-2xl shadow-md p-8 text-center hover:shadow-xl transition">
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full">
             <Share2 className="text-purple-600 w-8 h-8" />
@@ -82,7 +219,7 @@ const UserContent = () => {
           <p className="text-gray-700 text-lg">Immediately alert your trusted contacts and share your location.</p>
         </div>
 
-        {/* Step 3 */}
+   
         <div className="bg-white rounded-2xl shadow-md p-8 text-center hover:shadow-xl transition">
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full">
             <ShieldCheck className="text-purple-600 w-8 h-8" />
@@ -91,12 +228,103 @@ const UserContent = () => {
           <p className="text-gray-700 text-lg">Ensure your safety and security until help arrives.</p>
         </div>
       </div>
-    </section>
+    </section> */}
 
-    {/* download app */}
+      {/* Plans Section */}
 
-    
-{/* <button 
+      <section className="bg-white px-6 md:px-20 py-16 text-center">
+        <p className="text-sm font-semibold text-purple-700 mb-2">
+          Subscription & App Access
+        </p>
+        <h2 className="text-2xl md:text-3xl font-bold mb-2">
+          Start Your Safety Plan — Choose the Right Fit
+        </h2>
+        <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
+          Whether you're trying Snap'em for a month or protecting long-term,
+          every plan includes
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center items-start">
+          {plans.map((plan, index) => (
+            <div
+              key={index}
+              className={`relative rounded-xl p-6 border transition-all duration-300 min-h-[420px] max-w-[340px] mx-auto ${
+                plan.highlight
+                  ? "bg-purple-900 text-white border-purple-700 shadow-lg scale-105"
+                  : "bg-white text-black border-gray-200"
+              } transition-all duration-300`}
+            >
+              {/* Badge for Most Popular */}
+              {plan.tag && (
+                <div className="absolute top-3 right-2 bg-white text-purple-700 text-xs font-semibold px-2 py-1 rounded-full">
+                  {plan.tag}
+                </div>
+              )}
+
+              <h3 className="text-lg font-semibold mb-1">{plan.name}</h3>
+              <div className="text-3xl font-bold">{plan.price}</div>
+              <p className="text-sm whitespace-pre-line mb-6">{plan.note}</p>
+
+              <ul className="text-sm space-y-2 mb-6">
+                {plan.features.map((feature, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-center justify-center gap-2"
+                  >
+                    <span className="text-green-500">✓</span> {feature}
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                className={`w-full py-2 rounded-md font-medium ${
+                  plan.highlight
+                    ? "bg-white text-purple-900 hover:bg-gray-100"
+                    : "bg-purple-100 text-purple-700 hover:bg-purple-200"
+                }`}
+                disabled={true}
+              >
+                Choose Plan
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* call to action signup */}
+
+      {!isAuthenticated ? (
+        <div className="bg-purple-100 rounded-xl px-6 py-4 flex flex-col md:flex-row items-center justify-between max-w-5xl mx-auto my-12">
+          <h3 className="text-purple-900 font-semibold text-lg mb-3 md:mb-0">
+            Join Snap’em and Stay Secure
+          </h3>
+          <button className="bg-purple-900 text-white text-xs px-4 py-2 rounded-md hover:bg-purple-800">
+            Sign Up
+          </button>
+        </div>
+      ) : (
+        <section className="bg-purple-100 mb-4 w-full px-4 md:px-12 py-6">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between rounded-xl bg-purple-100 px-6 py-6">
+            {/* Text */}
+            <h2 className="text-lg md:text-xl font-semibold text-purple-900 text-left">
+              Your SOS Companion
+              <br className="hidden md:block" /> is One Tap
+            </h2>
+
+            {/* Button */}
+            <button className="mt-4 md:mt-0 bg-purple-800 hover:bg-purple-900 text-white text-xs px-4 py-2 rounded shadow-sm">
+              Download
+            </button>
+          </div>
+        </section>
+      )}
+      {/* download app */}
+
+      {/* footer */}
+
+      
+
+      {/* <button 
     onClick={openModal} 
     className="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
     type="button"
@@ -104,55 +332,9 @@ const UserContent = () => {
     Toggle modal
 </button> */}
 
-{isOpen && (
-    <div 
-        id="popup-modal" 
-        tabIndex={-1} 
-        className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-full bg-black bg-opacity-50"
-    >
-        <div className="relative p-4 w-full max-w-md max-h-full">
-            <div className="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
-                <button 
-                    type="button" 
-                    onClick={closeModal} 
-                    className="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                    <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span className="sr-only">Close modal</span>
-                </button>
-                <div className="p-4 md:p-5 text-center">
-                    <svg className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                    </svg>
-                    <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Access to this application requires an active subscription. Please consider purchasing a subscription plan to continue using our services.</h3>
-                    <button 
-                        onClick={()=>(Navigate("/subscription"))} 
-                        type="button" 
-                        className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center"
-                    >
-                        Yes, I'm sure
-                    </button>
-                    <button 
-                        onClick={closeModal} 
-                        type="button" 
-                        className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                    >
-                        No, cancel
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-)}
-
-
-  
-
-    <section className="bg-gray-50 py-16 px-6 md:px-20">
+      {/* <section className="bg-gray-50 py-16 px-6 md:px-20">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-12">
-        {/* Left Text Content */}
+       
         <div>
           <h2 className="text-3xl font-bold text-purple-700 mb-4">About Us</h2>
           <p className="text-gray-700 text-lg leading-relaxed">
@@ -162,7 +344,7 @@ const UserContent = () => {
           </p>
         </div>
 
-        {/* Right Logo Box */}
+       
         <div className="bg-white rounded-2xl shadow-md p-12 flex justify-center items-center">
           <img
           src="images/snapem_logo.png" // Replace with your actual logo path
@@ -171,10 +353,10 @@ const UserContent = () => {
         />
         </div>
       </div>
-    </section>
+    </section> */}
 
-{/* story Heading with description */}
-{/* <section className="bg-white dark:bg-gray-900">
+      {/* story Heading with description */}
+      {/* <section className="bg-white dark:bg-gray-900">
   <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
       <div className="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
           <h2 className="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Powering innovation at <span className="font-extrabold">200,000+</span> companies worldwide</h2>
@@ -188,11 +370,11 @@ const UserContent = () => {
   </div>
 </section> */}
 
-{/* end  Heading with description */}
- 
- {/* create account */}
- 
- {/* <section className="bg-white dark:bg-gray-900">
+      {/* end  Heading with description */}
+
+      {/* create account */}
+
+      {/* <section className="bg-white dark:bg-gray-900">
     <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
         <div className="mr-auto place-self-center lg:col-span-7">
             <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">Payments tool for software companies</h1>
@@ -211,9 +393,9 @@ const UserContent = () => {
     </div>
 </section> */}
 
- {/* end create account */} 
+      {/* end create account */}
 
-    {/* <section className="bg-white dark:bg-gray-900">
+      {/* <section className="bg-white dark:bg-gray-900">
     <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
         <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
             <h2 style={{color:"#6b00ad"}} className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">We didn't reinvent the wheel</h2>
@@ -226,13 +408,8 @@ const UserContent = () => {
         </div>
     </div>
 </section> */}
-  
 
-     
-       
-       {/* <SubscriptionList /> */}
-
-
+      {/* <SubscriptionList /> */}
     </>
   );
 };

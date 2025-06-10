@@ -2,6 +2,7 @@ import  {useContext} from 'react'
 import { AuthContext } from '../../context/AuthContext';
 import { useModal } from '../../hooks/useModal';
 import { useNavigate } from 'react-router';
+import snapemIcon from "/images/snaplogo.png"; // Adjust the path as necessary
 
 const UserAppDownload = () => {
 
@@ -79,23 +80,77 @@ const UserAppDownload = () => {
             </div>
         </div>
     </div>
-)}
+ )}
 
-    <section className="flex flex-col">
+    {/* <section className="flex flex-col">
         <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
             <div className="max-w-screen-sm mx-auto text-center">
                 <h2 className="mb-4 text-3xl font-extrabold leading-tight tracking-tight text-gray-900 dark:text-white">Download Your <b  style={{color:"#7E57C2"}}>Snap'em </b>Application</h2>
                 <p className="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">Use our mobile application for your saftey . Click below!</p>
                 <button 
-                //  onClick={openModal}
-                // disabled={!isSubscribed ? false : true}
+                 onClick={openModal}
+                disabled={!isSubscribed ? false : true}
                 onClick={handelDownload}
                 className="text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">
-                  {/* {isSubscribed ?"App downloaded stay safe":"Download"} */}
+                  {isSubscribed ?"App downloaded stay safe":"Download"}
                   Download
              </button>
             </div>
         </div>
+    </section> */}
+
+     <section className="max-w-6xl mx-auto px-6 py-12">
+      {/* Title and Icon */}
+      <div className="flex flex-col md:flex-row items-center justify-between mb-8">
+        <div>
+          <h1 className="text-4xl font-semibold mb-4">Snap’em</h1>
+          <button  className="bg-purple-700 text-white px-6 py-2 rounded-md text-sm hover:bg-purple-800">
+            Download Now
+          </button>
+        </div>
+        <img src={snapemIcon} alt="Snapem Icon" className="w-64 h-64 mt-6 md:mt-0" />
+      </div>
+
+      {/* Full-width cover image */}
+      <div className="mb-10 mt-4">
+        <img
+          src={"./images/Screenshots.png"} // Replace with the actual path to your cover image
+          alt="Snap'em App Cover"
+          className="w-full rounded-lg shadow-md"
+        />
+      </div>
+
+      {/* About and Install sections */}
+      <div className="grid md:grid-cols-2 gap-8 text-sm text-gray-700">
+        <div>
+          <h2 className="font-semibold text-lg mb-2">About Snap’em</h2>
+          <p>
+            Snap’em is a smart safety app for Android that automatically captures device screenshots
+            at regular intervals and securely uploads them to the cloud. In case of an emergency, the built-in
+            SOS feature instantly records a 30-second video with audio, shares it with a pre-set emergency
+            contact, and safely stores the recording online.
+          </p>
+          <p className="mt-3">
+            Users can log into the Snap’em website to manage their profile, view captured screenshots,
+            access SOS recordings, and update emergency contact details.
+          </p>
+        </div>
+
+        <div>
+          <h2 className="font-semibold text-lg mb-2">How to Install Snap’em (APK)</h2>
+          <ol className="list-decimal list-inside space-y-2">
+            <li>Go to Settings &gt; Security on your Android device.</li>
+            <li>
+              Enable Install from Unknown Sources (you may find this under install unknown apps in newer Android versions).
+            </li>
+            <li>Locate and open the downloaded Snap’em APK file.</li>
+            <li>Tap Install and follow the on-screen instructions.</li>
+            <li>
+              Once installed, launch the app and log in to stay informed and stay protected.
+            </li>
+          </ol>
+        </div>
+      </div>
     </section>
       
     </>

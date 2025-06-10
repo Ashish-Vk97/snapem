@@ -8,6 +8,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useParams } from 'react-router';
 import UserSubscription from "../components/UserProfile/UserSubscription";
 import { fetchUserDetailsById } from "../service/user.service";
+import UserScreenshotsView from "../components/UserProfile/UserScreenshotsView";
 
 export default function UserViewEdit() {
 
@@ -39,7 +40,7 @@ export default function UserViewEdit() {
 
     const getUserById = async (id: string) => {
       const response = await fetchUserDetailsById(id);
-      setSelectedUser(response.data.data);
+      setSelectedUser(response?.data?.data);
       console.log("Selected User:", response.data.data);
       console.log("User details fetched yes:", response);
       return response;
@@ -65,9 +66,10 @@ export default function UserViewEdit() {
         </h3> */}
         <div className="space-y-6">
           <UserMetaCard currentUser={selectedUser} />
-          <UserInfoCard currentUser={selectedUser} mode={mode} />
-          <UserAddressCard currentUser={selectedUser} mode={mode} />
-          <UserSubscription selectedUser={selectedUser} mode={mode} />
+          <UserInfoCard currentUser={selectedUser} getUserById={getUserById} mode={mode} />
+          <UserAddressCard currentUser={selectedUser} getUserById={getUserById} mode={mode} />
+          <UserSubscription selectedUser={selectedUser} getUserById={getUserById} mode={mode} />
+          < UserScreenshotsView userId ={id} />
         </div>
       </div>
     </>

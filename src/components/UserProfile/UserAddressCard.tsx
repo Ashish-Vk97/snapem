@@ -21,7 +21,7 @@ interface CurrentUser {
     state?: string;
   };
 }
-export default function UserAddressCard({ currentUser, mode="edit" }: { currentUser: CurrentUser; mode?: "view" | "edit"; }) {
+export default function UserAddressCard({ currentUser, mode="edit",isAdmin = false,getUserById,isUserAccount= false, }: { currentUser: CurrentUser;getUserById?: (id: string) => Promise<void>; isAdmin?: boolean;isUserAccount?: boolean; mode?: "view" | "edit"; }) {
   const { isOpen, openModal, closeModal } = useModal();
   const { address = { country: 'Unknown',state:"unknown",city:"unknown",pincode:"unknown" } } = currentUser
   const [userAddress, setUserAddress] = useState({
@@ -59,11 +59,29 @@ try {
       const { data } = await updateUserProfile(id, userAddress,true);
     
           if (data.status) {
+
+             if (isUserAccount) {
              setCurrentUser((prevState) => ({
-                  ...prevState,
-                  ...data.data,
-                }));
+              ...prevState,
+              ...data.data,
+            }));
+          }
+            if ( isAdmin ) {
+             setCurrentUser((prevState) => ({
+              ...prevState,
+              ...data.data,
+            }));
+          }
+            //  setCurrentUser((prevState) => ({
+            //       ...prevState,
+            //       ...data.data,
+            //     }));
             // localStorage.setItem("USER", JSON.stringify({_id,email,role,name}));
+
+             if (getUserById && id) {
+          console.log("getUserById called with id:", id);
+           await getUserById(id);
+         }
             setUserAddress({
              country: "",
               state: "",

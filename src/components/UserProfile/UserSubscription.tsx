@@ -19,7 +19,7 @@ import Loading from "../ui/loader/Loading";
 //     amount?: string;
 //   };
 // }
-const UserSubscription = ({selectedUser = [], mode = "edit" }: { mode?: "view" | "edit" }) => {
+const UserSubscription = ({selectedUser = [],isUserAccount = false,  mode = "edit" }: { mode?: "view" | "edit" }) => {
   const [loading, setLoading] = useState(false);
   const notify = (str: string) => toast(str);
 
@@ -194,7 +194,8 @@ const UserSubscription = ({selectedUser = [], mode = "edit" }: { mode?: "view" |
           </div>
         </div>
 
-        {mode === "edit" && (
+       
+        {isUserAccount && (
           <button
             onClick={openModal}
             className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"

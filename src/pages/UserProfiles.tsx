@@ -35,10 +35,10 @@ export default function UserProfiles() {
         </h3>
         <div className="space-y-6">
           <UserMetaCard currentUser={currentUser} />
-          <UserInfoCard currentUser={currentUser} />
-          <UserAddressCard currentUser={currentUser} />
+          <UserInfoCard isAdmin={true} currentUser={currentUser} />
+          <UserAddressCard isAdmin={true} currentUser={currentUser} />
         </div>
-      </div>
+      </div> 
     </>
   );
 }

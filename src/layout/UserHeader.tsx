@@ -54,20 +54,22 @@ const UserHeader = () => {
             <div>Menu</div>
             </div> */}
             
-            <div style={{backgroundColor:"#7E57C2"}} className="flex items-center justify-between h-16 px-4 border-b border-gray-700">
+            <div style={{backgroundColor:"white", border: "1px solid #E5E5E5"}} className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
               
-              <img src="images/snapem_logo.png" alt="menu-2" width="100" height="50"/>
+              <img src="images/snapemlogo.png" style={{borderRadius: "10%"}} alt="menu-2" width="100" height="100"/>
               <ul className="flex space-x-4">
-              <li className="hover:bg-purple-700 hover:rounded-lg p-2"><Link to={ !isAuthenticated? "/home":"/user-home"}> Home </Link></li>
+              <li className=" text-black font-medium hover:text-purple-700 p-2"><Link to={ !isAuthenticated? "/home":"/user-home"}> Home </Link></li>
               { !isAuthenticated ? (
                 <>
-                 <li className="hover:bg-purple-700 hover:rounded-lg p-2"> <Link to={"/signup"}> Register </Link></li>
-                 <li className="hover:bg-purple-700 hover:rounded-lg p-2"> <Link to={"/signin"}> Login </Link></li>
+                 <li className="text-black font-medium hover:text-purple-700 p-2"> <Link to={"/signup"}> Register </Link></li>
+                 <li className="text-black font-medium hover:text-purple-700  p-2"> <Link to={"/signin"}> Login </Link></li>
+                                  {/* <li className="text-black font-medium hover:text-purple-700 hover:rounded-lg p-2"> <Link to={"/signin"}> Login </Link></li> */}
+
                  </>
               ):(
                 <>
-                 <li className="hover:bg-purple-700 hover:rounded-lg p-2"><Link to={"/subscription"}> Subscription</Link></li>
-                  <li className="hover:bg-purple-700 hover:rounded-lg p-2"><Link to={"/account"}> Account</Link></li>
+                 <li className="text-black font-medium hover:text-purple-700  p-2"><Link to={"/subscription"}> Subscription</Link></li>
+                  <li className="text-black font-medium hover:text-purple-700  p-2"><Link to={"/account"}> Account</Link></li>
                 <li className=" p-1">
                 <button onClick={handleLogout} className="bg-purple-500 text-white px-2 py-1.5 rounded-lg hover:bg-purple-700">
                   Logout

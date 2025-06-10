@@ -4,10 +4,12 @@ import * as apis from "./api.request";
 const path = "/screenshot";
 const videoPath = "/video";
 
-export async function hitScreenshotsFolders(): Promise<any> {
+export async function hitScreenshotsFolders(userId:string): Promise<any> {
+  console.log(`userIds===>`, userId);
   return await apis.hitAxiosGetApi(`${path}/folders/all`);
 }
-export async function hitVideoFolders(): Promise<any> {
+export async function hitVideoFolders(userId:string): Promise<any> {
+  console.log(`userIds===>`, userId);
   return await apis.hitAxiosGetApi(`${videoPath}/sos/folders`);
 }
 

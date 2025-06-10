@@ -24,10 +24,13 @@ interface CurrentUser {
 }
 
 export default function UserInfoCard({
-  currentUser, mode = "edit", isUserAccount = false
+  currentUser, mode = "edit",getUserById,isAdmin=false, isUserAccount = false
 }: {
   currentUser: CurrentUser;
   isUserAccount?: boolean;
+  isAdmin?: boolean;
+  // getUserById?: (id: string) => void;
+  getUserById?: (id: string) => Promise<void>;
   mode?: "view" | "edit";
 }) {
 
@@ -84,19 +87,33 @@ export default function UserInfoCard({
       const { data } = await updateUserProfile(id, userData);
 
       if (data.status) {
+        if (isUserAccount ) {
          setCurrentUser((prevState) => ({
               ...prevState,
               ...data.data,
             }));
+          }
+          if ( isAdmin) {
+         setCurrentUser((prevState) => ({
+              ...prevState,
+              ...data.data,
+            }));
+          }
         // localStorage.setItem("USER", JSON.stringify({_id,email,role,name}));
+      
         setUserData({
           name: "",
           email: "",
           phone: "",
           role: "",
         });
+         if (getUserById && id) {
+          console.log("getUserById called with id:", id);
+           await getUserById(id);
+         }
 
-        toast.success("registration successfull");
+        // toast.success("user updated successfully");
+          alert("user updated successfully");
         closeModal();
       }
     } catch (error) {

@@ -39,7 +39,7 @@ const TabButton = ({ children, isActive, onClick }: TabButtonProps) => (
     {children}
   </button>
 );
-const UserScreenshotsView = () => {
+const UserScreenshotsView = ({userId}:{userId?:string;}) => {
       const [activeTab, setActiveTab] = useState('image');
   return (
     <> 
@@ -54,8 +54,8 @@ const UserScreenshotsView = () => {
         </TabButton>
       </div>
        <div key={activeTab} className="transition-all duration-500 ease-in-out animate-fadeInSlideUp">
-        {activeTab === 'image' && <UserScreenshotsFolders  />}
-         {activeTab === 'video' && <UserVideosFolders  />}
+        {activeTab === 'image' && <UserScreenshotsFolders userId={userId}  />}
+         {activeTab === 'video' && <UserVideosFolders  userId={userId}  />}
           {/* {activeTab === 'video' && <UserVideosList  />} */}
          
          </div>
