@@ -26,7 +26,7 @@ const UserAppDownload = () => {
         if (isUserSubscribed && stripeCustomerId) {
            
             const link = document.createElement("a");
-            link.href = "/path-to-your-apk-file.apk"; // Replace with the actual APK file path
+            link.href = "/Snapem.apk"; // Replace with the actual APK file path
             link.download = "Snapem.apk";
             link.click();
         } else {
@@ -104,7 +104,7 @@ const UserAppDownload = () => {
       <div className="flex flex-col md:flex-row items-center justify-between mb-8">
         <div>
           <h1 className="text-4xl font-semibold mb-4">Snap’em</h1>
-          <button  className="bg-purple-700 text-white px-6 py-2 rounded-md text-sm hover:bg-purple-800">
+          <button onClick={handelDownload}  className="bg-purple-700 text-white px-6 py-2 rounded-md text-sm hover:bg-purple-800">
             Download Now
           </button>
         </div>
@@ -120,7 +120,7 @@ const UserAppDownload = () => {
         />
       </div>
 
-      {/* About and Install sections */}
+      {/* About and Install sections */} 
       <div className="grid md:grid-cols-2 gap-8 text-sm text-gray-700">
         <div>
           <h2 className="font-semibold text-lg mb-2">About Snap’em</h2>

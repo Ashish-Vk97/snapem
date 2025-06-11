@@ -13,9 +13,9 @@ const UserAccount = () => {
   if (!authContext) {
     throw new Error("AuthContext must be used within an AuthProvider");
   }
-  const {  currentUser   } = authContext
+  const {  currentUser ,activeTab,setActiveTab  } = authContext
 
-  const [activeTab, setActiveTab] = useState("profile");
+  // const [activeTab, setActiveTab] = useState("profile");
 
   const renderTabContent = () => {
     switch (activeTab) {

@@ -27,6 +27,8 @@ interface User {
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   currentUser: User;
   setCurrentUser: React.Dispatch<React.SetStateAction<User>>;
@@ -79,6 +81,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [activeTab, setActiveTab] = useState("profile");
   const [currentUser, setCurrentUser] = useState({
     name: "",
     email: "",
@@ -149,7 +152,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             setTimeout(() => {
               setIsAuthenticated(true);
               setLoading(false);
-            }, 4000);
+            }, 2000);
 
             // setIsAuthenticated(true);
           } else {
@@ -233,19 +236,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
     setLoading(false);
   }, [isAuthenticated]);
-
+  
+     
+    
   return (
     <div>
       {loading ? (
-        <div className=" border border-amber-300 w-full text-5xl">
-          Loading...
-        </div>
+        <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+      </div>
       ) : (
         <AuthContext.Provider
           value={{
             isAuthenticated,
             setIsAuthenticated,
             setCurrentUser,
+            activeTab, 
+            setActiveTab,
             currentUser,
             loading,
           }}

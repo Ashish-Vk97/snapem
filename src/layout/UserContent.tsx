@@ -64,7 +64,7 @@ const UserContent = () => {
     throw new Error("AuthContext must be used within an AuthProvider");
   }
 
-  const { isAuthenticated, currentUser } = authContext;
+  const { isAuthenticated, currentUser,setActiveTab } = authContext;
 
   const { isSubscribed: isUserSubscribed, stripeCustomerId } =
     currentUser || {};
@@ -78,6 +78,10 @@ const UserContent = () => {
     } else {
       openModal();
     }
+  };
+    const handleClick = () => {
+    setActiveTab("app");
+    Navigate("/account");
   };
 
   console.log(isAuthenticated, currentUser, "isAuthenticated");
@@ -111,7 +115,7 @@ const UserContent = () => {
           ) : (
             <div className="flex justify-center md:justify-start gap-4">
               <button
-                onClick={() => Navigate("/account")}
+                onClick={() => handleClick()}
                 className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200"
               >
                 Download App
@@ -312,7 +316,7 @@ const UserContent = () => {
             </h2>
 
             {/* Button */}
-            <button onClick={()=>Navigate("/account")} className="mt-4 md:mt-0 bg-purple-800 hover:bg-purple-900 text-white text-xs px-4 py-2 rounded shadow-sm">
+            <button onClick={()=>handleClick()} className="mt-4 md:mt-0 bg-purple-800 hover:bg-purple-900 text-white text-xs px-4 py-2 rounded shadow-sm">
               Download
             </button>
           </div>

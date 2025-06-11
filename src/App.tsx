@@ -1,5 +1,6 @@
 // import { BrowserRouter as Router, Routes, Route } from "react-router";
-import { ReactNode,useContext, useEffect } from "react";
+import { ReactNode, Suspense, useContext, useEffect } from "react";
+import { lazy } from "react";
 import { useRoutes, Navigate, useNavigate } from "react-router";
 import axios from "axios";
 import SignIn from "./pages/AuthPages/SignIn";
@@ -20,28 +21,42 @@ import FormElements from "./pages/Forms/FormElements";
 import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
-import Home from "./pages/Dashboard/Home";
+const Home = lazy(() => import("./pages/Dashboard/Home"));
 import UserAppLayout from "./layout/UserAppLayout";
-import UserContent from "./layout/UserContent";
+const UserContent = lazy(
+  () => import("./layout/UserContent")
+) 
 import ChangePassword from "./components/auth/ChangePassword";
 import { AuthContext } from "./context/AuthContext";
-import Users from "./pages/users/Users";
-import SubscriptionList from "./layout/SubscriptionLayout/SubscriptionList";
-import SubscriptionTable from "./components/subscription/SubscriptionTable";
-import Success from "./layout/Success";
-import Cancel from "./layout/Cancel";
-import UserAccount from "./layout/UserAccount";
-import ForgotPassword from "./components/auth/ForgotPassword";
-import TransactionsTable from "./components/users/TransactionTable";
-import EmergencyContact from "./components/UserProfile/EmergencyContact";
-import UserViewEdit from "./layout/UserViewEdit";
-import UserScreenshotsList from "./components/UserProfile/UserScreenshotsList";
-import UserVideosList from "./components/UserProfile/UserVideosList";
-import About from "./layout/UserInfo/About";
-import Contact from "./layout/UserInfo/Contact";
-import Privacy from "./layout/UserInfo/Privacy";
-import Terms from "./layout/UserInfo/Terms";
 
+const Users = lazy(() => import("./pages/users/Users"));
+const SubscriptionList = lazy(
+  () => import("./layout/SubscriptionLayout/SubscriptionList")
+);
+const SubscriptionTable = lazy(
+  () => import("./components/subscription/SubscriptionTable")
+);
+const Success = lazy(() => import("./layout/Success"));
+const Cancel = lazy(() => import("./layout/Cancel"));
+const UserAccount = lazy(() => import("./layout/UserAccount"));
+const ForgotPassword = lazy(() => import("./components/auth/ForgotPassword"));
+const TransactionsTable = lazy(
+  () => import("./components/users/TransactionTable")
+);
+const EmergencyContact = lazy(
+  () => import("./components/UserProfile/EmergencyContact")
+);
+const UserViewEdit = lazy(() => import("./layout/UserViewEdit"));
+const UserScreenshotsList = lazy(
+  () => import("./components/UserProfile/UserScreenshotsList")
+);
+const UserVideosList = lazy(
+  () => import("./components/UserProfile/UserVideosList")
+);
+const About = lazy(() => import("./layout/UserInfo/About"));
+const Contact = lazy(() => import("./layout/UserInfo/Contact"));
+const Privacy = lazy(() => import("./layout/UserInfo/Privacy"));
+const Terms = lazy(() => import("./layout/UserInfo/Terms"));
 
 interface RedirectToSignInProps {
   isUser: boolean;
@@ -76,7 +91,6 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
   Component,
 }) => {
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     console.log("isAdmin=====>", isAdmin);
@@ -96,16 +110,17 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
 // }
 
 // export default function App({ pathName }: AppProps) {
-  export default function App() {
-    const navigate = useNavigate();
-    const authContext = useContext(AuthContext);
+export default function App() {
+  const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
 
-    if (!authContext) {
-      throw new Error("AuthContext must be used within an AuthProvider");
-    }
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProvider");
+  }
 
-    const { setIsAuthenticated, setCurrentUser,isAuthenticated, currentUser  } = authContext;
-    const token = localStorage.getItem("AUTH_TOKEN");
+  const { setIsAuthenticated, setCurrentUser, isAuthenticated, currentUser } =
+    authContext;
+  const token = localStorage.getItem("AUTH_TOKEN");
   const localUser = JSON.parse(localStorage.getItem("USER") || "{}");
   // const navigate = useNavigate();
 
@@ -114,7 +129,7 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
       setIsAuthenticated(true);
-      console.log(response,"======apppresponse");
+      console.log(response, "======apppresponse");
       return response;
     },
     function (err) {
@@ -124,7 +139,7 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
       console.log(err, err.response);
 
       if (err.response) {
-        console.log(err.response.status,"==========appp");
+        console.log(err.response.status, "==========appp");
         console.log(err.response.statusText);
         console.log(err.message);
         console.log(err.response.headers); // 👉️ {... response headers here}
@@ -135,29 +150,28 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
         err?.response?.status === 403 &&
         err?.response?.data?.message === "Invalid token or token has expired!"
       ) {
-        
         window.localStorage.clear();
         setIsAuthenticated(false);
-          setCurrentUser({
-              name: "",
-              email: "",
-              _id: "",
-              role: "",
-               isSubscribed: false,
-               stripeCustomerId: "",
-              subscription: {
-                id: "",
-                status: "",
-                start_date: "",
-                plan: {
-                  id: "",
-                  currency: "",
-                  interval: "",
-                  interval_count: "",
-                  amount: "",
-                },
-              },
-            });
+        setCurrentUser({
+          name: "",
+          email: "",
+          _id: "",
+          role: "",
+          isSubscribed: false,
+          stripeCustomerId: "",
+          subscription: {
+            id: "",
+            status: "",
+            start_date: "",
+            plan: {
+              id: "",
+              currency: "",
+              interval: "",
+              interval_count: "",
+              amount: "",
+            },
+          },
+        });
         navigate(`/signin`, { replace: true });
       }
 
@@ -166,26 +180,26 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
         // setSessionMessageFlag(true);
         window.localStorage.clear();
         setIsAuthenticated(false);
-         setCurrentUser({
-              name: "",
-              email: "",
-              _id: "",
-              role: "",
-               isSubscribed: false,
-               stripeCustomerId: "",
-              subscription: {
-                id: "",
-                status: "",
-                start_date: "",
-                plan: {
-                  id: "",
-                  currency: "",
-                  interval: "",
-                  interval_count: "",
-                  amount: "",
-                },
-              },
-            });
+        setCurrentUser({
+          name: "",
+          email: "",
+          _id: "",
+          role: "",
+          isSubscribed: false,
+          stripeCustomerId: "",
+          subscription: {
+            id: "",
+            status: "",
+            start_date: "",
+            plan: {
+              id: "",
+              currency: "",
+              interval: "",
+              interval_count: "",
+              amount: "",
+            },
+          },
+        });
         // navigate(
         //   `/unauthorized`,
         //   { state: `${err.response.data.message}` },
@@ -204,26 +218,26 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
         // setSessionMessageFlag(true);
         window.localStorage.clear();
         setIsAuthenticated(false);
-         setCurrentUser({
-              name: "",
-              email: "",
-              _id: "",
-              role: "",
-               isSubscribed: false,
-               stripeCustomerId: "",
-              subscription: {
-                id: "",
-                status: "",
-                start_date: "",
-                plan: {
-                  id: "",
-                  currency: "",
-                  interval: "",
-                  interval_count: "",
-                  amount: "",
-                },
-              },
-            });
+        setCurrentUser({
+          name: "",
+          email: "",
+          _id: "",
+          role: "",
+          isSubscribed: false,
+          stripeCustomerId: "",
+          subscription: {
+            id: "",
+            status: "",
+            start_date: "",
+            plan: {
+              id: "",
+              currency: "",
+              interval: "",
+              interval_count: "",
+              amount: "",
+            },
+          },
+        });
       }
       return Promise.reject(err);
     }
@@ -237,197 +251,187 @@ const AdminWrapper: React.FC<validateAdminChildrenProps> = ({
   //   role: "USER",
   // };
   // console.log(currentUser,isAuthenticated,"currentUser=========>app");
-  
 
   // Determine the layout based on authentication and role
   // const isAdmin = isAuthenticated && currentUser.role === "ADMIN";
   // const isUser = isAuthenticated && currentUser.role === "USER";
-  const isAdmin =  localUser.role === "ADMIN";
+  const isAdmin = localUser.role === "ADMIN";
   const isUser = localUser.role === "USER";
   // const isAuthenticatedUser = isAuthenticated && currentUser;
 
-  console.log(currentUser,"user===>",isUser,"admin==>", isAdmin,isAuthenticated,"isUser=======>");
-
-
-  // const localUser = JSON.parse(localStorage.getItem("USER") || "{}");
-// const isAdmin = localUser.role === "ADMIN";
-// const isUser = localUser.role === "USER";
-const isLoggedIn = localUser && (isAdmin || isUser);
-
-const routes = useRoutes([
-  // Redirect anyone hitting root to /home
-  {
-    index: true,
-    element: <Navigate to="/home" />,
-  },
-  // Public Routes under UserAppLayout
-  {
-    element: <UserAppLayout />,
-    children: [
-    
-      { path: "/about", element: <About /> },
-      { path: "/contact", element: <Contact /> },
-      { path: "/privacy", element: <Privacy /> },
-      { path: "/terms", element: <Terms /> },
-      { path: "*", element: <NotFound /> },
-    ],
-  },
-    { path: "/signin", element: <SignIn /> },
-      { path: "/signup", element: <SignUp /> },
-      { path: "/reset-password", element: <ForgotPassword /> },
-      { path: "/changePassword/:token", element: <ChangePassword /> },
-      { path: "/success", element: <Success /> },
-      { path: "/cancel", element: <Cancel /> },
-
-  // Unauthenticated /home (default for unauthenticated users)
-  // {
-  //   path: "/home",
-  //   element: isLoggedIn ? (
-  //     isUser ? (
-  //       <Navigate to="/subscription" />
-  //     ) : (
-  //       <Navigate to="/dashboard" />
-  //     )
-  //   ) : (
-  //     <UserAppLayout>
-  //       <UserContent />
-  //     </UserAppLayout>
-  //   ),
-  // },
-  {
-    path: "/home",
-    element: isLoggedIn ? (
-      isUser ? (
-        <Navigate to="/user-home" />
-      ) : (
-        <Navigate to="/dashboard" />
-      )
-    ) : (
-      <UserAppLayout />
-    ),
-    children: [
-      {
-        index: true,
-        element: <UserContent />,
-      },
-      // {
-      //   index: true,
-      //   element: <UserContent />,
-      // },
-    ],
-  },
   
 
-  // Protected Layouts (Only visible when logged in)
-  isLoggedIn && {
-    path: "/",
-    element: isAdmin ? <AppLayout /> : <UserAppLayout />,
-    children: [
-      {
-        index: true,
-        element: isUser ? (
+  // const localUser = JSON.parse(localStorage.getItem("USER") || "{}");
+  // const isAdmin = localUser.role === "ADMIN";
+  // const isUser = localUser.role === "USER";
+  const isLoggedIn = localUser && (isAdmin || isUser);
+
+  const routes = useRoutes([
+    // Redirect anyone hitting root to /home
+    {
+      index: true,
+      element: <Navigate to="/home" />,
+    },
+    // Public Routes under UserAppLayout
+    {
+      element: <UserAppLayout />,
+      children: [
+        { path: "/about", element: <About /> },
+        { path: "/contact", element: <Contact /> },
+        { path: "/privacy", element: <Privacy /> },
+        { path: "/terms", element: <Terms /> },
+        { path: "*", element: <NotFound /> },
+      ],
+    },
+    { path: "/signin", element: <SignIn /> },
+    { path: "/signup", element: <SignUp /> },
+    { path: "/reset-password", element: <ForgotPassword /> },
+    { path: "/changePassword/:token", element: <ChangePassword /> },
+    { path: "/success", element: <Success /> },
+    { path: "/cancel", element: <Cancel /> },
+
+    // Unauthenticated /home (default for unauthenticated users)
+    // {
+    //   path: "/home",
+    //   element: isLoggedIn ? (
+    //     isUser ? (
+    //       <Navigate to="/subscription" />
+    //     ) : (
+    //       <Navigate to="/dashboard" />
+    //     )
+    //   ) : (
+    //     <UserAppLayout>
+    //       <UserContent />
+    //     </UserAppLayout>
+    //   ),
+    // },
+    {
+      path: "/home",
+      element: isLoggedIn ? (
+        isUser ? (
           <Navigate to="/user-home" />
         ) : (
-          // <AdminWrapper isAdmin={isAdmin} Component={<Home />} />
           <Navigate to="/dashboard" />
-        ),
-      },
-      {
-        path: "/dashboard",
-        element: (  
-          <AdminWrapper isAdmin={isAdmin} Component={<Home />} />
-        ),
-      },
-      {
-        path: "/profile",
-        element: (
-          <AdminWrapper isAdmin={isAdmin} Component={<UserProfiles />} />
-        ),
-      },
-      {
-        path: "/users",
-        element: <AdminWrapper isAdmin={isAdmin} Component={<Users />} />,
-      },
-      {
-        path: "/content",
-      
-        element: <AdminWrapper isAdmin={isAdmin} Component={<TransactionsTable />} />,
-      },
-       {
-        path: "/emergency",
-        
-        element: <UserWrapper isUser={isUser} Component={<EmergencyContact />} />,
-      }, 
+        )
+      ) : (
+        <UserAppLayout />
+      ),
+      children: [
+        {
+          index: true,
+          element: <UserContent />,
+        },
+        // {
+        //   index: true,
+        //   element: <UserContent />,
+        // },
+      ],
+    },
 
-      {
-        path: "/images",
-        element: <AdminWrapper isAdmin={isAdmin} Component={<Images />} />,
-      },
-      {
-        path: "/videos",
-        element: <AdminWrapper isAdmin={isAdmin} Component={<Videos />} />,
-      },
-      
-      {
-        path: "/subscription",
-        element: (
-          <UserWrapper isUser={isUser} Component={<SubscriptionList />} />
-        ),
-      },
-       {
-        path: "/account",
-        element: (
-          <UserWrapper isUser={isUser} Component={<UserAccount />} />
-        ),
-      },
-       {
-        path: "/screenshots/:id",
-        element: (
-          <UserWrapper isUser={isUser} Component={<UserScreenshotsList />} />
-        ),
-      },
-       {
-        path: "/videos/:id",
-        element: (
-          <UserWrapper isUser={isUser} Component={<UserVideosList />} />
-        ),
-      },
-     
-      {
-        path: "/admin-subscription",
-        element: (
-          <AdminWrapper isAdmin={isAdmin} Component={ <SubscriptionTable/>} />
-        ),
-      },
-    
-      {
-        path: "/contacts",
-        element: (
-          <UserWrapper isUser={isUser} Component={<BarChart />} />
-        ),
-      },
-      {
-        path: "/user-home",
-        element: (
-          <UserWrapper isUser={isUser} Component={<UserContent />} />
-        ),
-      },
+    // Protected Layouts (Only visible when logged in)
+    isLoggedIn && {
+      path: "/",
+      element: isAdmin ? <AppLayout /> : <UserAppLayout />,
+      children: [
+        {
+          index: true,
+          element: isUser ? (
+            <Navigate to="/user-home" />
+          ) : (
+            // <AdminWrapper isAdmin={isAdmin} Component={<Home />} />
+            <Navigate to="/dashboard" />
+          ),
+        },
+        {
+          path: "/dashboard",
+          element: <AdminWrapper isAdmin={isAdmin} Component={<Home />} />,
+        },
+        {
+          path: "/profile",
+          element: (
+            <AdminWrapper isAdmin={isAdmin} Component={<UserProfiles />} />
+          ),
+        },
+        {
+          path: "/users",
+          element: <AdminWrapper isAdmin={isAdmin} Component={<Users />} />,
+        },
+        {
+          path: "/content",
 
-      {
-        path: "/users/view-edit-profile/:mode/:id",
-        element: (
-          <AdminWrapper isAdmin={isAdmin} Component={<UserViewEdit />} />
-        ),
-      },
-       { path: "/about",  element: <About /> },
-  { path: "/contact", element: <Contact /> },
-  { path: "/privacy", element: <Privacy /> },
-  { path: "/terms", element: <Terms /> },
-    ],
-  },
-]);
+          element: (
+            <AdminWrapper isAdmin={isAdmin} Component={<TransactionsTable />} />
+          ),
+        },
+        {
+          path: "/emergency",
 
+          element: (
+            <UserWrapper isUser={isUser} Component={<EmergencyContact />} />
+          ),
+        },
 
+        {
+          path: "/images",
+          element: <AdminWrapper isAdmin={isAdmin} Component={<Images />} />,
+        },
+        {
+          path: "/videos",
+          element: <AdminWrapper isAdmin={isAdmin} Component={<Videos />} />,
+        },
+
+        {
+          path: "/subscription",
+          element: (
+            <UserWrapper isUser={isUser} Component={<SubscriptionList />} />
+          ),
+        },
+        {
+          path: "/account",
+          element: <UserWrapper isUser={isUser} Component={<UserAccount />} />,
+        },
+        {
+          path: "/screenshots/:id",
+          element: (
+            <UserWrapper isUser={isUser} Component={<UserScreenshotsList />} />
+          ),
+        },
+        {
+          path: "/videos/:id",
+          element: (
+            <UserWrapper isUser={isUser} Component={<UserVideosList />} />
+          ),
+        },
+
+        {
+          path: "/admin-subscription",
+          element: (
+            <AdminWrapper isAdmin={isAdmin} Component={<SubscriptionTable />} />
+          ),
+        },
+
+        {
+          path: "/contacts",
+          element: <UserWrapper isUser={isUser} Component={<BarChart />} />,
+        },
+        {
+          path: "/user-home",
+          element: <UserWrapper isUser={isUser} Component={<UserContent />} />,
+        },
+
+        {
+          path: "/users/view-edit-profile/:mode/:id",
+          element: (
+            <AdminWrapper isAdmin={isAdmin} Component={<UserViewEdit />} />
+          ),
+        },
+        { path: "/about", element: <About /> },
+        { path: "/contact", element: <Contact /> },
+        { path: "/privacy", element: <Privacy /> },
+        { path: "/terms", element: <Terms /> },
+      ],
+    },
+  ]);
 
   // const routes = useRoutes([
   //   {
@@ -442,7 +446,7 @@ const routes = useRoutes([
   //         <AppLayout />
   //       ) : (
   //         <UserAppLayout />
-  //       )            
+  //       )
   //     ) : (
   //       <Navigate to="/signin" />
   //     ),
@@ -450,7 +454,7 @@ const routes = useRoutes([
   //       {
   //         path: "/",
   //         element: isUser ? (
-  //           <Navigate to="/subscription" /> 
+  //           <Navigate to="/subscription" />
   //         ) : (
   //           <AdminWrapper isAdmin={isAdmin} Component={<Home />} /> // Admin user sees Home
   //         ),
@@ -558,11 +562,19 @@ const routes = useRoutes([
   //     element: <UserContent />
   //   },
   // ]);
-  
+
   return (
-    
     <>
       <ScrollToTop />
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center h-screen">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+          </div>
+        }
+      >
+        {routes}
+      </Suspense>
       {routes}
     </>
   );
