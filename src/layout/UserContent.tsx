@@ -15,7 +15,7 @@ const plans = [
   {
     name: "Monthly",
     price: "$5",
-    note: "per subscription\nBilled monthly",
+    note: " Billed monthly",
     features: [
       "SOS Emergency Alerts",
       "Auto Screenshot Uploads",
@@ -26,9 +26,9 @@ const plans = [
     highlight: false,
   },
   {
-    name: "Quarterly",
+    name: "Half yearly",
     price: "$25",
-    note: "per month\nBilled monthly",
+    note: "Billed every 6 months",
     features: [
       "SOS Emergency Alerts",
       "Auto Screenshot Uploads",
@@ -42,7 +42,7 @@ const plans = [
   {
     name: "Yearly",
     price: "$50",
-    note: "per subscription\nBilled monthly",
+    note: "Billed yearly",
     features: [
       "SOS Emergency Alerts",
       "Auto Screenshot Uploads",
@@ -280,16 +280,26 @@ const UserContent = () => {
                 ))}
               </ul>
 
-              <button
+            { !isAuthenticated ? <button
                 className={`w-full py-2 rounded-md font-medium ${
                   plan.highlight
                     ? "bg-white text-purple-900 hover:bg-gray-100"
                     : "bg-purple-100 text-purple-700 hover:bg-purple-200"
                 }`}
-                disabled={true}
+                onClick={() => Navigate("/signin")}
               >
                 Choose Plan
-              </button>
+              </button> : <button
+                className={`w-full py-2 rounded-md font-medium ${
+                  plan.highlight
+                    ? "bg-white text-purple-900 hover:bg-gray-100"
+                    : "bg-purple-100 text-purple-700 hover:bg-purple-200"
+                }`}
+              disabled={true}
+              >
+                Choose Plan
+              </button>}
+             
             </div>
           ))}
         </div>

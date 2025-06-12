@@ -273,7 +273,7 @@ export default function App() {
       element: <Navigate to="/home" />,
     },
     // Public Routes under UserAppLayout
-    {
+   !isLoggedIn && {
       element: <UserAppLayout />,
       children: [
         { path: "/about", element: <About /> },
@@ -575,7 +575,7 @@ export default function App() {
       >
         {routes}
       </Suspense>
-      {routes}
+    
     </>
   );
 }
