@@ -69,7 +69,7 @@ export default function UserViewEdit() {
           <UserInfoCard currentUser={selectedUser} getUserById={getUserById} mode={mode} />
           <UserAddressCard currentUser={selectedUser} getUserById={getUserById} mode={mode} />
           <UserSubscription selectedUser={selectedUser} getUserById={getUserById} mode={mode} />
-          < UserScreenshotsView userId ={id} />
+          < UserScreenshotsView isFromAdmin={true} userId ={id} />
         </div>
       </div>
     </>

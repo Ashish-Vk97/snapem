@@ -392,15 +392,17 @@ export default function App() {
         },
         {
           path: "/screenshots/:id",
-          element: (
-            <UserWrapper isUser={isUser} Component={<UserScreenshotsList />} />
-          ),
+          element: <UserScreenshotsList />,
+          // element: (
+          //   <UserWrapper isUser={isUser} Component={<UserScreenshotsList />} />
+          // ),
         },
         {
           path: "/videos/:id",
-          element: (
-            <UserWrapper isUser={isUser} Component={<UserVideosList />} />
-          ),
+          element: <UserVideosList />, 
+          // element: (
+          //   <UserWrapper isUser={isUser} Component={<UserVideosList />} />
+          // ),
         },
 
         {

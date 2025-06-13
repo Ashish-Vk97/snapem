@@ -30,7 +30,8 @@ const folderVideos =   {
   updatedAt: "2025-05-29 12:36:29"
 }
 interface Folderlist {
- 
+ _id: string;
+ s3key:string;
   videoName: string;
   videoLink: string;
   mimetype: string;
@@ -45,15 +46,25 @@ const formatFileSize = (bytes:number) => {
   return `${mb.toFixed(1)} MB`;
 };
 
-const UserVideosList = () => {
+const UserVideosList = ({ isFromAdmin = true }) => {
     const [videos, setVideos] = useState<Folderlist[]>([]);
      const [Loading, setLoading] = useState(true);
    const { id } = useParams<{ id: string; }>();
+    const [selectedVideos, setSelectedVideos] = useState<string[]>([]);
+  const [selectAll, setSelectAll] = useState(false);
+
+ 
    console.log(id, "id from params");
     
      const Navigate = useNavigate();
 
   const notify = (str: string) => toast(str);
+
+   const toggleSelectVideo = (id) => {
+    setSelectedVideos((prev) =>
+      prev.includes(id) ? prev.filter((vid) => vid !== id) : [...prev, id]
+    );
+  };
 
   const getVideoListById = async (id: string) => {
 
@@ -133,7 +144,15 @@ const UserVideosList = () => {
               </video>
               <div className="p-4">
                 <p className="text-sm font-medium text-gray-800 truncate">{video.videoName}</p>
-                <p className="text-xs text-gray-500 mt-1">{formatFileSize(video.size)}</p>
+                <p className="text-xs text-gray-500 mt-1">{formatFileSize(video.size)}</p> 
+                  {isFromAdmin && (
+                <input
+                  type="checkbox"
+                  checked={selectedVideos.includes(video._id)}
+                  onChange={() => toggleSelectVideo(video._id)}
+                  className="absolute top-2 right-2 z-10 w-4 h-4 accent-purple-600"
+                />
+              )}
               </div>
             </div>
           ))}

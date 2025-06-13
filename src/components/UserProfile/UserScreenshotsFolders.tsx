@@ -10,7 +10,7 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const UserScreenshotsFolders = ({userId}:{userId:string;}) => {
+const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFromAdmin?:boolean;}) => {
   interface Folder {
     date: string;
     _id: string;
@@ -19,7 +19,7 @@ const UserScreenshotsFolders = ({userId}:{userId:string;}) => {
   const [folderList, setFoldersList] = useState<Folder[]>([]);
   const [Loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  console.log("userId===>", userId);
+  console.log("userId===>", userId, "isFromAdmin===>", isFromAdmin);
   const Navigate = useNavigate();
 
   const notify = (str: string) => toast(str);
@@ -82,17 +82,22 @@ const UserScreenshotsFolders = ({userId}:{userId:string;}) => {
             <div
               key={index}
               onClick={() =>
-                Navigate(`/screenshots/${item?._id}`)}
+              Navigate(
+                userId && isFromAdmin
+                ? `/screenshots/${item?._id}?userId=${userId}&isFromAdmin=${isFromAdmin}`
+                : `/screenshots/${item?._id}`
+              )
+              }
               className="group bg-white rounded-lg shadow-sm border border-gray-2P00 hover:shadow-md transition duration-300 cursor-pointer p-4 flex items-center space-x-4 hover:bg-blue-50"
             >
               <div className="bg-purple-600 text-white p-3 rounded-md group-purple:bg-purple-700 transition">
-                <FaFolder size={24} />
+              <FaFolder size={24} />
               </div>
               <div>
-                <p className="text-gray-800 font-medium">
-                  {formatDate(item?.date)}
-                </p>
-                <p className="text-gray-500 text-sm">Folder {index + 1} </p>
+              <p className="text-gray-800 font-medium">
+                {formatDate(item?.date)}
+              </p>
+              {/* <p className="text-gray-500 text-sm">Folder {index + 1} </p> */}
               </div>
             </div>
           ))

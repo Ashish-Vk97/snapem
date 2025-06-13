@@ -10,7 +10,7 @@ export async function hitScreenshotsFolders(userId:string): Promise<any> {
 }
 export async function hitVideoFolders(userId:string): Promise<any> {
   console.log(`userIds===>`, userId);
-  return await apis.hitAxiosGetApi(`${videoPath}/sos/folders ?${userId ? `id=${userId}` : ""}`);
+  return await apis.hitAxiosGetApi(`${videoPath}/sos/folders?${userId ? `id=${userId}` : ""}`);
 }
 
 export async function fetchScreenshotListById(id: string): Promise<any> {
@@ -29,3 +29,6 @@ export async function fetchVideoListById(id: string): Promise<any> {
   );
 }
 
+export async function screenshotListDelete(body: any, userId: string): Promise<any> {
+  return await apis.hitAxiosDeleteApiBody(`${path}/delete?id=${userId}`, body);
+}

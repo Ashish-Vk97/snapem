@@ -91,10 +91,15 @@ const UserContent = () => {
       <div className="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 md:px-20 py-16 gap-10 bg-white text-gray-100">
         {/* Left Text Section */}
         <div className="md:w-1/2 text-center md:text-left">
-          <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
+          {/* <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
             Smart Protection,
             <br />
             Wherever You Go
+          </h1> */}
+           <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
+            About Snap'em
+           
+           
           </h1>
           <p className="text-gray-600 mb-6">
            snap'em is your personal safety companion. Designed to provide
@@ -133,7 +138,7 @@ const UserContent = () => {
         {/* Right Image Section */}
         <div className="md:w-1/2">
           <img
-            src={"./images/Android.png"} // Replace with your actual image path
+            src={"./images/Androids.png"} // Replace with your actual image path
             alt="Snap'em App"
             className="max-w-xs mx-auto rounded-xl"
           />
@@ -252,11 +257,15 @@ const UserContent = () => {
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`relative rounded-xl p-6 border transition-all duration-300 min-h-[420px] max-w-[340px] mx-auto ${
-                plan.highlight
-                  ? "bg-purple-900 text-white border-purple-700 shadow-lg scale-105"
-                  : "bg-white text-black border-gray-200"
-              } transition-all duration-300`}
+              // className={`relative rounded-xl p-6 border transition-all duration-300 min-h-[420px] max-w-[340px] mx-auto ${
+              //   plan.highlight
+              //     ? "bg-purple-900 text-white border-purple-700 shadow-lg scale-105"
+              //     : "bg-white text-black border-gray-200"
+              // } transition-all duration-300`}
+                className={`relative rounded-xl p-6 border transition-all duration-300 min-h-[420px] max-w-[340px] mx-auto
+                bg-purple-900 text-white border-purple-700 shadow-lg scale-105 transition-all duration-300`}
+              
+              
             >
               {/* Badge for Most Popular */}
               {plan.tag && (

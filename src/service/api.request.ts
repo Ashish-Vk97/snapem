@@ -103,4 +103,14 @@ export const environment = {
       },
     });
   }
+  export async function hitAxiosDeleteApiBody(url:string, body:any): Promise<any> {
+    return await axios.delete(`${API_URL}${url}`, {
+      data: body,
+      headers: {
+        accept: "*/*",
+        contentType: "application/json",
+        authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+      },
+    });
+  }
   

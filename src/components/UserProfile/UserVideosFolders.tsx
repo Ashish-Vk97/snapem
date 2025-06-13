@@ -15,7 +15,7 @@ const dates = [
 };
 
 
-const UserVideosFolders = ({userId}:{userId?:string;}) => {
+const UserVideosFolders = ({userId,isFromAdmin}:{userId?:string; isFromAdmin?:boolean;}) => {
    interface Folder {
     date: string;
     _id: string;
@@ -28,7 +28,7 @@ const UserVideosFolders = ({userId}:{userId?:string;}) => {
 
   const notify = (str: string) => toast(str);
 
-   const fetchVideoFolders = async () => {
+   const fetchVideoFolders = async (userId:string) => {
       setLoading(true);
       try {
         // Simulate an API call
@@ -65,7 +65,7 @@ const UserVideosFolders = ({userId}:{userId?:string;}) => {
     };
   
     useEffect(() => {
-      fetchVideoFolders();
+      fetchVideoFolders(userId);
     }, []);
   
     if (Loading) {

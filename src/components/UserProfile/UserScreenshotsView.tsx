@@ -39,8 +39,9 @@ const TabButton = ({ children, isActive, onClick }: TabButtonProps) => (
     {children}
   </button>
 );
-const UserScreenshotsView = ({userId}:{userId?:string;}) => {
+const UserScreenshotsView = ({userId, isFromAdmin=false}:{userId?:string; isFromAdmin?:boolean;}) => {
       const [activeTab, setActiveTab] = useState('image');
+  console.log("userId===>", userId, "isFromAdmin view ui===>", isFromAdmin);
   return (
     <> 
     
@@ -54,8 +55,8 @@ const UserScreenshotsView = ({userId}:{userId?:string;}) => {
         </TabButton>
       </div>
        <div key={activeTab} className="transition-all duration-500 ease-in-out animate-fadeInSlideUp">
-        {activeTab === 'image' && <UserScreenshotsFolders userId={userId}  />}
-         {activeTab === 'video' && <UserVideosFolders  userId={userId}  />}
+        {activeTab === 'image' && <UserScreenshotsFolders userId={userId} isFromAdmin={isFromAdmin} />}
+         {activeTab === 'video' && <UserVideosFolders userId={userId} isFromAdmin={isFromAdmin} />}
           {/* {activeTab === 'video' && <UserVideosList  />} */}
          
          </div>

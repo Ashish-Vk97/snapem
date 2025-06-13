@@ -197,11 +197,14 @@ const SubscriptionList: React.FC = () => {
                   return (
                     <div
                       key={index}
-                      className={`${
-                        item?.cardType === "standard"
-                          ? "bg-purple-900 text-white border-purple-700"
-                          : "bg-white text-gray-900 border-gray-300"
-                      } rounded-lg shadow-lg p-6 w-full md:w-[28%] min-h-[500px] flex`}
+                      // className={`${
+                      //   item?.cardType === "standard"
+                      //     ? "bg-purple-900 text-white border-purple-700"
+                      //     : "bg-white text-gray-900 border-gray-300"
+                      // } rounded-lg shadow-lg p-6 w-full md:w-[28%] min-h-[500px] flex`}
+                         className={`
+                           bg-purple-900 text-white border-purple-700
+                          rounded-lg shadow-lg p-6 w-full md:w-[28%] min-h-[500px] flex`}
                     >
                       <div className="flex flex-col justify-between items-center text-center h-full w-full">
                         <div>
