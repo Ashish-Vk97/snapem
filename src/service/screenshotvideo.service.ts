@@ -6,11 +6,11 @@ const videoPath = "/video";
 
 export async function hitScreenshotsFolders(userId:string): Promise<any> {
   console.log(`userIds===>`, userId);
-  return await apis.hitAxiosGetApi(`${path}/folders/all`);
+  return await apis.hitAxiosGetApi(`${path}/folders/all?${userId ? `id=${userId}` : ""}`);
 }
 export async function hitVideoFolders(userId:string): Promise<any> {
   console.log(`userIds===>`, userId);
-  return await apis.hitAxiosGetApi(`${videoPath}/sos/folders`);
+  return await apis.hitAxiosGetApi(`${videoPath}/sos/folders ?${userId ? `id=${userId}` : ""}`);
 }
 
 export async function fetchScreenshotListById(id: string): Promise<any> {

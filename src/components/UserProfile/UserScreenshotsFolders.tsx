@@ -24,7 +24,7 @@ const UserScreenshotsFolders = ({userId}:{userId:string;}) => {
 
   const notify = (str: string) => toast(str);
 
-  const fetchScreenshotsFolders = async (userId) => {
+  const fetchScreenshotsFolders = async (userId: string) => {
     setLoading(true);
     try {
       // Simulate an API call

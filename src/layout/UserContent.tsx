@@ -97,10 +97,10 @@ const UserContent = () => {
             Wherever You Go
           </h1>
           <p className="text-gray-600 mb-6">
-            Snap'em is your personal safety companion. Designed to provide
+           snap'em is your personal safety companion. Designed to provide
             instant emergency response, real-time location sharing, and
             continuous visual monitoring — all through one easy-to-use Android
-            app. Whether you're traveling, commuting, or at home, Snap'em
+            app. Whether you're traveling, commuting, or at home,snap'em
             ensures that your loved ones are just one tap away.
           </p>
           {!isAuthenticated ? (
@@ -163,7 +163,7 @@ const UserContent = () => {
       <section className="bg-white px-6 md:px-20 py-16 text-center">
         <div className="mb-12">
           <p className="text-sm font-semibold text-purple-700">
-            How Snap'em Works
+            How snap'em Works
           </p>
           <h2 className="text-2xl md:text-3xl font-bold mt-1">
             Emergency Help in Seconds
@@ -244,7 +244,7 @@ const UserContent = () => {
           Start Your Safety Plan — Choose the Right Fit
         </h2>
         <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-          Whether you're trying Snap'em for a month or protecting long-term,
+          Whether you're trying snap'em for a month or protecting long-term,
           every plan includes
         </p>
 
@@ -352,7 +352,7 @@ const UserContent = () => {
         <div>
           <h2 className="text-3xl font-bold text-purple-700 mb-4">About Us</h2>
           <p className="text-gray-700 text-lg leading-relaxed">
-            Snap'em is dedicated to providing a reliable emergency SOS solution to help protect you,
+           snap'em is dedicated to providing a reliable emergency SOS solution to help protect you,
             your loved ones in critical moments. Our mission is to offer a quick and easy way to reach
             out for help when it matters most.
           </p>

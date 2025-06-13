@@ -2,7 +2,7 @@ import  {useContext} from 'react'
 import { AuthContext } from '../../context/AuthContext';
 import { useModal } from '../../hooks/useModal';
 import { useNavigate } from 'react-router';
-import snapemIcon from "/images/snaplogo.png"; // Adjust the path as necessary
+import snapemIcon from "/images/Snapdownload.png"; // Adjust the path as necessary
 
 const UserAppDownload = () => {
 
@@ -80,7 +80,7 @@ const UserAppDownload = () => {
             </div>
         </div>
     </div>
- )}
+  )}
 
     {/* <section className="flex flex-col">
         <div className="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
@@ -108,7 +108,7 @@ const UserAppDownload = () => {
             Download Now
           </button>
         </div>
-        <img src={snapemIcon} alt="Snapem Icon" className="w-64 h-64 mt-6 md:mt-0" />
+        <img src={snapemIcon} alt="Snapem Icon" className="w-74 h-74 mt-6 md:mt-0" />
       </div>
 
       {/* Full-width cover image */}

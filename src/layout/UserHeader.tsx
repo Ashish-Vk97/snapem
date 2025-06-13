@@ -1,5 +1,5 @@
 // import React from 'react'
-import {  useContext } from "react";
+import { useState, useContext } from "react";
 
 import {  useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
@@ -8,7 +8,7 @@ import { Link } from "react-router";
 
 const UserHeader = () => {
   
-   
+   const [showMenu, setShowMenu] = useState(false);
   const authContext =  useContext(AuthContext);
   if (!authContext) {
    throw new Error("AuthContext must be used within an AuthProvider");
@@ -54,34 +54,55 @@ const UserHeader = () => {
             <div>Menu</div>
             </div> */}
             
-            <div style={{backgroundColor:"white", border: "1px solid #E5E5E5"}} className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-              
-              <img src="images/snapemlogo.png" style={{borderRadius: "10%"}} alt="menu-2" width="100" height="100"/>
-              <ul className="flex space-x-4">
-              <li className=" text-black font-medium hover:text-purple-700 p-2"><Link to={ !isAuthenticated? "/home":"/user-home"}> Home </Link></li>
-              { !isAuthenticated ? (
-                <>
-                 <li className="text-black font-medium hover:text-purple-700 p-2"> <Link to={"/signup"}> Register </Link></li>
-                 <li className="text-black font-medium hover:text-purple-700  p-2"> <Link to={"/signin"}> Login </Link></li>
-                                  {/* <li className="text-black font-medium hover:text-purple-700 hover:rounded-lg p-2"> <Link to={"/signin"}> Login </Link></li> */}
-
-                 </>
-              ):(
-                <>
-                 <li className="text-black font-medium hover:text-purple-700  p-2"><Link to={"/subscription"}> Subscription</Link></li>
-                  <li className="text-black font-medium hover:text-purple-700  p-2"><Link to={"/account"}> Account</Link></li>
-                <li className=" p-1">
-                <button onClick={handleLogout} className="bg-purple-500 text-white px-2 py-1.5 rounded-lg hover:bg-purple-700">
-                  Logout
-                </button>
+            <div style={{ backgroundColor: "white", border: "1px solid #E5E5E5" }} className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
+              <img src="images/snapemlogo.png" style={{ borderRadius: "10%" }} alt="menu-2" width="100" height="100" />
+              {/* Hamburger Icon */}
+              <button
+                className="md:hidden flex items-center px-3 py-2 border rounded text-black border-gray-400"
+                onClick={() => setShowMenu((prev) => !prev)}
+                aria-label="Toggle navigation"
+              >
+                <svg className="fill-current h-6 w-6" viewBox="0 0 20 20">
+                  <title>Menu</title>
+                  <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                </svg>
+              </button>
+              {/* Nav List */}
+              <ul
+                className={`
+                  ${showMenu ? "block" : "hidden"}
+                  absolute top-16 left-0 w-full bg-white border-t border-gray-200 md:static md:flex md:space-x-4 md:w-auto md:bg-transparent md:border-0
+                `}
+                style={{ zIndex: 100 }}
+              >
+                <li className="text-black font-medium hover:text-purple-700 p-2">
+                  <Link to={!isAuthenticated ? "/home" : "/user-home"}> Home </Link>
                 </li>
-                </>
-              ) }
-         
-               
-              {/* <li className="hover:bg-gray-700 hover:rounded-lg p-2"> <Link to={"/subscription"}> Settings </Link></li> */}
-             
-            </ul>
+                {!isAuthenticated ? (
+                  <>
+                    <li className="text-black font-medium hover:text-purple-700 p-2">
+                      <Link to={"/signup"}> Register </Link>
+                    </li>
+                    <li className="text-black font-medium hover:text-purple-700  p-2">
+                      <Link to={"/signin"}> Login </Link>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li className="text-black font-medium hover:text-purple-700  p-2">
+                      <Link to={"/subscription"}> Subscription</Link>
+                    </li>
+                    <li className="text-black font-medium hover:text-purple-700  p-2">
+                      <Link to={"/account"}> Account</Link>
+                    </li>
+                    <li className="p-1">
+                      <button onClick={handleLogout} className="bg-purple-500 text-white px-2 py-1.5 rounded-lg hover:bg-purple-700">
+                        Logout
+                      </button>
+                    </li>
+                  </>
+                )}
+              </ul>
             </div>
         </div>
     

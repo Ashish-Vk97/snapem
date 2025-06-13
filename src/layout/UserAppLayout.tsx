@@ -25,19 +25,25 @@ const UserAppLayout = () => {
       {/* .....footer..... */}
      
       <UserFooter />
-      {/* <div className="bg-gray-50 border-t border-gray-200 text-center py-4 px-4">
-        
-        <p className="text-sm text-gray-500">
-          © 2024–2025 All Rights Reserved. Built with{" "}
+      <div className="bg-gray-50 border-t border-gray-200 text-center py-4 px-4">
+        <p className="text-sm text-gray-600">
+            <span>
+              Phone: +1 (386) 333-2497 {" "} | Email:{" "}
+             
+              ⁠info@snapem.org
+             
+            </span>
+          <span className="mx-2">|</span>
           <a
-            href="https://snapem.com"
-            className="text-purple-600 hover:underline"
+        href="https://snapem.com"
+        className="text-purple-600 hover:underline"
+        target="_blank"
+        rel="noopener noreferrer"
           >
-            snapem
+        snapem.com
           </a>
-          <a href="https://virtualemployee.com" className="text-purple-600 hover:underline">Virtual Employee</a>.
         </p>
-      </div> */}
+      </div>
 
       {/* <div className="h-16 bg-white border-t border-gray-200">Footer</div> */}
     </div>

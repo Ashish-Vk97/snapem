@@ -115,9 +115,18 @@ const UserSubscription = ({
 
   console.log(currentUser, "=====>currentuserusersubscription");
   const { isSubscribed, subscription } = currentUser;
-  const { id, status, start_date, plan, cancel_at_period_end, canceled_at, cancellation_details } =
-    subscription;
+  const {
+    id,
+    status,
+    start_date,
+    plan,
+    current_period_end,
+    cancel_at_period_end,
+    canceled_at,
+    cancellation_details,
+  } = subscription;
   const { amount, interval, interval_count } = plan || {};
+  const { comment, reason } = cancellation_details || {};
 
   if (loading) {
     return <Loading />;
@@ -159,6 +168,16 @@ const UserSubscription = ({
                 {formatDate(start_date) || " NA"}
               </p>
             </div>
+            {!cancel_at_period_end && (
+              <div>
+                <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                  end Date
+                </p>
+                <p className="text-sm font-medium text-gray-800 dark:text-white/90">
+                  {formatDate(current_period_end) || " NA"}
+                </p>
+              </div>
+            )}
 
             <div>
               <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
@@ -189,13 +208,22 @@ const UserSubscription = ({
           </div>
           <div>
             <p className="mb-4 mt-6 text-xs leading-normal text-gray-500 dark:text-gray-400">
-              {isSubscribed
+              {!cancel_at_period_end
                 ? "Currently You are on active subscription plan"
                 : "not subscribed"}
-            </p>
-            {/* <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {"monthly"}
-                </p> */}
+            </p>{" "}
+            {cancel_at_period_end && (
+              <span className="font-semibold text-red-700">
+                {" "}
+                Reason : {comment || "NA"}
+              </span>
+            )}
+            {cancel_at_period_end && (
+              <p className="mb-2 text-xs leading-normal text-gray-500 dark:text-gray-400">
+                you have cancelled your subscription on{" "}
+                {formatDate(canceled_at) || " NA"}
+              </p>
+            )}
           </div>
         </div>
 
