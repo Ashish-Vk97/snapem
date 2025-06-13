@@ -65,6 +65,10 @@ const EmergencyContact = () => {
         notify("All fields are required.");
         return;
       }
+      if (allEmergencyUsers.length >= 5) {
+        alert("You can only add up to 5 emergency contacts.");
+        return;
+      }
 
       // Here you would typically send the data to your API
       // For example:
@@ -121,15 +125,15 @@ const EmergencyContact = () => {
       console.log(response.data, "error....");
       if (response?.data?.code === 404) {
         // notify(response?.data?.message);
-        setAllEmergencyUsers((prev) => (prev =[]));
-          setId("");
+        setAllEmergencyUsers((prev) => (prev = []));
+        setId("");
 
         setLoading(false);
       } else {
         // notify(response?.data?.data || "Unable to update profile!");
-        setAllEmergencyUsers((prev) => (prev =[]));
+        setAllEmergencyUsers((prev) => (prev = []));
         setLoading(false);
-          setId("");
+        setId("");
       }
     }
   };
@@ -205,15 +209,14 @@ const EmergencyContact = () => {
         console.log("Emergency contact deleted successfully:", response.data);
         notify("Emergency contact deleted successfully!");
         fetchEmergencyContact();
-         setId("");
+        setId("");
         closeDeleteModal();
-
       } else {
         console.error(
           "Failed to delete emergency contact:",
           response.data.message
         );
-           setId("");
+        setId("");
         notify("Failed to delete emergency contact:" + response.data.message);
       }
     } catch (error) {
@@ -226,11 +229,11 @@ const EmergencyContact = () => {
       if (response?.data?.code === 404) {
         notify(response?.data?.message);
         setLoading(false);
-           setId("");
+        setId("");
       } else {
         notify(response?.data?.data || "Unable to update profile!");
         setLoading(false);
-           setId("");
+        setId("");
       }
     }
   };
@@ -340,7 +343,7 @@ const EmergencyContact = () => {
               >
                 <div className="px-4 py-5">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
-                    Emergency User 
+                    Emergency User
                   </h3>
                   <p className="mt-1 max-w-2xl text-sm text-gray-500">
                     Details and informations about emergency user.
@@ -383,7 +386,7 @@ const EmergencyContact = () => {
                     Edit{" "}
                   </button>
                   <button
-                    onClick={()=>handelDeleteModal(item._id || "")}
+                    onClick={() => handelDeleteModal(item._id || "")}
                     className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                   >
                     Delete
