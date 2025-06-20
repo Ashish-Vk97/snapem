@@ -26,7 +26,7 @@ const UserAppDownload = () => {
         if ((currentUser && currentUser?.isFreeAccess) || (isUserSubscribed && stripeCustomerId)) {
            
             const link = document.createElement("a");
-            link.href = "https://i.diawi.com/bNoCfg"; // Replace with the actual APK file path
+            link.href = "./Snapem.apk"; // Replace with the actual APK file path
             link.download = "Snapem.apk";
             link.click();
         } else {
