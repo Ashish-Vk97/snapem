@@ -8,8 +8,9 @@ import {
   TableRow,
 } from "../ui/table";
 import { useNavigate } from "react-router";
-import { hitGetAllUsers, updateStatus } from "../../service/user.service";
+import { hitGetAllUsers, updateFreeAccess, updateStatus } from "../../service/user.service";
 import Loading from "../ui/loader/Loading";
+import { toast } from "react-toastify";
 
 interface Order {
   id: number;
@@ -24,6 +25,7 @@ interface Order {
   // };
   phone: string;
   status: string;
+  isFreeAccess?: string;
   // budget: string;
 }
 
@@ -157,13 +159,18 @@ export default function UserTable() {
     email: string;
     phone: string;
     role: string;
+    location?: any;
     isSubscribed: boolean;
+    isFreeAccess: boolean;
     status: string;
+
   }
 
   const [users, setAllUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   // const [error,setError] = useState(false);
+
+  //  const notify = (str: string) => toast(str);
 
   const fetchUsers = async () => {
     setAllUsers((prev) => (prev = []));
@@ -173,7 +180,7 @@ export default function UserTable() {
       if (response.data.status) {
         console.log("users response data=====>", response);
 
-        setAllUsers((prev) => (prev = response.data.data));
+        setAllUsers((prev) => (prev = response?.data?.data || []));
 
         setLoading(false);
       } else {
@@ -192,6 +199,30 @@ export default function UserTable() {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+const handleLocation = (order: User) => {
+  try {
+    const coordinates = order?.location?.coordinates;
+
+    // Check if coordinates are valid: [longitude, latitude]
+    if (Array.isArray(coordinates) && coordinates.length === 2) {
+      const [longitude, latitude] = coordinates;
+
+      if (typeof latitude === "number" && typeof longitude === "number") {
+        // Open Google Maps in new tab
+        const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        window.open(mapUrl, "_blank");
+        return;
+      }
+    }
+
+    // If invalid, show message
+    alert("Location coordinates are not available for this user.");
+  } catch (error) {
+    console.error("Error opening location:", error);
+    alert("Failed to open map location.");
+  }
+};
 
   console.log(loading, "loading=====>");
 
@@ -215,7 +246,7 @@ export default function UserTable() {
             </div>
           </form>
         </div>
-        <div>
+        {/* <div>
           <button
             type="button"
             className=" bg-purple-700 flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
@@ -223,7 +254,7 @@ export default function UserTable() {
             <PlusIcon />
             Add Users
           </button>
-        </div>
+        </div> */}
       </div>
       <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
         <div className="max-w-full overflow-x-auto">
@@ -263,6 +294,12 @@ export default function UserTable() {
                   >
                     Status
                   </TableCell>
+                     <TableCell
+                    isHeader
+                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  >
+                    Free Access
+                  </TableCell>
                   <TableCell
                     isHeader
                     className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
@@ -275,11 +312,14 @@ export default function UserTable() {
               {/* Table Body */}
               <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                 {loading ? (
-                  <TableRow className="h-16">
-                    <TableCell className="text-center">
+                    <TableRow className="h-32">
+                    <TableCell className="text-center w-full" >
+                      <div className="flex justify-center items-center h-32 w-full col-span-6"></div>
+                      <div className="flex justify-center items-center h-full">
                       <Loading />
+                      </div>
                     </TableCell>
-                  </TableRow>
+                    </TableRow>
                 ) : users.length === 0 ? (
                   <TableRow className="h-16">
                     <TableCell className="text-center">No data found</TableCell>
@@ -349,6 +389,76 @@ export default function UserTable() {
                           {order.status}
                         </Badge>
                       </TableCell>
+                        <TableCell className="px-2 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                        <Badge
+                          size="sm"
+                          color={
+                            order.status === "Active"
+                              ? "success"
+                              : order.status === "Pending"
+                              ? "warning"
+                              : "error"
+                          }
+                        >
+                          <label className="inline-flex items-center cursor-pointer ml-2">
+                            <input
+                              type="checkbox"
+                              className="sr-only peer"
+                              checked={order.isFreeAccess === true}
+                              onChange={async () => {
+                                if(order.isSubscribed === true) {
+                                  alert("You cannot change free access for subscribed users");
+                                  return;
+
+                                }
+                                const newStatus =
+                                  order.isFreeAccess === false
+                                    ? true
+                                    : false;
+
+                                // Optimistically update UI
+
+                                try {
+                                  const { data } = await updateFreeAccess(
+                                    order._id,
+                                    newStatus
+                                  );
+                                  if (data?.status) {
+                                    setAllUsers((prev) =>
+                                      prev.map((u) =>
+                                        u._id === order._id
+                                          ? { ...u, isFreeAccess: newStatus }
+                                          : u
+                                      )
+                                    );
+                                  }
+                                } catch (e) {
+                                  // Revert UI on failure
+                                  setAllUsers((prev) =>
+                                    prev.map((u) =>
+                                      u._id === order._id
+                                        ? { ...u, status: order.status }
+                                        : u
+                                    )
+                                  );
+                                  alert("Failed to update status");
+                                }
+                              }}
+                              disabled={loading}
+                            />
+
+                            {/* Toggle track & knob */}
+                            <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full relative transition-colors duration-300">
+                              <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-5"></span>
+                            </div>
+
+                            {/* Toggle Label */}
+                            {/* <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                                {order.status === "active" ? "Enabled" : "Disabled"}
+                              </span> */}
+                          </label>
+                        </Badge>
+                      </TableCell>
                       <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                         <Badge
                           size="sm"
@@ -360,7 +470,7 @@ export default function UserTable() {
                               : "error"
                           }
                         >
-                          <svg
+                          {/* <svg
                             onClick={() =>
                               navigate(
                                 `/users/view-edit-profile/edit/${order?._id}`
@@ -381,7 +491,8 @@ export default function UserTable() {
                               strokeWidth="2"
                               d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
                             />
-                          </svg>
+                          </svg> */}
+
                           &nbsp;
                           <svg
                             onClick={() =>
@@ -407,6 +518,16 @@ export default function UserTable() {
                               d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                             />
                           </svg>
+
+                          &nbsp;
+                          <img
+                            onClick={() => handleLocation(order)}
+                            src="/images/gpstracker.gif"
+                            alt="Location"
+                            className="w-8 h-8 inline-block align-middle cursor-pointer"
+                            title="Location"
+                          />
+
                           {/* Toggle Button */}
                           <label className="inline-flex items-center cursor-pointer ml-2">
                             <input

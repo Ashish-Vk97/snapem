@@ -8,7 +8,8 @@ import { Link } from "react-router";
 
 const UserHeader = () => {
   
-   const [showMenu, setShowMenu] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+
   const authContext =  useContext(AuthContext);
   if (!authContext) {
    throw new Error("AuthContext must be used within an AuthProvider");
@@ -29,6 +30,7 @@ const UserHeader = () => {
               email: "",
               _id: "",
               role: "",
+              isFreeAccess: false,
                isSubscribed: false,
                stripeCustomerId: "",
               subscription: {

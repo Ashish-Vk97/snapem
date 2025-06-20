@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
-import snapem from "../../snap.png";
+// import snapem from "../../public/images/snapemlogo.png";
 
 // Assume these icons are imported from an icon library
 import {
@@ -58,12 +58,12 @@ const navItems: NavItem[] = [
   //   icon: <ListIcon />,
   //   subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
   // },
-  {
-    // name: "Tables",
-    name: "Content",
-    icon: <TableIcon />,
-    subItems:[{ name: "video manage", path:"/videos", pro: false },{ name: "screenshot manage", path: "/images", pro: false }],
-  },
+  // {
+  //   // name: "Tables",
+  //   name: "Content",
+  //   icon: <TableIcon />,
+  //   subItems:[{ name: "video manage", path:"/videos", pro: false },{ name: "screenshot manage", path: "/images", pro: false }],
+  // },
   // {
   //   name: "Pages",
   //   icon: <PageIcon />,
@@ -321,7 +321,7 @@ const AppSidebar: React.FC = () => {
             <>
               <img
                 className="dark:hidden"
-                src={snapem}
+                src={"./images/snapemlogo.png"}
                 alt="Logo"
                 width={100}
                 height={20}

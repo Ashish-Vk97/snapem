@@ -1,44 +1,41 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router";
+import { toast } from "react-toastify";
+import { fetchVideoListById, videoListDelete } from "../../service/screenshotvideo.service";
 
-
-import {useEffect, useState} from 'react'
-import { useNavigate, useParams } from 'react-router';
-import { toast } from 'react-toastify';
-import { fetchVideoListById } from '../../service/screenshotvideo.service';
-
-
-const folderVideos =   {
+const folderVideos = {
   _id: "6838074d48013cdd36471725",
   user: "67f3c6cf0eea1a432ae5e1a1",
   date: "2025-05-29 12:36:29",
   videos: [
     {
       videoName: "controller.mp4",
-      videoLink: "https://snapem.s3.us-east-1.amazonaws.com/videos/1748502349125_videos_snapem.mp4",
+      videoLink:
+        "https://snapem.s3.us-east-1.amazonaws.com/videos/1748502349125_videos_snapem.mp4",
       mimetype: "video/mp4",
       size: 3404641,
-      
     },
     {
-      videoName: "Snap'em domain discussion _ Microsoft Teams 2025-04-16 10-38-11.mp4",
-      videoLink: "https://snapem.s3.us-east-1.amazonaws.com/videos/1748502376701_videos_snapem.mp4",
+      videoName:
+        "Snap'em domain discussion _ Microsoft Teams 2025-04-16 10-38-11.mp4",
+      videoLink:
+        "https://snapem.s3.us-east-1.amazonaws.com/videos/1748502376701_videos_snapem.mp4",
       mimetype: "video/mp4",
       size: 2112905,
-    
-    }
+    },
   ],
   createdAt: "2025-05-29 12:36:29",
-  updatedAt: "2025-05-29 12:36:29"
-}
+  updatedAt: "2025-05-29 12:36:29",
+};
 interface Folderlist {
- _id: string;
- s3key:string;
+  _id: string;
+  s3key: string;
   videoName: string;
   videoLink: string;
   mimetype: string;
   size: number;
- 
 }
-const formatFileSize = (bytes:number) => {
+const formatFileSize = (bytes: number) => {
   if (bytes < 1024) return `${bytes} B`;
   const kb = bytes / 1024;
   if (kb < 1024) return `${kb.toFixed(1)} KB`;
@@ -46,46 +43,64 @@ const formatFileSize = (bytes:number) => {
   return `${mb.toFixed(1)} MB`;
 };
 
-const UserVideosList = ({ isFromAdmin = true }) => {
-    const [videos, setVideos] = useState<Folderlist[]>([]);
-     const [Loading, setLoading] = useState(true);
-   const { id } = useParams<{ id: string; }>();
-    const [selectedVideos, setSelectedVideos] = useState<string[]>([]);
-  const [selectAll, setSelectAll] = useState(false);
+const UserVideosList = () => {
+  const [videos, setVideos] = useState<Folderlist[]>([]);
+  const [Loading, setLoading] = useState(true);
+  const { id } = useParams<{ id: string }>();
 
- 
-   console.log(id, "id from params");
-    
-     const Navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get("userId");
+  const isFromAdmin = searchParams.get("isFromAdmin") === "true";
+
+  // const [selectAll, setSelectAll] = useState(false);
+
+  const [selectedVideos, setSelectedVideos] = useState<string[]>([]);
+
+  console.log(id, "id from params");
+
+  const Navigate = useNavigate();
 
   const notify = (str: string) => toast(str);
 
-   const toggleSelectVideo = (id) => {
+  const toggleSelectVideo = (id: string) => {
     setSelectedVideos((prev) =>
       prev.includes(id) ? prev.filter((vid) => vid !== id) : [...prev, id]
     );
   };
+   const isAllSelected =
+    videos.length > 0 &&
+    selectedVideos.length === videos.length;
+
+  const toggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedVideos([]);
+    } else {
+      setSelectedVideos(videos.map((s) => s?._id));
+    }
+  };
+
+  console.log(selectedVideos,"]]]")
 
   const getVideoListById = async (id: string) => {
-
     try {
       setLoading(true);
       const response = await fetchVideoListById(id);
-        if (response.data.status) {
-          console.log("User details fetched:", response.data.data);
-            setVideos(response.data?.data?.videos ?? []);
-            setLoading(false);
-        } else {
-          console.error("Failed to fetch user screenshot :", response.data.message);
-        }
-      
+      if (response.data.status) {
+        console.log("User details fetched:", response.data.data);
+        setVideos(response.data?.data?.videos ?? []);
+        setLoading(false);
+      } else {
+        console.error(
+          "Failed to fetch user screenshot :",
+          response.data.message
+        );
+      }
     } catch (error) {
       console.error("Error fetching screenshot list details details:", error);
-       const { response } = error as {
+      const { response } = error as {
         response: { data: { code: number; data: string; message: string } };
       };
 
-     
       if (response?.data?.code === 404) {
         notify(response?.data?.message);
         setLoading(false);
@@ -94,16 +109,63 @@ const UserVideosList = ({ isFromAdmin = true }) => {
         setLoading(false);
       }
     }
+  };
+  const handleDelete = async () => {
+    console.log("handle delete called");
+      let body: {
+        videoEntryId?: string;
+        deleteAll?: boolean;
+        videoIds?: string[];
+      } = {};
+      console.log("object");
+      try {
+        if (id && userId) {
+            const isAllSelected =
+        videos.length > 0 &&
+        selectedVideos.length === videos.length;
+  
+          body = {
+            videoEntryId: id,
+            ...(isAllSelected
+              ? { deleteAll: true }
+              : { videoIds: selectedVideos }),
+          };
+  
+          console.log(body, "===>");
+          setLoading(true);
+  
+          const { data } = await videoListDelete(body, userId);
+          if(data?.status){
+            setLoading(false);
+              getVideoListById(id);
+              setSelectedVideos([]);
+              notify(data?.message || "Videos deleted successfully!");
+          }
+        }
+  
+      } catch (error) {
        
-      
-     
-     };
- 
-     useEffect(() => {
-       if (id) {
-         getVideoListById(id);
-       }
-     }, [id]);
+          console.error("Error deleting screenshot folders:", error);
+        const { response } = error as {
+          response: { data: { code: number; data: string; message: string } };
+        };
+  
+        console.log(response.data, "error....");
+        if (response?.data?.code === 404) {
+          notify(response?.data?.message);
+          setLoading(false);
+        } else {
+          notify(response?.data?.data || "Unable to delete video!");
+          setLoading(false);
+        }
+      }
+    };
+
+  useEffect(() => {
+    if (id) {
+      getVideoListById(id);
+    }
+  }, [id]);
   if (Loading) {
     return (
       <div className="flex items-center justify-center h-screen">
@@ -111,6 +173,7 @@ const UserVideosList = ({ isFromAdmin = true }) => {
       </div>
     );
   }
+  console.log(isFromAdmin, "isFromAdmin");
   return (
     <div className="p-6">
       {/* Header */}
@@ -123,16 +186,48 @@ const UserVideosList = ({ isFromAdmin = true }) => {
           ← Back to Folders
         </button>
       </div>
+      {isFromAdmin && videos.length > 0 && (
+        <div className="flex items-center justify-between mb-4">
+          <label className="flex items-center space-x-2 text-sm text-gray-700">
+            <input
+              type="checkbox"
+              checked={isAllSelected}
+              onChange={toggleSelectAll}
+              className="accent-purple-600"
+            />
+            <span>Select All</span>
+          </label>
+
+          <button
+            onClick={() => handleDelete()}
+            disabled={selectedVideos.length === 0}
+            // className={`px-4 py-2 rounded text-white text-sm ${
+            //   selectedVideos.length > 0
+            //     ? "bg-red-600 hover:bg-red-700"
+            //     : "bg-purple-600 cursor-not-allowed"
+            // }`}
+             className={`bg-red-500 text-white px-4 py-1.5 rounded hover:bg-red-600 text-sm ${
+              selectedVideos.length === 0
+                ? "opacity-50 cursor-not-allowed"
+                : ""
+            }`}
+          >
+            Delete Selected
+          </button>
+        </div>
+      )}
 
       {/* Empty state */}
       {videos.length === 0 ? (
-        <div className="text-center text-gray-500 mt-20">No videos available.</div>
+        <div className="text-center text-gray-500 mt-20">
+          No videos available.
+        </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
           {videos.map((video, index) => (
             <div
               key={index}
-              className="group rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300 bg-white"
+              className="group rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300 bg-black"
             >
               <video
                 controls
@@ -143,23 +238,31 @@ const UserVideosList = ({ isFromAdmin = true }) => {
                 Your browser does not support the video tag.
               </video>
               <div className="p-4">
-                <p className="text-sm font-medium text-gray-800 truncate">{video.videoName}</p>
-                <p className="text-xs text-gray-500 mt-1">{formatFileSize(video.size)}</p> 
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-white truncate">
+                      {video.videoName}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {formatFileSize(video.size)}
+                    </p>
+                  </div>
                   {isFromAdmin && (
-                <input
-                  type="checkbox"
-                  checked={selectedVideos.includes(video._id)}
-                  onChange={() => toggleSelectVideo(video._id)}
-                  className="absolute top-2 right-2 z-10 w-4 h-4 accent-purple-600"
-                />
-              )}
+                    <input
+                      type="checkbox"
+                      checked={selectedVideos.includes(video._id)}
+                      onChange={() => toggleSelectVideo(video._id)}
+                      className="w-4 h-4 accent-purple-600 ml-4"
+                    />
+                  )}
+                </div>
               </div>
             </div>
           ))}
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default UserVideosList
+export default UserVideosList;

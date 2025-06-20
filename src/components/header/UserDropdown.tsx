@@ -29,6 +29,7 @@ export default function UserDropdown() {
               email: "",
               _id: "",
               role: "",
+              isFreeAccess:false,
                isSubscribed: false,
                stripeCustomerId: "",
               subscription: {
@@ -55,9 +56,9 @@ export default function UserDropdown() {
         onClick={toggleDropdown}
         className="flex items-center text-gray-700 dropdown-toggle dark:text-gray-400"
       >
-        <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
+        {/* <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
           <img src="/images/user/owner.jpg" alt="User" />
-        </span>
+        </span> */}
 
         <span className="block mr-1 font-medium text-theme-sm">{currentUser?.name || "NA"}</span>
         <svg
@@ -120,7 +121,7 @@ export default function UserDropdown() {
               Edit profile
             </DropdownItem>
           </li>
-          <li>
+          {/* <li>
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
@@ -169,7 +170,7 @@ export default function UserDropdown() {
               </svg>
               Support
             </DropdownItem>
-          </li>
+          </li> */}
         </ul>
         <button
           // to="/signin"

@@ -15,6 +15,7 @@ interface User {
   _id: string;
   role: string;
   isSubscribed: boolean;
+  isFreeAccess:boolean;
   stripeCustomerId: string;
   subscription:{ 
  
@@ -88,6 +89,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     _id: "",
     role: "",
     isSubscribed: false,
+    isFreeAccess: false,
     stripeCustomerId: "",
     subscription: {
       id: "",
@@ -162,6 +164,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               email: "",
               _id: "",
               role: "",
+              isFreeAccess: false,
                isSubscribed: false,
                stripeCustomerId: "",
               subscription: {
@@ -187,6 +190,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             email: "",
             _id: "",
             role: "",
+               isFreeAccess: false,
             stripeCustomerId: "",
              isSubscribed: false,
             subscription: {

@@ -3,7 +3,8 @@ import axios from "axios";
 
 const getServerUrl = (env:string) => {
     if (env == "PRODUCTION")
-        return "http://ec2-3-86-59-23.compute-1.amazonaws.com:3000/api"
+        // return "http://ec2-3-86-59-23.compute-1.amazonaws.com:3000/api"
+      return "http://ec2-52-44-120-91.compute-1.amazonaws.com:3000/api"
     else if (env == "STAGING")
         return "https://leadstaging.utkallabs.com/api"
     else if (env == "CLIENT")

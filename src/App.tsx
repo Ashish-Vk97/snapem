@@ -157,6 +157,7 @@ export default function App() {
           email: "",
           _id: "",
           role: "",
+          isFreeAccess: false,
           isSubscribed: false,
           stripeCustomerId: "",
           subscription: {
@@ -185,6 +186,7 @@ export default function App() {
           email: "",
           _id: "",
           role: "",
+             isFreeAccess: false,
           isSubscribed: false,
           stripeCustomerId: "",
           subscription: {
@@ -223,6 +225,7 @@ export default function App() {
           email: "",
           _id: "",
           role: "",
+             isFreeAccess: false,
           isSubscribed: false,
           stripeCustomerId: "",
           subscription: {

@@ -15,7 +15,7 @@ const dates = [
 };
 
 
-const UserVideosFolders = ({userId,isFromAdmin}:{userId?:string; isFromAdmin?:boolean;}) => {
+const UserVideosFolders = ({userId="",isFromAdmin}:{userId?:string; isFromAdmin?:boolean;}) => {
    interface Folder {
     date: string;
     _id: string;
@@ -84,7 +84,14 @@ const UserVideosFolders = ({userId,isFromAdmin}:{userId?:string; isFromAdmin?:bo
            (folderList.map((item, index) => (
              <div
                key={index}
-               onClick={() => Navigate(`/videos/${item._id}`)}
+              //  onClick={() => Navigate(`/videos/${item._id}`)}
+               onClick={() =>
+              Navigate(
+                userId && isFromAdmin
+                ? `/videos/${item?._id}?userId=${userId}&isFromAdmin=${isFromAdmin}`
+                : `/videos/${item?._id}`
+              )
+              }
                className="group bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition duration-300 cursor-pointer p-4 flex items-center space-x-4 hover:bg-blue-50"
              >
                <div className="bg-purple-600 text-white p-3 rounded-md group-hover:bg-purple-500 transition">
@@ -92,7 +99,7 @@ const UserVideosFolders = ({userId,isFromAdmin}:{userId?:string; isFromAdmin?:bo
                </div>
                <div>
                  <p className="text-gray-800 font-medium">{formatDate(item?.date)}</p>
-                 <p className="text-gray-500 text-sm">Folder {index + 1}</p>
+                 {/* <p className="text-gray-500 text-sm">Folder {index + 1}</p> */}
                </div>
              </div>
            ))):(

@@ -32,3 +32,7 @@ export async function fetchVideoListById(id: string): Promise<any> {
 export async function screenshotListDelete(body: any, userId: string): Promise<any> {
   return await apis.hitAxiosDeleteApiBody(`${path}/delete?id=${userId}`, body);
 }
+export async function videoListDelete(body: any, userId: string): Promise<any> {
+  return await apis.hitAxiosDeleteApiBody(`${videoPath}/delete?id=${userId}`, body);
+}
+

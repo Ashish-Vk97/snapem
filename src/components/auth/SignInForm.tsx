@@ -60,6 +60,7 @@ useEffect(() => {
 
  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+   
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     try {
 
@@ -67,7 +68,7 @@ useEffect(() => {
             notify("All fields are required");
             return;
         };
-        if (!emailRegex.test(loginCreds.email)) {
+        if (!emailRegex.test(loginCreds.email.trim())) {
             notify("Invalid email format");
             return;
         }

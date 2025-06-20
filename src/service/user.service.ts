@@ -52,3 +52,9 @@ export async function hitGetAllUsers() {
     const payload = { status: statusParam };
     return await apis.hitAxiosPutApi(`${path}/active-status/${id}`, payload);
   }
+   export async function updateFreeAccess(id: string, status: boolean) {
+    console.log(status, "status in updateFreeAccess");
+    const statusParam = status ? 'true' : 'false';
+    const payload = { status: statusParam };
+    return await apis.hitAxiosPutApi(`${path}/free-access/${id}`, payload);
+  }

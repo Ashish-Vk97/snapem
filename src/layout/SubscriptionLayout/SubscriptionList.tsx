@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   addPaymentCheckout,
   getAllSubscriptionList,
@@ -6,6 +6,7 @@ import {
 import Loading from "../../components/ui/loader/Loading";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
 const SubscriptionList: React.FC = () => {
   const Navigate = useNavigate();
@@ -46,6 +47,12 @@ const SubscriptionList: React.FC = () => {
     setIsPanelOpen(false);
     setSelectedPlan(null);
   };
+
+   const authContext =  useContext(AuthContext);
+    if (!authContext) {
+     throw new Error("AuthContext must be used within an AuthProvider");
+   }
+   const { currentUser  } = authContext;
 
   const handlePurchase = async (plan: SubscriptionPanel) => {
     // alert(`Purchased ${plan.cardType}`);
@@ -202,8 +209,8 @@ const SubscriptionList: React.FC = () => {
                       //     ? "bg-purple-900 text-white border-purple-700"
                       //     : "bg-white text-gray-900 border-gray-300"
                       // } rounded-lg shadow-lg p-6 w-full md:w-[28%] min-h-[500px] flex`}
-                         className={`
-                           bg-purple-900 text-white border-purple-700
+                      className={`
+                           bg-purple-950 text-white border-purple-700
                           rounded-lg shadow-lg p-6 w-full md:w-[28%] min-h-[500px] flex`}
                     >
                       <div className="flex flex-col justify-between items-center text-center h-full w-full">
@@ -230,20 +237,23 @@ const SubscriptionList: React.FC = () => {
                           </div>
 
                           <p
-                            className={`${
-                              item?.cardType === "standard"
-                                ? "text-white"
-                                : "text-gray-600"
-                            } mb-4`}
+                            // className={`${
+                            //   item?.cardType === "standard"
+                            //     ? "text-white"
+                            //     : "text-gray-600"
+                            // } mb-4`}
+                            className={`text-white mb-4`}
                           >
                             {item?.description}
                           </p>
 
                           <ul className="mb-6 text-left">
                             {item?.perks?.map((perk: string, i: number) => (
-                              <li key={i} className="flex items-center justify-center mb-2 gap-2">
-                                 <span className="text-green-500">✓</span>{" "}
-                                {perk}
+                              <li
+                                key={i}
+                                className="flex items-center justify-center mb-2 gap-2"
+                              >
+                                <span className="text-green-500">✓</span> {perk}
                               </li>
                             ))}
                           </ul>
@@ -251,12 +261,12 @@ const SubscriptionList: React.FC = () => {
 
                         <button
                           onClick={() => handlePurchase(item)}
-                         
-                           className={`w-full py-2 rounded-md font-medium ${
-                  item.cardType === "standard"
-                    ? "bg-white text-purple-900 hover:bg-gray-100"
-                    : "bg-purple-100 text-purple-700 hover:bg-purple-200"
-                }`}
+                          disabled ={currentUser?.isFreeAccess}
+                          className={`w-full py-2 rounded-md font-medium ${
+                            item.cardType === "standard"
+                              ? "bg-white text-purple-900 hover:bg-gray-100"
+                              : "bg-purple-100 text-purple-700 hover:bg-purple-200"
+                          }`}
                         >
                           Choose Starter
                         </button>
