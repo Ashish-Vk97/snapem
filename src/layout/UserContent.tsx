@@ -138,7 +138,7 @@ const UserContent = () => {
         {/* Right Image Section */}
         <div className="md:w-1/2">
           <img
-            src={"./images/Androids.png"} // Replace with your actual image path
+            src={"./images/Androidnew.png"} // Replace with your actual image path
             alt="Snap'em App"
             className="max-w-xs mx-auto rounded-xl"
           />
