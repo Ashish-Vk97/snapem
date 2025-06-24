@@ -4,7 +4,8 @@ import axios from "axios";
 const getServerUrl = (env:string) => {
     if (env == "PRODUCTION")
         // return "http://ec2-3-86-59-23.compute-1.amazonaws.com:3000/api"
-      return "http://ec2-52-44-120-91.compute-1.amazonaws.com:3000/api"
+      // return "http://ec2-52-44-120-91.compute-1.amazonaws.com:3000/api"
+      return   "https://api.snapem.org/api"
     else if (env == "STAGING")
         return "https://leadstaging.utkallabs.com/api"
     else if (env == "CLIENT")
@@ -41,11 +42,13 @@ export const environment = {
       }
     );
   }
-  export async function hitAxiosGetIdApi(path: string, id: string,token:string): Promise<any> {
+  export async function hitAxiosGetIdApi(path: string, id: string, page: number = 1,limit
+    :number =10 ,token:string): Promise<any> {
     return await axios.get(
       `${API_URL}${path}/${id}`,
       
       {
+        params: { page, limit }, 
         headers: {
           // authorization: `Bearer ${token}`,
           authorization: `Bearer ${token} || ${localStorage.getItem("AUTH_TOKEN") }`,
@@ -74,8 +77,10 @@ export const environment = {
   //   });
   // }
   
- export async function hitAxiosGetApi(path:string): Promise<any> {
+ export async function hitAxiosGetApi(path:string,page: number = 1,limit
+    :number =10, search:string = ""): Promise<any> {
     return await axios.get(`${API_URL}/${path}`, {
+      params: { page, limit,search},
       headers: {
         accept: "*/*",
         contentType: "application/json",

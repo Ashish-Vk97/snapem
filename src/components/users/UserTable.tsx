@@ -8,7 +8,11 @@ import {
   TableRow,
 } from "../ui/table";
 import { useNavigate } from "react-router";
-import { hitGetAllUsers, updateFreeAccess, updateStatus } from "../../service/user.service";
+import {
+  hitGetAllUsers,
+  updateFreeAccess,
+  updateStatus,
+} from "../../service/user.service";
 import Loading from "../ui/loader/Loading";
 import { toast } from "react-toastify";
 
@@ -163,24 +167,30 @@ export default function UserTable() {
     isSubscribed: boolean;
     isFreeAccess: boolean;
     status: string;
-
   }
 
   const [users, setAllUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   // const [error,setError] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [searchQuery, setSearchQuery] = useState("");
+
 
   //  const notify = (str: string) => toast(str);
 
-  const fetchUsers = async () => {
+  const fetchUsers = async (page: number = 1, limit: number = 10, search = "") => {
     setAllUsers((prev) => (prev = []));
     setLoading(true);
     try {
-      const response = await hitGetAllUsers();
+      const response = await hitGetAllUsers(page, limit,search);
       if (response.data.status) {
         console.log("users response data=====>", response);
 
-        setAllUsers((prev) => (prev = response?.data?.data || []));
+        setAllUsers((prev) => (prev = response?.data?.data?.users || []));
+        setCurrentPage(response.data?.data?.currentPage);
+        setTotalPages(response.data?.data?.totalPages);
 
         setLoading(false);
       } else {
@@ -197,32 +207,36 @@ export default function UserTable() {
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    const delayDebounce = setTimeout(() => {
+    fetchUsers(currentPage, limit, searchQuery);
+  }, 500); // debounce delay
 
-const handleLocation = (order: User) => {
-  try {
-    const coordinates = order?.location?.coordinates;
+  return () => clearTimeout(delayDebounce);
+  }, [currentPage, limit,searchQuery]);
 
-    // Check if coordinates are valid: [longitude, latitude]
-    if (Array.isArray(coordinates) && coordinates.length === 2) {
-      const [longitude, latitude] = coordinates;
+  const handleLocation = (order: User) => {
+    try {
+      const coordinates = order?.location?.coordinates;
 
-      if (typeof latitude === "number" && typeof longitude === "number") {
-        // Open Google Maps in new tab
-        const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-        window.open(mapUrl, "_blank");
-        return;
+      // Check if coordinates are valid: [longitude, latitude]
+      if (Array.isArray(coordinates) && coordinates.length === 2) {
+        const [longitude, latitude] = coordinates;
+
+        if (typeof latitude === "number" && typeof longitude === "number") {
+          // Open Google Maps in new tab
+          const mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+          window.open(mapUrl, "_blank");
+          return;
+        }
       }
-    }
 
-    // If invalid, show message
-    alert("Location coordinates are not available for this user.");
-  } catch (error) {
-    console.error("Error opening location:", error);
-    alert("Failed to open map location.");
-  }
-};
+      // If invalid, show message
+      alert("Location coordinates are not available for this user.");
+    } catch (error) {
+      console.error("Error opening location:", error);
+      alert("Failed to open map location.");
+    }
+  };
 
   console.log(loading, "loading=====>");
 
@@ -239,6 +253,11 @@ const handleLocation = (order: User) => {
               <input
                 type="text"
                 id="simple-search"
+                value={searchQuery}
+                onChange={(e) => {
+                  setCurrentPage(1); // reset to first page on search
+                  setSearchQuery(e.target.value);
+                }}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="Search"
                 required={true}
@@ -256,108 +275,112 @@ const handleLocation = (order: User) => {
           </button>
         </div> */}
       </div>
-      <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
-        <div className="max-w-full overflow-x-auto">
-          <div className="min-w-[1102px]">
-            {/* <Loading /> */}
-            <Table>
-              {/* Table Header */}
-              <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
-                <TableRow>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    User
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Email
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Phone
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Subscription
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Status
-                  </TableCell>
-                     <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Free Access
-                  </TableCell>
-                  <TableCell
-                    isHeader
-                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
-                  >
-                    Action
-                  </TableCell>
-                </TableRow>
-              </TableHeader>
 
-              {/* Table Body */}
-              <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                {loading ? (
-                    <TableRow className="h-32">
-                    <TableCell className="text-center w-full" >
-                      <div className="flex justify-center items-center h-32 w-full col-span-6"></div>
-                      <div className="flex justify-center items-center h-full">
-                      <Loading />
-                      </div>
+      <div>
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
+          <div className="max-w-full overflow-x-auto">
+            <div className="min-w-[1102px]">
+              {/* <Loading /> */}
+              <Table>
+                {/* Table Header */}
+                <TableHeader className="border-b border-gray-100 dark:border-white/[0.05]">
+                  <TableRow>
+                    <TableCell
+                      isHeader
+                      className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                    >
+                      User
                     </TableCell>
-                    </TableRow>
-                ) : users.length === 0 ? (
-                  <TableRow className="h-16">
-                    <TableCell className="text-center">No data found</TableCell>
+                    <TableCell
+                      isHeader
+                      className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                    >
+                      Email
+                    </TableCell>
+                    <TableCell
+                      isHeader
+                      className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                    >
+                      Phone
+                    </TableCell>
+                    <TableCell
+                      isHeader
+                      className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                    >
+                      Subscription
+                    </TableCell>
+                    <TableCell
+                      isHeader
+                      className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                    >
+                      Status
+                    </TableCell>
+                    <TableCell
+                      isHeader
+                      className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                    >
+                      Free Access
+                    </TableCell>
+                    <TableCell
+                      isHeader
+                      className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                    >
+                      Action
+                    </TableCell>
                   </TableRow>
-                ) : (
-                  users.map((order) => (
-                    <TableRow key={order?._id}>
-                      <TableCell className="px-5 py-4 sm:px-6 text-start">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 overflow-hidden rounded-full">
-                            {/* <img
+                </TableHeader>
+
+                {/* Table Body */}
+                <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
+                  {loading ? (
+                    <TableRow className="h-32">
+                      <TableCell className="text-center w-full">
+                        <div className="flex justify-center items-center h-32 w-full col-span-6"></div>
+                        <div className="flex justify-center items-center h-full">
+                          <Loading />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ) : users.length === 0 ? (
+                    <TableRow className="h-16">
+                      <TableCell className="text-center">
+                        No data found
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    users.map((order) => (
+                      <TableRow key={order?._id}>
+                        <TableCell className="px-5 py-4 sm:px-6 text-start">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 overflow-hidden rounded-full">
+                              {/* <img
                                 width={40}
                                 height={40}
                                 src={order.user.image}
                                 alt={order.user.name}
                               /> */}
+                            </div>
+                            <div>
+                              <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                                {/* {order.user.name} */}
+                                {order?.name}
+                              </span>
+                              <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
+                                {/* {order.user.role} */} {order.role}
+                              </span>
+                            </div>
                           </div>
-                          <div>
-                            <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                              {/* {order.user.name} */}
-                              {order?.name}
-                            </span>
-                            <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                              {/* {order.user.role} */} {order.role}
-                            </span>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        {order.email}
-                      </TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        {order.phone}
-                      </TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        {order.isSubscribed ? "Subscribed" : "Not Subscribed"}
-                      </TableCell>
-                      {/* <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                        </TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                          {order.email}
+                        </TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                          {order.phone}
+                        </TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                          {order.isSubscribed ? "Subscribed" : "Not Subscribed"}
+                        </TableCell>
+                        {/* <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
                           <div className="flex -space-x-2">
                             {order.team.images.map((teamImage, index) => (
                               <div
@@ -375,102 +398,101 @@ const handleLocation = (order: User) => {
                             ))}
                           </div>
                         </TableCell> */}
-                      <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        <Badge
-                          size="sm"
-                          color={
-                            order.status === "Active"
-                              ? "success"
-                              : order.status === "Pending"
-                              ? "warning"
-                              : "error"
-                          }
-                        >
-                          {order.status}
-                        </Badge>
-                      </TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                          <Badge
+                            size="sm"
+                            color={
+                              order.status === "Active"
+                                ? "success"
+                                : order.status === "Pending"
+                                ? "warning"
+                                : "error"
+                            }
+                          >
+                            {order.status}
+                          </Badge>
+                        </TableCell>
                         <TableCell className="px-2 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                        <Badge
-                          size="sm"
-                          color={
-                            order.status === "Active"
-                              ? "success"
-                              : order.status === "Pending"
-                              ? "warning"
-                              : "error"
-                          }
-                        >
-                          <label className="inline-flex items-center cursor-pointer ml-2">
-                            <input
-                              type="checkbox"
-                              className="sr-only peer"
-                              checked={order.isFreeAccess === true}
-                              onChange={async () => {
-                                if(order.isSubscribed === true) {
-                                  alert("You cannot change free access for subscribed users");
-                                  return;
+                          <Badge
+                            size="sm"
+                            color={
+                              order.status === "Active"
+                                ? "success"
+                                : order.status === "Pending"
+                                ? "warning"
+                                : "error"
+                            }
+                          >
+                            <label className="inline-flex items-center cursor-pointer ml-2">
+                              <input
+                                type="checkbox"
+                                className="sr-only peer"
+                                checked={order.isFreeAccess === true}
+                                onChange={async () => {
+                                  if (order.isSubscribed === true) {
+                                    alert(
+                                      "You cannot change free access for subscribed users"
+                                    );
+                                    return;
+                                  }
+                                  const newStatus =
+                                    order.isFreeAccess === false ? true : false;
 
-                                }
-                                const newStatus =
-                                  order.isFreeAccess === false
-                                    ? true
-                                    : false;
+                                  // Optimistically update UI
 
-                                // Optimistically update UI
-
-                                try {
-                                  const { data } = await updateFreeAccess(
-                                    order._id,
-                                    newStatus
-                                  );
-                                  if (data?.status) {
+                                  try {
+                                    const { data } = await updateFreeAccess(
+                                      order._id,
+                                      newStatus
+                                    );
+                                    if (data?.status) {
+                                      setAllUsers((prev) =>
+                                        prev.map((u) =>
+                                          u._id === order._id
+                                            ? { ...u, isFreeAccess: newStatus }
+                                            : u
+                                        )
+                                      );
+                                    }
+                                  } catch (e) {
+                                    // Revert UI on failure
                                     setAllUsers((prev) =>
                                       prev.map((u) =>
                                         u._id === order._id
-                                          ? { ...u, isFreeAccess: newStatus }
+                                          ? { ...u, status: order.status }
                                           : u
                                       )
                                     );
+                                    alert("Failed to update status");
                                   }
-                                } catch (e) {
-                                  // Revert UI on failure
-                                  setAllUsers((prev) =>
-                                    prev.map((u) =>
-                                      u._id === order._id
-                                        ? { ...u, status: order.status }
-                                        : u
-                                    )
-                                  );
-                                  alert("Failed to update status");
-                                }
-                              }}
-                              disabled={loading}
-                            />
+                                }}
+                                disabled={loading}
+                              />
 
-                            {/* Toggle track & knob */}
-                            <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full relative transition-colors duration-300">
-                              <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-5"></span>
-                            </div>
+                              {/* Toggle track & knob */}
+                              <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full relative transition-colors duration-300">
+                                <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-5"></span>
+                              </div>
 
-                            {/* Toggle Label */}
-                            {/* <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                              {/* Toggle Label */}
+                              {/* <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                                 {order.status === "active" ? "Enabled" : "Disabled"}
                               </span> */}
-                          </label>
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                        <Badge
-                          size="sm"
-                          color={
-                            order.status === "Active"
-                              ? "success"
-                              : order.status === "Pending"
-                              ? "warning"
-                              : "error"
-                          }
-                        >
-                          {/* <svg
+                            </label>
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                          <Badge
+                            size="sm"
+                            color={
+                              order.status === "Active"
+                                ? "success"
+                                : order.status === "Pending"
+                                ? "warning"
+                                : "error"
+                            }
+                          >
+                            {/* <svg
                             onClick={() =>
                               navigate(
                                 `/users/view-edit-profile/edit/${order?._id}`
@@ -492,102 +514,153 @@ const handleLocation = (order: User) => {
                               d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"
                             />
                           </svg> */}
-
-                          &nbsp;
-                          <svg
-                            onClick={() =>
-                              navigate(
-                                `/users/view-edit-profile/view/${order?._id}`
-                              )
-                            }
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={2}
-                            stroke="currentColor"
-                            className="w-6 h-6 text-gray-500 dark:text-white"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                            &nbsp;
+                            <svg
+                              onClick={() =>
+                                navigate(
+                                  `/users/view-edit-profile/view/${order?._id}`
+                                )
+                              }
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth={2}
+                              stroke="currentColor"
+                              className="w-6 h-6 text-gray-500 dark:text-white"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                              />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                              />
+                            </svg>
+                            &nbsp;
+                            <img
+                              onClick={() => handleLocation(order)}
+                              src="/images/gpstracker.gif"
+                              alt="Location"
+                              className="w-8 h-8 inline-block align-middle cursor-pointer"
+                              title="Location"
                             />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                            />
-                          </svg>
+                            {/* Toggle Button */}
+                            <label className="inline-flex items-center cursor-pointer ml-2">
+                              <input
+                                type="checkbox"
+                                className="sr-only peer"
+                                checked={order.status === "active"}
+                                onChange={async () => {
+                                  const newStatus =
+                                    order.status === "active"
+                                      ? "inactive"
+                                      : "active";
+                                  // Optimistically update UI
 
-                          &nbsp;
-                          <img
-                            onClick={() => handleLocation(order)}
-                            src="/images/gpstracker.gif"
-                            alt="Location"
-                            className="w-8 h-8 inline-block align-middle cursor-pointer"
-                            title="Location"
-                          />
-
-                          {/* Toggle Button */}
-                          <label className="inline-flex items-center cursor-pointer ml-2">
-                            <input
-                              type="checkbox"
-                              className="sr-only peer"
-                              checked={order.status === "active"}
-                              onChange={async () => {
-                                const newStatus =
-                                  order.status === "active"
-                                    ? "inactive"
-                                    : "active";
-                                // Optimistically update UI
-
-                                try {
-                                  const { data } = await updateStatus(
-                                    order._id,
-                                    newStatus
-                                  );
-                                  if (data?.status) {
+                                  try {
+                                    const { data } = await updateStatus(
+                                      order._id,
+                                      newStatus
+                                    );
+                                    if (data?.status) {
+                                      setAllUsers((prev) =>
+                                        prev.map((u) =>
+                                          u._id === order._id
+                                            ? { ...u, status: newStatus }
+                                            : u
+                                        )
+                                      );
+                                    }
+                                  } catch (e) {
+                                    // Revert UI on failure
                                     setAllUsers((prev) =>
                                       prev.map((u) =>
                                         u._id === order._id
-                                          ? { ...u, status: newStatus }
+                                          ? { ...u, status: order.status }
                                           : u
                                       )
                                     );
+                                    alert("Failed to update status");
                                   }
-                                } catch (e) {
-                                  // Revert UI on failure
-                                  setAllUsers((prev) =>
-                                    prev.map((u) =>
-                                      u._id === order._id
-                                        ? { ...u, status: order.status }
-                                        : u
-                                    )
-                                  );
-                                  alert("Failed to update status");
-                                }
-                              }}
-                              disabled={loading}
-                            />
+                                }}
+                                disabled={loading}
+                              />
 
-                            {/* Toggle track & knob */}
-                            <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full relative transition-colors duration-300">
-                              <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-5"></span>
-                            </div>
+                              {/* Toggle track & knob */}
+                              <div className="w-11 h-6 bg-gray-300 peer-checked:bg-green-500 rounded-full relative transition-colors duration-300">
+                                <span className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-5"></span>
+                              </div>
 
-                            {/* Toggle Label */}
-                            {/* <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+                              {/* Toggle Label */}
+                              {/* <span className="ml-3 text-sm font-medium text-gray-700 dark:text-gray-300">
                                 {order.status === "active" ? "Enabled" : "Disabled"}
                               </span> */}
-                          </label>
-                        </Badge>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
+                            </label>
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </div>
           </div>
+        </div>
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center mt-6 space-x-2">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              className="px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50"
+            >
+              Prev
+            </button>
+
+            {[...Array(totalPages)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                className={`px-3 py-1 border rounded text-sm shadow ${
+                  currentPage === index + 1
+                    ? "bg-purple-600 text-white"
+                    : "bg-white"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
+              className="px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        )}
+        <div className="flex justify-end items-center space-x-2 mt-4">
+          <label className="text-sm text-gray-600">Items per page:</label>
+          <select
+            value={limit}
+            onChange={(e) => {
+              setCurrentPage(1); // reset to first page on limit change
+              setLimit(parseInt(e.target.value));
+            }}
+            className="border border-gray-300 rounded-md w-20 p-2 text-sm focus:ring-2 focus:ring-purple-500"
+          >
+            {[5, 10, 20, 50].map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </>
