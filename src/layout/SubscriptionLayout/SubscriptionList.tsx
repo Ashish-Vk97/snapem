@@ -191,7 +191,7 @@ const SubscriptionList: React.FC = () => {
             Start Your Safety Plan — Choose the Right Fit
           </h2>
           <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
-            Whether you're trying Snap'em for a month or protecting long-term,
+            Whether you're trying snap'em for a month or protecting long-term,
             every plan includes
           </p>
         </div>

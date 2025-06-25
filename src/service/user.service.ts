@@ -45,8 +45,12 @@ export async function hitGetAllUsers(
 ) {
   return await apis.hitAxiosGetApi(`${path}/all`, page, limit, searchQuery);
 }
+export async function hitGetUserMetrics() {
+  return await apis.hitAxiosGetApi(`${path}/users-count`);
+}
+
 export async function updateUserProfile(
-  id: String,
+  id: string,
   body: any,
   isAdressUpdate: boolean = false
 ) {

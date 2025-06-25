@@ -15,12 +15,12 @@ const About = () => {
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-col items-start gap-12">
         {/* Left Text Content */}
         <div className="lg:w-2/2">
-          <p className="text-sm text-purple-700 font-semibold mb-2">About Snap'em</p>
+          <p className="text-sm text-purple-700 font-semibold mb-2">About snap'em</p>
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             Stay Connected When It Matters Most
           </h2>
           <p className="text-gray-700 text-sm md:text-base leading-relaxed">
-            Snap’em was built with one mission: to keep people safe, informed, and connected when it matters most.
+            snap’em was built with one mission: to keep people safe, informed, and connected when it matters most.
             In today’s world, emergencies can happen anytime — and we believe everyone should have a simple,
             powerful tool in their pocket to call for help instantly.
             <br /><br />
@@ -47,7 +47,7 @@ const About = () => {
       {/* CTA Banner */}
     { !isAuthenticated && <div className="mt-12 bg-purple-100 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between">
         <h3 className="text-purple-900 font-semibold text-lg md:text-xl text-center md:text-left mb-4 md:mb-0">
-          Join Snap’em and Stay Secure
+          Join snap’em and Stay Secure
         </h3>
         <button className="bg-purple-800 hover:bg-purple-900 text-white text-xs px-4 py-2 rounded shadow-sm">
           Sign Up

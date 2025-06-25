@@ -57,7 +57,7 @@ const UserHeader = () => {
             </div> */}
             
             <div style={{ backgroundColor: "white", border: "1px solid #E5E5E5" }} className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
-              <img src="images/snapemlogo.png" style={{ borderRadius: "10%" }} alt="menu-2" width="100" height="100" />
+              <img src="images/snapemlogo.png" onClick={()=>navigate("/home")} style={{ borderRadius: "10%" }} alt="menu-2" width="100" height="100" />
               {/* Hamburger Icon */}
               <button
                 className="md:hidden flex items-center px-3 py-2 border rounded text-black border-gray-400"

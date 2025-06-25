@@ -28,7 +28,7 @@ export default function AuthLayout({
               </Link>
               {/* <p  className="text-center text-white-400 dark:text-white/60"> */}
               <p  style={{color:"#ffffff"}} className="text-center text-white-100 dark:text-white">
-                Snap'em all with our app. Capture your moments and share them
+                snap'em all with our app. Capture your moments and share them
               </p>
             </div>
           </div>

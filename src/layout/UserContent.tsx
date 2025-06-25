@@ -97,7 +97,7 @@ const UserContent = () => {
             Wherever You Go
           </h1> */}
            <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
-            About Snap'em
+            About snap'em
            
            
           </h1>

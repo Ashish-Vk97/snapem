@@ -12,7 +12,9 @@ const AppHeader: React.FC = () => {
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
 
   const handleToggle = () => {
+     console.log("sidebar====>1")
     if (window.innerWidth >= 991) {
+      console.log("sidebar====>")
       toggleSidebar();
     } else {
       toggleMobileSidebar();
@@ -50,6 +52,8 @@ const AppHeader: React.FC = () => {
             aria-label="Toggle Sidebar"
           >
             {isMobileOpen ? (
+
+            
               <svg
                 width="24"
                 height="24"
@@ -85,8 +89,8 @@ const AppHeader: React.FC = () => {
 
           <Link to="/" className="lg:hidden">
             <img
-              className="dark:hidden"
-              src="./images/logo/logo.svg"
+              className="dark:hidden w-28 h-12"
+              src="./images/snapemlogo.png"
               alt="Logo"
             />
             <img
