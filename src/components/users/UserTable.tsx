@@ -187,7 +187,7 @@ export default function UserTable() {
       const response = await hitGetAllUsers(page, limit,search);
       if (response.data.status) {
         console.log("users response data=====>", response);
-
+    
         setAllUsers((prev) => (prev = response?.data?.data?.users || []));
         setCurrentPage(response.data?.data?.currentPage);
         setTotalPages(response.data?.data?.totalPages);
@@ -197,8 +197,18 @@ export default function UserTable() {
         navigate(`/notfound`);
       }
     } catch (error) {
-      console.log("error", error);
-      setLoading(false);
+     console.error("Error all users :", error);
+      const { response } = error as {
+        response: { data: { code: number; data: string; message: string } };
+      };
+
+      console.log(response.data, "error....");
+      if (response?.data?.code === 404) {
+        alert(response?.data?.message);
+      } else {
+        alert(response?.data?.data || "Unable to update profile!");
+      }
+
       // setError(true);
       // setAllUsers((prev) => (prev = []));
     } finally {
@@ -214,7 +224,7 @@ export default function UserTable() {
   return () => clearTimeout(delayDebounce);
   }, [currentPage, limit,searchQuery]);
 
-  const handleLocation = (order: User) => {
+  const handleLocation = (order: User) => { 
     try {
       const coordinates = order?.location?.coordinates;
 

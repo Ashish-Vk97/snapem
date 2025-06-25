@@ -39,10 +39,17 @@ export default function EcommerceMetrics() {
            navigate(`/notfound`); 
          }
        } catch (error) {
-         console.log("error", error);
-         setLoading(false);
-         // setError(true);
-         // setAllUsers((prev) => (prev = []));
+        console.error("Error user metrics:", error);
+      const { response } = error as {
+        response: { data: { code: number; data: string; message: string } };
+      };
+
+      console.log(response.data, "error....");
+      if (response?.data?.code === 404) {
+        alert(response?.data?.message);
+      } else {
+        alert(response?.data?.data || "Unable to update profile!");
+      }
        } finally {
          setLoading(false);
        }
