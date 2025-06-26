@@ -20,7 +20,7 @@ export const environment = {
     CLIENT: "CLIENT",
     LOCAL: "",
   };
-  const API_URL = getServerUrl(environment.PRODUCTION);
+  const API_URL = getServerUrl(environment.LOCAL);
 
 
   export async function hitAuthLessPostApi(path: string, body: any): Promise<any> {
