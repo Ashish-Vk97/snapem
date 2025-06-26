@@ -261,7 +261,7 @@ const SubscriptionList: React.FC = () => {
 
                         <button
                           onClick={() => handlePurchase(item)}
-                          disabled ={currentUser?.isFreeAccess}
+                          disabled ={currentUser?.isFreeAccess || currentUser?.isSubscribed}
                           className={`w-full py-2 rounded-md font-medium ${
                             item.cardType === "standard"
                               ? "bg-white text-purple-900 hover:bg-gray-100"
