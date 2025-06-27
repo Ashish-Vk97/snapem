@@ -61,7 +61,7 @@ export const environment = {
     return await axios.post(url, body, {
       headers: {
         accept: "*/*",
-        contentType: "application/json",
+        "Content-Type": "application/json", 
         authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
       },
     });
@@ -83,7 +83,7 @@ export const environment = {
       params: { page, limit,search},
       headers: {
         accept: "*/*",
-        contentType: "application/json",
+       "Content-Type": "application/json", 
         authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
       },
     });
@@ -93,7 +93,7 @@ export const environment = {
     return await axios.put(`${API_URL}${path}`, body, {
       headers: {
         accept: "*/*",
-        contentType: "application/json",
+        "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
       },
     });
@@ -104,7 +104,7 @@ export const environment = {
     return await axios.delete(`${API_URL}${url}`, {
       headers: {
         accept: "*/*",
-        contentType: "application/json",
+        "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
       },
     });
@@ -112,11 +112,16 @@ export const environment = {
   export async function hitAxiosDeleteApiBody(url:string, body:any): Promise<any> {
     return await axios.delete(`${API_URL}${url}`, {
       data: body,
-      headers: {
-        accept: "*/*",
-        contentType: "application/json",
-        authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
-      },
+      // headers: {
+      //   accept: "*/*",
+      //   contentType: "application/json",
+      //   authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+      // },
+        headers: {
+      accept: "*/*", // optional
+      "Content-Type": "application/json", // ✅ FIXED here
+      authorization: `Bearer ${localStorage.getItem("AUTH_TOKEN")}`,
+    },
     });
   }
   
