@@ -444,14 +444,14 @@ const handleAddSubscriptionModal = () => {
                       <option value="" disabled>
                         Select category
                       </option>
-                      <option value={0}>Monthly</option>
-                      <option value={1}>Quarterly</option>
-                      <option value={2}>Yearly</option>
+                      <option value={1}>Monthly</option>
+                      <option value={2}>Quarterly</option>
+                      <option value={3}>Yearly</option>
                      
                     </select>
                   </div>
 
-                  <div className="col-span-2">
+                  <div className="col-span-2"> 
                     <label
                       htmlFor="description"
                       className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
