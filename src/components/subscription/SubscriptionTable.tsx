@@ -182,9 +182,9 @@ const handleAddSubscriptionModal = () => {
     {/* <h2 className="text-2xl font-semibold">Subscription Plans</h2> */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold">Subscription Plans</h2>
-        <button onClick={()=>handleAddSubscriptionModal()} className="text-white bg-purple-600 hover:bg-purple-700 font-medium rounded-lg text-sm px-4 py-2">
+        {/* <button onClick={()=>handleAddSubscriptionModal()} className="text-white bg-purple-600 hover:bg-purple-700 font-medium rounded-lg text-sm px-4 py-2">
           Add Subscription
-        </button>
+        </button> */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -245,14 +245,14 @@ const handleAddSubscriptionModal = () => {
               Edit
             </button>
 
-            <label className="flex items-center gap-2 cursor-pointer">
+            {/* <label className="flex items-center gap-2 cursor-pointer">
               <div className="relative">
                 <input type="checkbox" className="sr-only" checked />
                 <div className="block bg-gray-300 w-10 h-6 rounded-full"></div>
                 <div className="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
               </div>
               <span className="text-sm text-gray-700">Active</span>
-            </label>
+            </label> */}
           </div>
         </div>
         )
