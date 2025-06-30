@@ -30,7 +30,7 @@ const About = () => {
             <br /><br />
             We’re a passionate team of developers, designers, and safety advocates committed to using technology
             to protect lives. With secure data handling, smart alerts, and a user-friendly interface, snap’em
-            empowers people of all ages — from children to seniors — to stay safe and connected.
+            empowers people of all ages — from the children's to seniors — to stay safe and connected.
           </p>
         </div>
 

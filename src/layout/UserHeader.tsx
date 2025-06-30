@@ -85,7 +85,10 @@ const UserHeader = () => {
                 `}
                 style={{ zIndex: 100 }}
               >
-                <li className="text-black font-medium hover:text-purple-700 p-2">
+                <li 
+                // className="text-black font-medium hover:text-purple-700 p-2"
+                className={linkClass(!isAuthenticated ? "/home" : "/user-home")}
+                >
                   <Link to={!isAuthenticated ? "/home" : "/user-home"}> Home </Link>
                 </li>
                 {!isAuthenticated ? (

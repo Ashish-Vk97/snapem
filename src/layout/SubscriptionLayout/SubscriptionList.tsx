@@ -183,7 +183,7 @@ const SubscriptionList: React.FC = () => {
       )}
 
       <div className="App bg-purple-100">
-        <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-8">
+        <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-8 2xl:mb-8">
           <p className="text-sm font-semibold text-purple-700 mb-2">
             Subscription & App Access
           </p>
@@ -196,13 +196,13 @@ const SubscriptionList: React.FC = () => {
           </p>
         </div>
 
-        <div className="bg-gray-100 flex items-center justify-center min-h-[85vh] p-4">
+        <div className="bg-gray-100 flex items-center justify-center min-h-[85vh] 2xl:min-h-[75vh] p-4">
           <div
             // className="container mx-auto px-4"
-            className="container max-w-screen-xl mx-auto px-4"
+            className="container max-w-screen-xl mx-auto px-4 md:px-8 2xl:px-16"
           >
             <div
-            className="flex flex-col md:flex-row justify-center items-start md:items-stretch space-y-4 md:space-y-0 md:space-x-4"
+            className="flex flex-col md:flex-row justify-center items-start md:items-stretch space-y-4 md:space-y-0 md:space-x-4 2xl:space-x-20"
             // className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
             >
               {subscriptionPlans && subscriptionPlans.length > 0 ? (
@@ -221,7 +221,7 @@ const SubscriptionList: React.FC = () => {
                       className={`
     bg-purple-950 text-white border-purple-700
     rounded-lg shadow-lg p-6 
-    w-full md:w-[48%] lg:w-[32%] xl:w-[28%] 2xl:w-[22%]
+    w-full md:w-[48%] lg:w-[32%] xl:w-[28%] 2xl:w-[32%] 2xl:min-h-[550px]
     min-h-[500px] flex
   `}
                     >
