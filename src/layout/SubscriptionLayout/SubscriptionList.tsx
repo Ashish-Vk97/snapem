@@ -48,11 +48,11 @@ const SubscriptionList: React.FC = () => {
     setSelectedPlan(null);
   };
 
-   const authContext =  useContext(AuthContext);
-    if (!authContext) {
-     throw new Error("AuthContext must be used within an AuthProvider");
-   }
-   const { currentUser  } = authContext;
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProvider");
+  }
+  const { currentUser } = authContext;
 
   const handlePurchase = async (plan: SubscriptionPanel) => {
     // alert(`Purchased ${plan.cardType}`);
@@ -197,8 +197,14 @@ const SubscriptionList: React.FC = () => {
         </div>
 
         <div className="bg-gray-100 flex items-center justify-center min-h-[85vh] p-4">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-center items-start md:items-stretch space-y-4 md:space-y-0 md:space-x-4">
+          <div
+            // className="container mx-auto px-4"
+            className="container max-w-screen-xl mx-auto px-4"
+          >
+            <div
+            className="flex flex-col md:flex-row justify-center items-start md:items-stretch space-y-4 md:space-y-0 md:space-x-4"
+            // className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"
+            >
               {subscriptionPlans && subscriptionPlans.length > 0 ? (
                 subscriptionPlans.map((item, index) => {
                   return (
@@ -209,9 +215,15 @@ const SubscriptionList: React.FC = () => {
                       //     ? "bg-purple-900 text-white border-purple-700"
                       //     : "bg-white text-gray-900 border-gray-300"
                       // } rounded-lg shadow-lg p-6 w-full md:w-[28%] min-h-[500px] flex`}
+                      // className={`
+                      //      bg-purple-950 text-white border-purple-700
+                      //     rounded-lg shadow-lg p-6 w-full md:w-[28%] min-h-[500px] flex`}
                       className={`
-                           bg-purple-950 text-white border-purple-700
-                          rounded-lg shadow-lg p-6 w-full md:w-[28%] min-h-[500px] flex`}
+    bg-purple-950 text-white border-purple-700
+    rounded-lg shadow-lg p-6 
+    w-full md:w-[48%] lg:w-[32%] xl:w-[28%] 2xl:w-[22%]
+    min-h-[500px] flex
+  `}
                     >
                       <div className="flex flex-col justify-between items-center text-center h-full w-full">
                         <div>
@@ -261,7 +273,10 @@ const SubscriptionList: React.FC = () => {
 
                         <button
                           onClick={() => handlePurchase(item)}
-                          disabled ={currentUser?.isFreeAccess || currentUser?.isSubscribed}
+                          disabled={
+                            currentUser?.isFreeAccess ||
+                            currentUser?.isSubscribed
+                          }
                           className={`w-full py-2 rounded-md font-medium ${
                             item.cardType === "standard"
                               ? "bg-white text-purple-900 hover:bg-gray-100"

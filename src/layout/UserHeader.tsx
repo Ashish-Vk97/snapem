@@ -1,13 +1,21 @@
 // import React from 'react'
-import { useState, useContext } from "react";
+import { useState, useContext  } from "react";
 
-import {  useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router";
 
 
 const UserHeader = () => {
+   const location = useLocation();
+  const currentPath = location.pathname;
   
+    const linkClass = (path:string) =>
+    `p-2 font-medium ${
+      currentPath === path
+        ? "text-purple-700 font-semibold"
+        : "text-black hover:text-purple-700"
+    }`;
   const [showMenu, setShowMenu] = useState(false);
 
   const authContext =  useContext(AuthContext);
@@ -82,19 +90,32 @@ const UserHeader = () => {
                 </li>
                 {!isAuthenticated ? (
                   <>
-                    <li className="text-black font-medium hover:text-purple-700 p-2">
+                    <li 
+                    // className="text-black font-medium hover:text-purple-700 p-2"
+                    className={linkClass("/signup")}
+                    >
                       <Link to={"/signup"}> Register </Link>
                     </li>
-                    <li className="text-black font-medium hover:text-purple-700  p-2">
+                    <li 
+                    // className="text-black font-medium hover:text-purple-700  p-2"
+                    // className={linkClass(!isAuthenticated ? "/home" : "/user-home")
+                       className={linkClass("/signin")}
+                    
+                    >
                       <Link to={"/signin"}> Login </Link>
                     </li>
                   </>
                 ) : (
                   <>
-                    <li className="text-black font-medium hover:text-purple-700  p-2">
+                    <li 
+                    // className="text-black font-medium hover:text-purple-700  p-2"
+                     className={linkClass("/subscription")}>
                       <Link to={"/subscription"}> Subscription</Link>
                     </li>
-                    <li className="text-black font-medium hover:text-purple-700  p-2">
+                    <li
+                    //  className="text-black font-medium hover:text-purple-700  p-2"
+                     className={linkClass("/account")}
+                     >
                       <Link to={"/account"}> Account</Link>
                     </li>
                     <li className="p-1">

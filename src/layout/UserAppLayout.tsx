@@ -40,7 +40,7 @@ const UserAppLayout = () => {
         target="_blank"
         rel="noopener noreferrer"
           >
-        snapem.com
+        snapem.org
           </a>
         </p>
       </div>

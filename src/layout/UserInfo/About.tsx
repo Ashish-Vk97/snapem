@@ -26,11 +26,11 @@ const About = () => {
             <br /><br />
             Our Android-based app combines real-time location tracking, emergency audio/video capture, and
             automated monitoring to give users peace of mind and faster response during crises. Whether you’re commuting,
-            traveling, or caring for loved ones, Snap’em ensures your safety is always one tap away.
+            traveling, or caring for loved ones, snap’em ensures your safety is always one tap away.
             <br /><br />
             We’re a passionate team of developers, designers, and safety advocates committed to using technology
-            to protect lives. With secure data handling, smart alerts, and a user-friendly interface, Snap’em
-            empowers people of all ages — from students to seniors — to stay safe and connected.
+            to protect lives. With secure data handling, smart alerts, and a user-friendly interface, snap’em
+            empowers people of all ages — from children to seniors — to stay safe and connected.
           </p>
         </div>
 

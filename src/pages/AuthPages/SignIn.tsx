@@ -6,8 +6,8 @@ export default function SignIn() {
   return (
     <>
       <PageMeta
-        title="SignIn Dashboard | Snapem"
-        description="This is React.js SignIn Tables Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+        title=" snapem SignIn Dashboard | Snap'em"
+        description="This is snapem SignIn Tables Dashboard page for snap'em - signin page"
       />
       <AuthLayout>
         <SignInForm />

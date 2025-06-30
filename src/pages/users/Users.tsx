@@ -7,8 +7,8 @@ export default function Users() {
   return (
     <>
       <PageMeta
-        title="Snapem User Dashboard | Snapem "
-        description="This is React.js Basic Tables Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+        title="Snapem User Dashboard | Snap'em "
+        description="This is snap'em User Dashboard page for snap'em "
       />
       <PageBreadcrumb pageTitle="All Users" />
       <div className="space-y-6">

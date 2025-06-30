@@ -292,7 +292,7 @@ const UserContent = () => {
             { !isAuthenticated ? <button
                 className={`w-full py-2 rounded-md font-medium ${
                   plan.highlight
-                    ? "bg-white text-purple-900 hover:bg-gray-100"
+                    ? "bg-purple-100 text-purple-700 hover:bg-gray-100"
                     : "bg-purple-100 text-purple-700 hover:bg-purple-200"
                 }`}
                 onClick={() => Navigate("/signin")}
@@ -301,7 +301,7 @@ const UserContent = () => {
               </button> : <button
                 className={`w-full py-2 rounded-md font-medium ${
                   plan.highlight
-                    ? "bg-white text-purple-900 hover:bg-gray-100"
+                    ? "bg-purple-100 text-purple-700 hover:bg-gray-100"
                     : "bg-purple-100 text-purple-700 hover:bg-purple-200"
                 }`}
               disabled={true}

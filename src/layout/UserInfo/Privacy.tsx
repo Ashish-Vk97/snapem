@@ -23,7 +23,7 @@ const Privacy = () => {
 
         {/* Intro Paragraph */}
         <p className="mb-6 text-sm md:text-base">
-          At Snap’em, we take your privacy seriously. This Privacy Policy outlines how we collect, use, and protect your
+          At snap’em, we take your privacy seriously. This Privacy Policy outlines how we collect, use, and protect your
           information when you use our mobile application and website.
         </p>
 
@@ -64,7 +64,7 @@ const Privacy = () => {
       {/* CTA Banner */}
       { !isAuthenticated && <div className="mt-12 bg-purple-100 rounded-xl p-6 flex flex-col md:flex-row items-center justify-between">
         <h3 className="text-purple-900 font-semibold text-lg md:text-xl text-center md:text-left mb-4 md:mb-0">
-          Join Snap’em and Stay Secure
+          Join snap’em and Stay Secure
         </h3>
         <button className="bg-purple-800 hover:bg-purple-900 text-white text-xs px-4 py-2 rounded shadow-sm">
           Sign Up
