@@ -20,9 +20,9 @@ export default function AuthLayout({
             <div className="flex flex-col items-center max-w-xs">
               <Link to="/" className="block mb-4">
                 <img
-                  width={190}
-                  height={40}
-                  src="images/snaplogo.png"
+                  width={250}
+                  height={250}
+                  src="images/Snapdownload.png"
                   alt="Logo"
                 />
               </Link>

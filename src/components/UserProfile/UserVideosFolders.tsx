@@ -103,7 +103,7 @@ const UserVideosFolders = ({userId="",isFromAdmin}:{userId?:string; isFromAdmin?
                </div>
              </div>
            ))):(
-              <div className="text-center text-gray-500 mt-20">No video folders available.</div>
+              <div className="text-center text-purple-900 mt-20">No video folders available.</div>
            )}
          </div>
        </div>

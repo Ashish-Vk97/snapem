@@ -30,8 +30,8 @@ const TabButton = ({ children, isActive, onClick }: TabButtonProps) => (
     className={classNames(
       'py-2 px-4 -mb-px font-medium border-b-2 transition duration-200',
       {
-        'border-blue-600 text-blue-600': isActive,
-        'border-transparent text-gray-600 hover:text-blue-600 hover:border-blue-400': !isActive,
+        'border-purple-600 text-purple-600': isActive,
+        'border-transparent text-gray-600 hover:text-purple-600 hover:border-purple-400': !isActive,
       }
     )}
     onClick={onClick}

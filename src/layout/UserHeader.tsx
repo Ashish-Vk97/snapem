@@ -122,7 +122,7 @@ const UserHeader = () => {
                       <Link to={"/account"}> Account</Link>
                     </li>
                     <li className="p-1">
-                      <button onClick={handleLogout} className="bg-purple-700 text-white px-2 py-1.5 rounded-lg hover:bg-purple-800">
+                      <button onClick={handleLogout} className="bg-purple-950 text-white px-2 py-1.5 rounded-lg hover:bg-purple-980">
                         Logout
                       </button>
                     </li>

@@ -263,7 +263,7 @@ const SubscriptionList: React.FC = () => {
                             {item?.perks?.map((perk: string, i: number) => (
                               <li
                                 key={i}
-                                className="flex items-center justify-center mb-2 gap-2"
+                                className="flex items-center justify-start mb-2 gap-2"
                               >
                                 <span className="text-green-500">✓</span> {perk}
                               </li>
@@ -279,10 +279,11 @@ const SubscriptionList: React.FC = () => {
                           }
                           className={`w-full py-2 rounded-md font-medium ${
                             item.cardType === "standard"
-                              ? "bg-white text-purple-900 hover:bg-gray-100"
+                              ? "bg-purple-100 text-purple-900 hover:bg-purple-200"
                               : "bg-purple-100 text-purple-700 hover:bg-purple-200"
                           }`}
                         >
+                      
                           Choose Starter
                         </button>
                       </div>
@@ -292,7 +293,7 @@ const SubscriptionList: React.FC = () => {
               ) : (
                 <div className="bg-white rounded-lg shadow-lg p-6 w-full md:w-[28%] min-h-[500px]">
                   <h2 className="text-xl font-bold mb-4">No Plans Available</h2>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-purple-900 mb-4">
                     Currently, there are no subscription plans available.
                   </p>
                 </div>

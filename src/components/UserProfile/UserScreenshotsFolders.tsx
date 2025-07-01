@@ -102,7 +102,7 @@ const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFr
             </div>
           ))
         ) : (
-          <div className="text-center text-gray-500 mt-20">
+          <div className="text-center text-purple-900 mt-20">
             No screenshot folders available.
           </div>
         )}

@@ -322,12 +322,12 @@ const EmergencyContact = () => {
       )}
 
       <div className="flex items-center justify-between gap-2 pr-3 h-20 mb-5  bg-purple-200 dark:bg-gray-900">
-        <h1 className="text-2xl text-purple-700 font-bold pl-3 mb-4">
+        <h1 className="text-2xl text-purple-950 font-bold pl-3 mb-4">
           Emergency Contacts
         </h1>
         <button
           onClick={openModal}
-          className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
+          className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-950 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800"
         >
           {" "}
           Add +
@@ -380,7 +380,7 @@ const EmergencyContact = () => {
                 <div className="flex mt-4 mx-3 mb-4 md:mt-6">
                   <button
                     onClick={() => handelOpen(item, true)}
-                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-600 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-purple-950 rounded-lg hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >
                     {" "}
                     Edit{" "}

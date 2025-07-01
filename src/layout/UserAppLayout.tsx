@@ -36,7 +36,7 @@ const UserAppLayout = () => {
           <span className="mx-2">|</span>
           <a
         href="https://snapem.org"
-        className="text-purple-600 hover:underline"
+        className="text-purple-950 hover:underline"
         target="_blank"
         rel="noopener noreferrer"
           >

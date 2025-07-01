@@ -234,7 +234,7 @@ const UserScreenshotsList = () => {
           <h2 className="text-2xl font-semibold text-gray-800">Screenshots</h2>
           <button
             onClick={() => Navigate(-1)}
-            className="bg-purple-400 hover:bg-purple-500 text-white-800 text-sm px-4 py-2 rounded"
+            className="bg-purple-900 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded"
           >
             ← Back to Folders
           </button>

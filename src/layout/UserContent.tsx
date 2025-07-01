@@ -263,7 +263,7 @@ const UserContent = () => {
               //     : "bg-white text-black border-gray-200"
               // } transition-all duration-300`}
                 className={`relative rounded-xl p-6 border transition-all duration-300 min-h-[420px] max-w-[340px] mx-auto
-                bg-purple-900 text-white border-purple-700 shadow-lg scale-105 transition-all duration-300`}
+                bg-purple-950 text-white border-purple-700 shadow-lg scale-105 transition-all duration-300`}
               
               
             >
@@ -282,7 +282,7 @@ const UserContent = () => {
                 {plan.features.map((feature, idx) => (
                   <li
                     key={idx}
-                    className="flex items-center justify-center gap-2"
+                    className="flex items-center justify-start gap-2"
                   >
                     <span className="text-green-500">✓</span> {feature}
                   </li>

@@ -103,8 +103,8 @@ const UserAppDownload = () => {
       {/* Title and Icon */}
       <div className="flex flex-col md:flex-row items-center justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-semibold mb-4">Snap’em</h1>
-          <button onClick={handelDownload}  className="bg-purple-700 text-white px-6 py-2 rounded-md text-sm hover:bg-purple-800">
+          <h1 className="text-4xl font-semibold mb-4">snap’em</h1>
+          <button onClick={handelDownload}  className="bg-purple-950 text-white px-6 py-2 rounded-md text-sm hover:bg-purple-800">
             Download Now
           </button>
         </div>
@@ -123,27 +123,27 @@ const UserAppDownload = () => {
       {/* About and Install sections */} 
       <div className="grid md:grid-cols-2 gap-8 text-sm text-gray-700">
         <div>
-          <h2 className="font-semibold text-lg mb-2">About Snap’em</h2>
+          <h2 className="font-semibold text-lg mb-2">About snap’em</h2>
           <p>
-            Snap’em is a smart safety app for Android that automatically captures device screenshots
+            snap’em is a smart safety app for Android that automatically captures device screenshots
             at regular intervals and securely uploads them to the cloud. In case of an emergency, the built-in
             SOS feature instantly records a 30-second video with audio, shares it with a pre-set emergency
             contact, and safely stores the recording online.
           </p>
           <p className="mt-3">
-            Users can log into the Snap’em website to manage their profile, view captured screenshots,
+            Users can log into the snap’em website to manage their profile, view captured screenshots,
             access SOS recordings, and update emergency contact details.
           </p>
         </div>
 
         <div>
-          <h2 className="font-semibold text-lg mb-2">How to Install Snap’em (APK)</h2>
+          <h2 className="font-semibold text-lg mb-2">How to Install snap’em (APK)</h2>
           <ol className="list-decimal list-inside space-y-2">
             <li>Go to Settings &gt; Security on your Android device.</li>
             <li>
               Enable Install from Unknown Sources (you may find this under install unknown apps in newer Android versions).
             </li>
-            <li>Locate and open the downloaded Snap’em APK file.</li>
+            <li>Locate and open the downloaded snap’em APK file.</li>
             <li>Tap Install and follow the on-screen instructions.</li>
             <li>
               Once installed, launch the app and log in to stay informed and stay protected.
