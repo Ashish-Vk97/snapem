@@ -208,7 +208,7 @@ const UserSubscription = ({
           </div>
           <div>
             <p className="mb-4 mt-6 text-xs leading-normal text-gray-500 dark:text-gray-400">
-              {!cancel_at_period_end
+              {isSubscribed
                 ? "Currently You are on active subscription plan"
                 : "not subscribed"}
             </p>{" "}
