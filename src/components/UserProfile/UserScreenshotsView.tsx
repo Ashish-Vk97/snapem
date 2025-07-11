@@ -48,7 +48,7 @@ const UserScreenshotsView = ({userId, isFromAdmin=false}:{userId?:string; isFrom
     <div className="p-6 bg-gray-50 min-h-screen">
          <div className="flex border-b border-gray-300 mb-6">
         <TabButton isActive={activeTab === 'image'} onClick={() => setActiveTab('image')}>
-          📷 screenshots
+          📷 Snapshots
         </TabButton>
         <TabButton isActive={activeTab === 'video'} onClick={() => setActiveTab('video')}>
           🎥 Videos

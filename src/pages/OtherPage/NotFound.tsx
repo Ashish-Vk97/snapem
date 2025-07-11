@@ -7,7 +7,7 @@ export default function NotFound() {
     <>
       <PageMeta
         title="Snap'em 404 page| Snap'em "
-        description="This is snap'em 404 Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+        description="This is snap'em 404 Dashboard page for snap'em - snapem Tailwind error pageTemplate"
       />
       <div className="relative flex flex-col items-center justify-center min-h-screen p-6 overflow-hidden z-1">
         <GridShape />
@@ -35,8 +35,8 @@ export default function NotFound() {
           </Link>
         </div>
         {/* <!-- Footer --> */}
-        <p className="absolute text-sm text-center text-gray-500 -translate-x-1/2 bottom-6 left-1/2 dark:text-gray-400">
-          &copy; {new Date().getFullYear()} - TailAdmin
+        <p className="absolute text-sm text-center text-purple-900 -translate-x-1/2 bottom-6 left-1/2 dark:text-gray-400">
+          &copy; {new Date().getFullYear()} - snap'em
         </p>
       </div>
     </>
