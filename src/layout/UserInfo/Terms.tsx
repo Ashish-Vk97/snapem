@@ -6,19 +6,19 @@ const Terms = () => {
       <div className="max-w-5xl mx-auto">
         {/* Heading */}
         <p className="text-sm text-purple-700 font-semibold mb-2">Privacy Policy</p>
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-purple-900 mb-6">
           Protecting Your Data Every Step of the Way
         </h2>
 
         {/* Description */}
-        <p className="text-gray-700 text-sm md:text-base mb-6">
+        <p className="text-purple-700 text-sm md:text-base mb-6">
           At snap’em, we take your privacy seriously. This Privacy Policy outlines how we collect, use, and protect your
           information when you use our mobile application and website.
         </p>
 
         {/* Info We Collect */}
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Information We Collect</h3>
-        <ul className="list-disc list-inside text-gray-700 text-sm md:text-base mb-6 space-y-1">
+        <h3 className="text-lg font-semibold text-purple-900 mb-2">Information We Collect</h3>
+        <ul className="list-disc list-inside text-purple-700 text-sm md:text-base mb-6 space-y-1">
           <li><strong>Personal Information:</strong> Name, email address, contact number, and emergency contact details.</li>
           <li><strong>Device Information:</strong> Device ID, Android version, IP address, and usage data.</li>
           <li><strong>Location Data:</strong> Real-time location tracking when the SOS button is activated.</li>
@@ -27,22 +27,22 @@ const Terms = () => {
         </ul>
 
         {/* How We Use */}
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">How We Use Your Data</h3>
-        <p className="text-gray-700 text-sm md:text-base mb-2">Your data is used strictly for the following purposes:</p>
-        <ul className="list-disc list-inside text-gray-700 text-sm md:text-base mb-6 space-y-1">
+        <h3 className="text-lg font-semibold text-purple-900 mb-2">How We Use Your Data</h3>
+        <p className="text-purple-700 text-sm md:text-base mb-2">Your data is used strictly for the following purposes:</p>
+        <ul className="list-disc list-inside text-purple-700 text-sm md:text-base mb-6 space-y-1">
           <li>To provide emergency alert features (SOS, media capture, location sharing)</li>
           <li>To allow account access and secure login</li>
           <li>To store and manage your personal safety data</li>
           <li>Not to impair your selected emergency contacts</li>
           <li>To improve app performance and provide technical support</li>
         </ul>
-        <p className="text-gray-700 text-sm md:text-base mb-6">
+        <p className="text-purple-700 text-sm md:text-base mb-6">
           We do not sell or share your data with third parties for advertising or marketing purposes.
         </p>
 
         {/* Data Storage */}
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Data Storage and Security</h3>
-        <ul className="list-disc list-inside text-gray-700 text-sm md:text-base space-y-1">
+        <h3 className="text-lg font-semibold text-purple-900 mb-2">Data Storage and Security</h3>
+        <ul className="list-disc list-inside text-purple-700 text-sm md:text-base space-y-1">
           <li>All user data is encrypted during transmission and storage</li>
           <li>Audio/video and screenshot data are stored securely on our server</li>
           <li>Regular security audits are conducted to ensure protection</li>

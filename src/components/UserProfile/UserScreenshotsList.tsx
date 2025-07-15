@@ -1,81 +1,81 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router';
 import {
   fetchScreenshotListById,
   screenshotListDelete,
-} from "../../service/screenshotvideo.service";
-import { toast } from "react-toastify";
+} from '../../service/screenshotvideo.service';
+import { toast } from 'react-toastify';
 
 const folderScreenshots = {
-  _id: "6837056bdf1d180137a62cf0",
-  date: "2025-05-28 18:15:34",
+  _id: '6837056bdf1d180137a62cf0',
+  date: '2025-05-28 18:15:34',
   screenshots: [
     {
-      imageName: "node.png",
+      imageName: 'node.png',
       imageLink:
-        "https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436331373_screenshot_snapem.png",
-      mimetype: "image/png",
+        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436331373_screenshot_snapem.png',
+      mimetype: 'image/png',
       size: 146770,
     },
     {
-      imageName: "screenshotm.png",
+      imageName: 'screenshotm.png',
       imageLink:
-        "https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436333621_screenshot_snapem.png",
-      mimetype: "image/png",
+        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436333621_screenshot_snapem.png',
+      mimetype: 'image/png',
       size: 170021,
     },
     {
-      imageName: "node.png",
+      imageName: 'node.png',
       imageLink:
-        "https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436334382_screenshot_snapem.png",
-      mimetype: "image/png",
+        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436334382_screenshot_snapem.png',
+      mimetype: 'image/png',
       size: 146770,
     },
     {
-      imageName: "node.png",
+      imageName: 'node.png',
       imageLink:
-        "https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436429212_screenshot_snapem.png",
-      mimetype: "image/png",
+        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436429212_screenshot_snapem.png',
+      mimetype: 'image/png',
       size: 146770,
     },
     {
-      imageName: "Screenshot (6).png",
+      imageName: 'Screenshot (6).png',
       imageLink:
-        "https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436431247_screenshot_snapem.png",
-      mimetype: "image/png",
+        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436431247_screenshot_snapem.png',
+      mimetype: 'image/png',
       size: 129058,
     },
     {
-      imageName: "Screenshot (11).png",
+      imageName: 'Screenshot (11).png',
       imageLink:
-        "https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436431800_screenshot_snapem.png",
-      mimetype: "image/png",
+        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436431800_screenshot_snapem.png',
+      mimetype: 'image/png',
       size: 392555,
     },
     {
-      imageName: "node.png",
+      imageName: 'node.png',
       imageLink:
-        "https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436779863_screenshot_snapem.png",
-      mimetype: "image/png",
+        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436779863_screenshot_snapem.png',
+      mimetype: 'image/png',
       size: 146770,
     },
     {
-      imageName: "Screenshot (6).png",
+      imageName: 'Screenshot (6).png',
       imageLink:
-        "https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436782519_screenshot_snapem.png",
-      mimetype: "image/png",
+        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436782519_screenshot_snapem.png',
+      mimetype: 'image/png',
       size: 129058,
     },
     {
-      imageName: "Screenshot (11).png",
+      imageName: 'Screenshot (11).png',
       imageLink:
-        "https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436784038_screenshot_snapem.png",
-      mimetype: "image/png",
+        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436784038_screenshot_snapem.png',
+      mimetype: 'image/png',
       size: 392555,
     },
   ],
-  createdAt: "2025-05-28 18:15:34",
-  updatedAt: "2025-05-28 18:23:08",
+  createdAt: '2025-05-28 18:15:34',
+  updatedAt: '2025-05-28 18:23:08',
 };
 interface Screenshot {
   imageName: string;
@@ -96,10 +96,10 @@ const UserScreenshotsList = () => {
   const [Loading, setLoading] = useState(true);
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
-  const userId = searchParams.get("userId");
-  const isFromAdmin = searchParams.get("isFromAdmin") === "true";
-  console.log(isFromAdmin, "isFromAdmin");
-  console.log(userId, "id from params");
+  const userId = searchParams.get('userId');
+  const isFromAdmin = searchParams.get('isFromAdmin') === 'true';
+  console.log(isFromAdmin, 'isFromAdmin');
+  console.log(userId, 'id from params');
   const [screenshotList, setScreenshotList] = useState<Folderlist[]>([]);
   const Navigate = useNavigate();
 
@@ -143,22 +143,22 @@ const UserScreenshotsList = () => {
         setLoading(false);
       } else {
         console.error(
-          "Failed to fetch user screenshot :",
+          'Failed to fetch user screenshot :',
           response.data.message
         );
       }
     } catch (error) {
-      console.error("Error fetching screenshot list details details:", error);
+      console.error('Error fetching screenshot list details details:', error);
       const { response } = error as {
         response: { data: { code: number; data: string; message: string } };
       };
 
-      console.log(response.data, "error....");
+      console.log(response.data, 'error....');
       if (response?.data?.code === 404) {
         notify(response?.data?.message);
         setLoading(false);
       } else {
-        notify(response?.data?.data || "Unable to fetch screenshots!");
+        notify(response?.data?.data || 'Unable to fetch screenshots!');
         setLoading(false);
       }
     }
@@ -176,38 +176,38 @@ const UserScreenshotsList = () => {
       deleteAll?: boolean;
       screenshotIds?: string[];
     } = {};
-    console.log("object");
+    console.log('object');
     try {
-      if (id && userId) {
-        const isAllSelected =
-          screenshotList.length > 0 &&
-          selectedScreenshots.length === screenshotList.length;
+      if (id || userId) {  
+      const isAllSelected =
+        screenshotList.length > 0 &&
+        selectedScreenshots.length === screenshotList.length;
 
-        body = {
-          screenshotEntryId: id,
-          ...(isAllSelected
-            ? { deleteAll: true }
-            : { screenshotIds: selectedScreenshots }),
-        };
+      body = {
+        screenshotEntryId: id,
+        ...(isAllSelected
+          ? { deleteAll: true }
+          : { screenshotIds: selectedScreenshots }),
+      };
 
-        console.log(body, "===>");
-        setLoading(true);
+      console.log(body, '===>');
+      setLoading(true);
 
-        const { data } = await screenshotListDelete(body, userId);
-        if (data?.status) {
-          setLoading(false);
-          getScreenshotListById(id);
-          setSelectedScreenshots([]);
-          notify(data?.message || "Screenshots deleted successfully!");
-        }
+      const { data } = await screenshotListDelete(body, userId ?? '');
+      if (data?.status) {
+        setLoading(false);
+        getScreenshotListById(id!);
+        setSelectedScreenshots([]);
+        notify(data?.message || 'Screenshots deleted successfully!');
+      }
       }
     } catch (error) {
-      console.error("Error deleting screenshot folders:", error);
+      console.error('Error deleting screenshot folders:', error);
       const { response } = error as {
         response: { data: { code: number; data: string; message: string } };
       };
 
-      console.log(response.data, "error....");
+      console.log(response.data, 'error....');
       if (response?.data?.code === 404) {
         // notify(response?.data?.message);
         setLoading(false);
@@ -225,7 +225,7 @@ const UserScreenshotsList = () => {
     );
   }
 
-  console.log(selectedScreenshots, "selected screenshots");
+  console.log(selectedScreenshots, 'selected screenshots');
   return (
     <div>
       <div className="p-6">
@@ -241,7 +241,8 @@ const UserScreenshotsList = () => {
         </div>
 
         {/* Admin Controls */}
-        {isFromAdmin && screenshotList.length > 0 && (
+        {/* {isFromAdmin && screenshotList.length > 0 && ( */}
+        {screenshotList.length > 0 && (
           <div className="flex justify-between items-center mb-4">
             <label className="flex items-center space-x-2">
               <input
@@ -256,8 +257,8 @@ const UserScreenshotsList = () => {
               onClick={handleDelete}
               className={`bg-red-500 text-white px-4 py-1.5 rounded hover:bg-red-600 text-sm ${
                 selectedScreenshots.length === 0
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
+                  ? 'opacity-50 cursor-not-allowed'
+                  : ''
               }`}
               disabled={selectedScreenshots.length === 0}
             >
@@ -289,14 +290,14 @@ const UserScreenshotsList = () => {
 
                 <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 text-center truncate">
                   {screenshot.imageName}
-                  {isFromAdmin && (
+                  {
                     <input
                       type="checkbox"
                       checked={selectedScreenshots.includes(screenshot?._id)}
                       onChange={() => toggleSelect(screenshot?._id)}
                       className="absolute top-2 left-2 z-10 h-4 w-4 text-purple-600"
                     />
-                  )}
+                  }
                 </div>
               </div>
             ))}
@@ -323,8 +324,8 @@ const UserScreenshotsList = () => {
               onClick={() => setCurrentPage(index + 1)}
               className={`px-3 py-1 border rounded text-sm shadow ${
                 currentPage === index + 1
-                  ? "bg-purple-600 text-white"
-                  : "bg-white"
+                  ? 'bg-purple-600 text-white'
+                  : 'bg-white'
               }`}
             >
               {index + 1}
@@ -342,23 +343,25 @@ const UserScreenshotsList = () => {
           </button>
         </div>
       )}
-      <div className="flex justify-end items-center space-x-2 mt-4">
-        <label className="text-sm text-gray-600">Items per page:</label>
-        <select
-          value={limit}
-          onChange={(e) => {
-            setCurrentPage(1); // reset to first page on limit change
-            setLimit(parseInt(e.target.value));
-          }}
-          className="border border-gray-300 rounded-md w-20 p-2 text-sm focus:ring-2 focus:ring-purple-500"
-        >
-          {[5, 10, 20, 50].map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
+      {screenshotList.length > 0 && (
+        <div className="flex justify-end items-center space-x-2 mt-4">
+          <label className="text-sm text-gray-600">Items per page:</label>
+          <select
+            value={limit}
+            onChange={(e) => {
+              setCurrentPage(1); // reset to first page on limit change
+              setLimit(parseInt(e.target.value));
+            }}
+            className="border border-gray-300 rounded-md w-20 p-2 text-sm focus:ring-2 focus:ring-purple-500"
+          >
+            {[5, 10, 20, 50].map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
     </div>
   );
 };

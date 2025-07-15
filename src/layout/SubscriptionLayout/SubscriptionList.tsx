@@ -187,10 +187,10 @@ const SubscriptionList: React.FC = () => {
           <p className="text-sm font-semibold text-purple-700 mb-2">
             Subscription & App Access
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold mb-2">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2 text-purple-900 ">
             Start Your Safety Plan — Choose the Right Fit
           </h2>
-          <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="text-purple-600 mb-12 max-w-2xl mx-auto">
             Whether you're trying snap'em for a month or protecting long-term,
             every plan includes
           </p>
@@ -284,7 +284,7 @@ const SubscriptionList: React.FC = () => {
                           }`}
                         >
                       
-                          Choose Starter
+                          Subscribe
                         </button>
                       </div>
                     </div>

@@ -16,19 +16,19 @@ const Contact = () => {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <p className="text-sm text-purple-700 font-semibold mb-2">Contact Us</p>
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+        <h2 className="text-2xl md:text-3xl font-bold text-purple-900 mb-4">
           We’re here to help — anytime
         </h2>
 
         {/* Description */}
-        <p className="text-gray-700 text-sm md:text-base mb-6">
+        <p className="text-purple-900 text-sm md:text-base mb-6">
           Have a question, need support, or want to share feedback? Our team is
           ready to assist you with anything related to snap’em — your safety is
           our priority.
         </p>
 
         {/* Email Contact */}
-        <div className="flex items-center gap-2 text-sm md:text-base font-medium text-gray-800">
+        <div className="flex items-center gap-2 text-sm md:text-base font-medium text-purple-800">
           <span className="font-semibold">Get in Touch</span>
         </div>
         {/* <div className="flex items-center gap-2 mt-2 text-purple-800 text-sm">

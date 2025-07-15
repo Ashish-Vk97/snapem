@@ -1,54 +1,54 @@
 // import React from 'react'
 
-import { Link, useNavigate } from "react-router";
-import { useModal } from "../hooks/useModal";
-import snapImg from "../../snap.png";
-import { ShieldCheck, Share2, AlertTriangle } from "lucide-react";
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import Emergency from "/images/Animation.gif";
-import sos from "/images/sos.gif";
-import sosGuy from "/images/sos_guy.gif";
-import { FaHeart } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router';
+import { useModal } from '../hooks/useModal';
+import snapImg from '../../snap.png';
+import { ShieldCheck, Share2, AlertTriangle } from 'lucide-react';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import Emergency from '/images/Animation.gif';
+import sos from '/images/sos.png';
+import sosGuy from '/images/sos_guy.gif';
+import { FaHeart } from 'react-icons/fa';
 
 const plans = [
   {
-    name: "Monthly",
-    price: "$5",
-    note: " Billed monthly",
+    name: 'Monthly',
+    price: '$5',
+    note: ' Billed monthly',
     features: [
-      "SOS Emergency Alerts",
-      "Auto Screenshot Uploads",
-      "30-Day Cloud Storage",
-      "Real-Time Location Sharing",
-      "Emergency Contact Notifications",
+      'SOS Emergency Alerts',
+      'Auto Screenshot Uploads',
+      '30-Day Cloud Storage',
+      'Real-Time Location Sharing',
+      'Emergency Contact Notifications',
     ],
     highlight: false,
   },
   {
-    name: "Half yearly",
-    price: "$25",
-    note: "Billed every 6 months",
+    name: 'Half yearly',
+    price: '$25',
+    note: 'Billed every 6 months',
     features: [
-      "SOS Emergency Alerts",
-      "Auto Screenshot Uploads",
-      "30-Day Cloud Storage",
-      "Real-Time Location Sharing",
-      "Emergency Contact Notifications",
+      'SOS Emergency Alerts',
+      'Auto Screenshot Uploads',
+      '30-Day Cloud Storage',
+      'Real-Time Location Sharing',
+      'Emergency Contact Notifications',
     ],
     highlight: true,
-    tag: "Most Popular",
+    tag: 'Most Popular',
   },
   {
-    name: "Yearly",
-    price: "$50",
-    note: "Billed yearly",
+    name: 'Yearly',
+    price: '$50',
+    note: 'Billed yearly',
     features: [
-      "SOS Emergency Alerts",
-      "Auto Screenshot Uploads",
-      "30-Day Cloud Storage",
-      "Real-Time Location Sharing",
-      "Emergency Contact Notifications",
+      'SOS Emergency Alerts',
+      'Auto Screenshot Uploads',
+      '30-Day Cloud Storage',
+      'Real-Time Location Sharing',
+      'Emergency Contact Notifications',
     ],
     highlight: false,
   },
@@ -61,30 +61,37 @@ const UserContent = () => {
   const authContext = useContext(AuthContext);
 
   if (!authContext) {
-    throw new Error("AuthContext must be used within an AuthProvider");
+    throw new Error('AuthContext must be used within an AuthProvider');
   }
 
-  const { isAuthenticated, currentUser,setActiveTab } = authContext;
+  const { isAuthenticated, currentUser, setActiveTab } = authContext;
 
   const { isSubscribed: isUserSubscribed, stripeCustomerId } =
     currentUser || {};
 
   const handelDownload = () => {
     if (isUserSubscribed && stripeCustomerId) {
-      const link = document.createElement("a");
-      link.href = "/path-to-your-apk-file.apk"; // Replace with the actual APK file path
-      link.download = "Snapem.apk";
+      const link = document.createElement('a');
+      link.href = '/path-to-your-apk-file.apk'; // Replace with the actual APK file path
+      link.download = 'Snapem.apk';
       link.click();
     } else {
       openModal();
     }
   };
-    const handleClick = () => {
-    setActiveTab("app");
-    Navigate("/account");
+  const handleClick = () => {
+    setActiveTab('app');
+    Navigate('/account');
+  };
+  const handleClickSos = () => {
+    if (!isAuthenticated) {
+      return;
+    }
+    setActiveTab('media');
+    Navigate('/account');
   };
 
-  console.log(isAuthenticated, currentUser, "isAuthenticated");
+  console.log(isAuthenticated, currentUser, 'isAuthenticated');
 
   return (
     <>
@@ -96,24 +103,28 @@ const UserContent = () => {
             <br />
             Wherever You Go
           </h1> */}
-           <h1 className="text-3xl md:text-4xl font-bold text-black mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-purple-950 mb-4">
             About snap'em
-           
-           
           </h1>
-          <p className="text-gray-600 mb-6">
-           snap'em is your personal safety companion. Designed to provide
+          <p className="text-purple-700 mb-6">
+            snap'em is your personal safety companion. Designed to provide
             instant emergency response, real-time location sharing, and
             continuous visual monitoring — all through one easy-to-use Android
-            app. Whether you're traveling, commuting, or at home,snap'em
-            ensures that your loved ones are just one tap away.
+            app. Whether you're traveling, commuting, or at home,snap'em ensures
+            that your loved ones are just one tap away.
           </p>
           {!isAuthenticated ? (
             <div className="flex justify-center md:justify-start gap-4">
-              <button onClick={()=>Navigate("/signup")}  className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200">
+              <button
+                onClick={() => Navigate('/signup')}
+                className="bg-purple-100 text-purple-700 px-4 py-2 rounded-md hover:bg-purple-200"
+              >
                 Sign Up
               </button>
-              <button onClick={()=>Navigate("/signin")}  className="bg-purple-900 text-white px-4 py-2 rounded-md hover:bg-purple-800">
+              <button
+                onClick={() => Navigate('/signin')}
+                className="bg-purple-900 text-white px-4 py-2 rounded-md hover:bg-purple-800"
+              >
                 Sign In &nbsp; &rarr;
               </button>
             </div>
@@ -138,7 +149,7 @@ const UserContent = () => {
         {/* Right Image Section */}
         <div className="md:w-1/2">
           <img
-            src={"./images/Androidnew.png"} // Replace with your actual image path
+            src={'./images/Androidnew.png'} // Replace with your actual image path
             alt="Snap'em App"
             className="max-w-xs mx-auto rounded-xl"
           />
@@ -170,7 +181,7 @@ const UserContent = () => {
           <p className="text-sm font-semibold text-purple-700">
             How snap'em Works
           </p>
-          <h2 className="text-2xl md:text-3xl font-bold mt-1">
+          <h2 className="text-2xl md:text-3xl text-purple-900 font-bold mt-1">
             Emergency Help in Seconds
           </h2>
         </div>
@@ -179,15 +190,18 @@ const UserContent = () => {
           {/* Step 1 */}
           <div className="flex flex-col items-center">
             <img src={Emergency} alt="Sign up" className="w-32 h-32 mb-4" />
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-purple-900">
               Sign up & add your emergency contacts
             </p>
           </div>
 
           {/* Step 2 */}
-          <div className="flex flex-col items-center">
+          <div
+            onClick={() => handleClickSos()}
+            className="flex flex-col items-center cursor-pointer"
+          >
             <img src={sos} alt="Tap SOS" className="w-32 h-32 mb-4" />
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-purple-900">
               Tap SOS in case of emergency
             </p>
           </div>
@@ -199,45 +213,12 @@ const UserContent = () => {
               alt="Notification sent"
               className="w-32 h-32 mb-4"
             />
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-purple-900">
               Your contacts get notified instantly
             </p>
           </div>
         </div>
       </section>
-
-      {/* How it works */}
-      {/* <section className="bg-gray-50 py-16 px-6 md:px-20">
-      <h2 className="text-center text-4xl font-bold text-purple-700 mb-12">How It Works</h2>
-      <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      
-        <div className="bg-white rounded-2xl shadow-md p-8 text-center hover:shadow-xl transition">
-          <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full">
-            <AlertTriangle className="text-purple-600 w-8 h-8" />
-          </div>
-          <h3 className="text-xl font-semibold text-purple-700 mb-2">Activate SOS</h3>
-          <p className="text-gray-700 text-lg">Trigger the emergency SOS feature with single tap.</p>
-        </div>
-
-       
-        <div className="bg-white rounded-2xl shadow-md p-8 text-center hover:shadow-xl transition">
-          <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full">
-            <Share2 className="text-purple-600 w-8 h-8" />
-          </div>
-          <h3 className="text-xl font-semibold text-purple-700 mb-2">Notify Contacts</h3>
-          <p className="text-gray-700 text-lg">Immediately alert your trusted contacts and share your location.</p>
-        </div>
-
-   
-        <div className="bg-white rounded-2xl shadow-md p-8 text-center hover:shadow-xl transition">
-          <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full">
-            <ShieldCheck className="text-purple-600 w-8 h-8" />
-          </div>
-          <h3 className="text-xl font-semibold text-purple-700 mb-2">Stay Safe</h3>
-          <p className="text-gray-700 text-lg">Ensure your safety and security until help arrives.</p>
-        </div>
-      </div>
-    </section> */}
 
       {/* Plans Section */}
 
@@ -245,10 +226,10 @@ const UserContent = () => {
         <p className="text-sm font-semibold text-purple-700 mb-2">
           Subscription & App Access
         </p>
-        <h2 className="text-2xl md:text-3xl font-bold mb-2">
+        <h2 className="text-2xl md:text-3xl text-purple-900 font-bold mb-2">
           Start Your Safety Plan — Choose the Right Fit
         </h2>
-        <p className="text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p className="text-purple-700 mb-12 max-w-2xl mx-auto">
           Whether you're trying snap'em for a month or protecting long-term,
           every plan includes
         </p>
@@ -262,10 +243,8 @@ const UserContent = () => {
               //     ? "bg-purple-900 text-white border-purple-700 shadow-lg scale-105"
               //     : "bg-white text-black border-gray-200"
               // } transition-all duration-300`}
-                className={`relative rounded-xl p-6 border transition-all duration-300 min-h-[420px] max-w-[340px] mx-auto
+              className={`relative rounded-xl p-6 border transition-all duration-300 min-h-[420px] max-w-[340px] mx-auto
                 bg-purple-950 text-white border-purple-700 shadow-lg scale-105 transition-all duration-300`}
-              
-              
             >
               {/* Badge for Most Popular */}
               {plan.tag && (
@@ -289,26 +268,29 @@ const UserContent = () => {
                 ))}
               </ul>
 
-            { !isAuthenticated ? <button
-                className={`w-full py-2 rounded-md font-medium ${
-                  plan.highlight
-                    ? "bg-purple-100 text-purple-700 hover:bg-gray-100"
-                    : "bg-purple-100 text-purple-700 hover:bg-purple-200"
-                }`}
-                onClick={() => Navigate("/signin")}
-              >
-                Choose Plan
-              </button> : <button
-                className={`w-full py-2 rounded-md font-medium ${
-                  plan.highlight
-                    ? "bg-purple-100 text-purple-700 hover:bg-gray-100"
-                    : "bg-purple-100 text-purple-700 hover:bg-purple-200"
-                }`}
-              disabled={true}
-              >
-                Choose Plan
-              </button>}
-             
+              {!isAuthenticated ? (
+                <button
+                  className={`w-full py-2 rounded-md font-medium ${
+                    plan.highlight
+                      ? 'bg-purple-100 text-purple-700 hover:bg-gray-100'
+                      : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                  }`}
+                  onClick={() => Navigate('/signin')}
+                >
+                  Subscribe
+                </button>
+              ) : (
+                <button
+                  className={`w-full py-2 rounded-md font-medium ${
+                    plan.highlight
+                      ? 'bg-purple-100 text-purple-700 hover:bg-gray-100'
+                      : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+                  }`}
+                  disabled={true}
+                >
+                  Subscribe
+                </button>
+              )}
             </div>
           ))}
         </div>
@@ -321,7 +303,10 @@ const UserContent = () => {
           <h3 className="text-purple-900 font-semibold text-lg mb-3 md:mb-0">
             Join Snap’em and Stay Secure
           </h3>
-          <button onClick={()=>Navigate("/signup")} className="bg-purple-900 text-white text-xs px-4 py-2 rounded-md hover:bg-purple-800">
+          <button
+            onClick={() => Navigate('/signup')}
+            className="bg-purple-900 text-white text-xs px-4 py-2 rounded-md hover:bg-purple-800"
+          >
             Sign Up
           </button>
         </div>
@@ -335,7 +320,10 @@ const UserContent = () => {
             </h2>
 
             {/* Button */}
-            <button onClick={()=>handleClick()} className="mt-4 md:mt-0 bg-purple-800 hover:bg-purple-900 text-white text-xs px-4 py-2 rounded shadow-sm">
+            <button
+              onClick={() => handleClick()}
+              className="mt-4 md:mt-0 bg-purple-800 hover:bg-purple-900 text-white text-xs px-4 py-2 rounded shadow-sm"
+            >
               Download
             </button>
           </div>
@@ -344,8 +332,6 @@ const UserContent = () => {
       {/* download app */}
 
       {/* footer */}
-
-      
 
       {/* <button 
     onClick={openModal} 

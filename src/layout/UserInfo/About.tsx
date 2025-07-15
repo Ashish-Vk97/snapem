@@ -15,11 +15,11 @@ const About = () => {
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-col items-start gap-12">
         {/* Left Text Content */}
         <div className="lg:w-2/2">
-          <p className="text-sm text-purple-700 font-semibold mb-2">About snap'em</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+          <p className="text-sm text-purple-900 font-semibold mb-2">About snap'em</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-purple-900 mb-4">
             Stay Connected When It Matters Most
           </h2>
-          <p className="text-gray-700 text-sm md:text-base leading-relaxed">
+          <p className="text-purple-900 text-sm md:text-base leading-relaxed">
             snap’em was built with one mission: to keep people safe, informed, and connected when it matters most.
             In today’s world, emergencies can happen anytime — and we believe everyone should have a simple,
             powerful tool in their pocket to call for help instantly.

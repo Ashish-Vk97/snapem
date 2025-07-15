@@ -73,20 +73,21 @@ const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFr
   }
   return (
     <div>
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+      <h2 className="text-2xl font-semibold text-purple-900 mb-6">
         {"Screenshot Folders"}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {folderList && folderList?.length > 0 ? (
           folderList.map((item, index) => (
             <div
-              key={index}
+              key={index} 
               onClick={() =>
-              Navigate(
-                userId && isFromAdmin
+              Navigate( 
+                userId && isFromAdmin 
                 ? `/screenshots/${item?._id}?userId=${userId}&isFromAdmin=${isFromAdmin}`
-                : `/screenshots/${item?._id}`
+                : `/screenshots/${item?._id}` 
               )
+              //  Navigate(`/screenshots/${item?._id}` )
               }
               className="group bg-white rounded-lg shadow-sm border border-gray-2P00 hover:shadow-md transition duration-300 cursor-pointer p-4 flex items-center space-x-4 hover:bg-blue-50"
             >

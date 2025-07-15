@@ -70,7 +70,7 @@ const UserAccount = () => {
           className={`${activeTab === "media" ? "text-purple-600 border-b-2 border-purple-600" : ""}`}
           onClick={() => setActiveTab("media")}
         >
-          <span className='font-bold'> Screenshot & Video </span>
+          <span className='font-bold'> Snapshots & Videos </span>
         </button>
       </div>
 

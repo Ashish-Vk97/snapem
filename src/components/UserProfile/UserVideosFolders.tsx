@@ -78,7 +78,7 @@ const UserVideosFolders = ({userId="",isFromAdmin}:{userId?:string; isFromAdmin?
 
   return (
     <div>
-         <h2 className="text-2xl font-semibold text-gray-800 mb-6">{"Video Folders"}</h2>
+         <h2 className="text-2xl font-semibold text-purple-900 mb-6">{"Video Folders"}</h2>
          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
            { folderList && folderList?.length > 0 ? 
            (folderList.map((item, index) => (
@@ -91,6 +91,7 @@ const UserVideosFolders = ({userId="",isFromAdmin}:{userId?:string; isFromAdmin?
                 ? `/videos/${item?._id}?userId=${userId}&isFromAdmin=${isFromAdmin}`
                 : `/videos/${item?._id}`
               )
+                //  Navigate(`/videos/${item?._id}`)
               }
                className="group bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition duration-300 cursor-pointer p-4 flex items-center space-x-4 hover:bg-blue-50"
              >

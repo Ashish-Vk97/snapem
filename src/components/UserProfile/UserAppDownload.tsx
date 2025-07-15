@@ -103,7 +103,7 @@ const UserAppDownload = () => {
       {/* Title and Icon */}
       <div className="flex flex-col md:flex-row items-center justify-between mb-8">
         <div>
-          <h1 className="text-4xl font-semibold mb-4">snap’em</h1>
+          <h1 className="text-4xl font-semibold mb-4 text-purple-950">snap’em</h1>
           <button onClick={handelDownload}  className="bg-purple-950 text-white px-6 py-2 rounded-md text-sm hover:bg-purple-800">
             Download Now
           </button>
@@ -123,22 +123,22 @@ const UserAppDownload = () => {
       {/* About and Install sections */} 
       <div className="grid md:grid-cols-2 gap-8 text-sm text-gray-700">
         <div>
-          <h2 className="font-semibold text-lg mb-2">About snap’em</h2>
-          <p>
+          <h2 className="font-semibold text-lg mb-2 text-purple-950">About snap’em</h2>
+          <p className='text-purple-700'>
             snap’em is a smart safety app for Android that automatically captures device screenshots
             at regular intervals and securely uploads them to the cloud. In case of an emergency, the built-in
             SOS feature instantly records a 30-second video with audio, shares it with a pre-set emergency
             contact, and safely stores the recording online.
           </p>
-          <p className="mt-3">
+          <p className="mt-3 text-purple-700">
             Users can log into the snap’em website to manage their profile, view captured screenshots,
             access SOS recordings, and update emergency contact details.
           </p>
         </div>
 
         <div>
-          <h2 className="font-semibold text-lg mb-2">How to Install snap’em (APK)</h2>
-          <ol className="list-decimal list-inside space-y-2">
+          <h2 className="font-semibold text-lg mb-2 text-purple-950">How to Install snap’em (APK)</h2>
+          <ol className="list-decimal text-purple-700 list-inside space-y-2">
             <li>Go to Settings &gt; Security on your Android device.</li>
             <li>
               Enable Install from Unknown Sources (you may find this under install unknown apps in newer Android versions).
