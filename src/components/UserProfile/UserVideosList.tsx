@@ -1,35 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import { toast } from 'react-toastify';
 import {
   fetchVideoListById,
   videoListDelete,
 } from '../../service/screenshotvideo.service';
+import { AuthContext } from '../../context/AuthContext';
 
-const folderVideos = {
-  _id: '6838074d48013cdd36471725',
-  user: '67f3c6cf0eea1a432ae5e1a1',
-  date: '2025-05-29 12:36:29',
-  videos: [
-    {
-      videoName: 'controller.mp4',
-      videoLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/videos/1748502349125_videos_snapem.mp4',
-      mimetype: 'video/mp4',
-      size: 3404641,
-    },
-    {
-      videoName:
-        "Snap'em domain discussion _ Microsoft Teams 2025-04-16 10-38-11.mp4",
-      videoLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/videos/1748502376701_videos_snapem.mp4',
-      mimetype: 'video/mp4',
-      size: 2112905,
-    },
-  ],
-  createdAt: '2025-05-29 12:36:29',
-  updatedAt: '2025-05-29 12:36:29',
-};
+
 interface Folderlist {
   _id: string;
   s3key: string;
@@ -68,6 +46,14 @@ const UserVideosList = () => {
   const Navigate = useNavigate();
 
   const notify = (str: string) => toast(str);
+
+  const authContext = useContext(AuthContext);
+  
+    if (!authContext) {
+      throw new Error('AuthContext must be used within an AuthProvider');
+    }
+  
+    const { setActiveTab } = authContext;
 
   const toggleSelectVideo = (id: string) => {
     setSelectedVideos((prev) =>
@@ -145,6 +131,12 @@ const UserVideosList = () => {
 
       const { data } = await videoListDelete(body, userId ?? '');
       if (data?.status) {
+         if(data?.data?.videos.length === 0) {
+          setActiveTab('media');
+          Navigate(-1); // Navigate back if no videos left
+           setSelectedVideos([]);
+          
+        }
         setLoading(false);
         getVideoListById(id!);
         setSelectedVideos([]);

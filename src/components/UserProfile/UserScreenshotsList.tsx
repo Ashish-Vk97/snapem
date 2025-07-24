@@ -1,82 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import {
   fetchScreenshotListById,
   screenshotListDelete,
 } from '../../service/screenshotvideo.service';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../context/AuthContext';
 
-const folderScreenshots = {
-  _id: '6837056bdf1d180137a62cf0',
-  date: '2025-05-28 18:15:34',
-  screenshots: [
-    {
-      imageName: 'node.png',
-      imageLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436331373_screenshot_snapem.png',
-      mimetype: 'image/png',
-      size: 146770,
-    },
-    {
-      imageName: 'screenshotm.png',
-      imageLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436333621_screenshot_snapem.png',
-      mimetype: 'image/png',
-      size: 170021,
-    },
-    {
-      imageName: 'node.png',
-      imageLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436334382_screenshot_snapem.png',
-      mimetype: 'image/png',
-      size: 146770,
-    },
-    {
-      imageName: 'node.png',
-      imageLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436429212_screenshot_snapem.png',
-      mimetype: 'image/png',
-      size: 146770,
-    },
-    {
-      imageName: 'Screenshot (6).png',
-      imageLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436431247_screenshot_snapem.png',
-      mimetype: 'image/png',
-      size: 129058,
-    },
-    {
-      imageName: 'Screenshot (11).png',
-      imageLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436431800_screenshot_snapem.png',
-      mimetype: 'image/png',
-      size: 392555,
-    },
-    {
-      imageName: 'node.png',
-      imageLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436779863_screenshot_snapem.png',
-      mimetype: 'image/png',
-      size: 146770,
-    },
-    {
-      imageName: 'Screenshot (6).png',
-      imageLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436782519_screenshot_snapem.png',
-      mimetype: 'image/png',
-      size: 129058,
-    },
-    {
-      imageName: 'Screenshot (11).png',
-      imageLink:
-        'https://snapem.s3.us-east-1.amazonaws.com/screenshots/1748436784038_screenshot_snapem.png',
-      mimetype: 'image/png',
-      size: 392555,
-    },
-  ],
-  createdAt: '2025-05-28 18:15:34',
-  updatedAt: '2025-05-28 18:23:08',
-};
+
 interface Screenshot {
   imageName: string;
   imageLink: string;
@@ -107,6 +38,15 @@ const UserScreenshotsList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(10);
+
+   const authContext = useContext(AuthContext);
+    
+      if (!authContext) {
+        throw new Error('AuthContext must be used within an AuthProvider');
+      }
+    
+      const { setActiveTab } = authContext;
+  
 
   const toggleSelect = (id: string) => {
     setSelectedScreenshots((prev) =>
@@ -195,6 +135,14 @@ const UserScreenshotsList = () => {
 
       const { data } = await screenshotListDelete(body, userId ?? '');
       if (data?.status) {
+         if(data?.data?.screenshots.length === 0) {
+          setActiveTab('media');
+          Navigate(-1); // Navigate back if no videos left
+           setSelectedScreenshots([]);
+
+        }
+
+
         setLoading(false);
         getScreenshotListById(id!);
         setSelectedScreenshots([]);
