@@ -15,7 +15,7 @@ const dates = [
 ];
 
 const formatDate = (dateString:string) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
@@ -55,7 +55,7 @@ const UserScreenshotsView = ({userId, isFromAdmin=false}:{userId?:string; isFrom
         </TabButton>
       </div>
        <div key={activeTab} className="transition-all duration-500 ease-in-out animate-fadeInSlideUp">
-        {activeTab === 'image' && <UserScreenshotsFolders userId={userId} isFromAdmin={isFromAdmin} />}
+        {activeTab === 'image' && <UserScreenshotsFolders userId={userId ?? ''} isFromAdmin={isFromAdmin} />}
          {activeTab === 'video' && <UserVideosFolders userId={userId} isFromAdmin={isFromAdmin} />}
           {/* {activeTab === 'video' && <UserVideosList  />} */}
          

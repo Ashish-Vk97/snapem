@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 
 const dates = ["2025-05-01", "2025-05-10", "2025-05-15", "2025-05-20"];
 const formatDate = (dateString: string) => {
-  const options = { year: "numeric", month: "long", day: "numeric" };
+  const options: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
@@ -74,7 +74,7 @@ const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFr
   return (
     <div>
       <h2 className="text-2xl font-semibold text-purple-900 mb-6">
-        {"Screenshot Folders"}
+        {"Snapshot Folders"}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {folderList && folderList?.length > 0 ? (
@@ -104,7 +104,7 @@ const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFr
           ))
         ) : (
           <div className="text-center text-purple-900 mt-20">
-            No screenshot folders available.
+            No Snapshot folders available.
           </div>
         )}
       </div>

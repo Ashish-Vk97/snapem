@@ -7,6 +7,8 @@ import Checkbox from "../form/input/Checkbox";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { signUp } from "../../service/auth.service";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +23,7 @@ export default function SignUpForm() {
       country: "",
       state: "",
       city: "",
-      pincode: "",
+      zipcode: "",
     },
 })
 
@@ -33,7 +35,7 @@ const navigate = useNavigate();
 const inputHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
   const { name, value } = e.target;
   // setSignUpData((prev) => ({ ...prev, [name]: value }));
-if (name === "country" || name === "state" || name === "city" || name === "pincode") {
+if (name === "country" || name === "state" || name === "city" || name === "zipcode") {
   setSignUpData((prev) => ({
     ...prev,
     address: {
@@ -52,7 +54,7 @@ if (name === "country" || name === "state" || name === "city" || name === "pinco
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
-    const phoneRegex = /^[0-9]{10,15}$/;
+    const phoneRegex = /^\d{12,15}$/;
     try {
 
  
@@ -65,11 +67,11 @@ if (name === "country" || name === "state" || name === "city" || name === "pinco
             return;
         }
         if (!phoneRegex.test(signUpData.phone)) {
-          toast("Phone number must be 10 digits");
+          toast("Phone number must be 10-15 digits");
           return;
         }
         
-        if (!signUpData?.address?.country || !signUpData?.address?.state || !signUpData?.address?.city || !signUpData?.address?.pincode) {
+        if (!signUpData?.address?.country || !signUpData?.address?.state || !signUpData?.address?.city || !signUpData?.address?.zipcode) {
           toast.warning("All address fields are required");
           return;
         }
@@ -233,13 +235,22 @@ if (name === "country" || name === "state" || name === "city" || name === "pinco
                   <Label style={{color:"#6b00ad"}}>
                     Phone<span className="text-error-500">*</span>
                   </Label>
-                  <Input
+                  {/* <Input
                     type="phone"
                     id="phone"
                     name="phone"
                     value={signUpData.phone}
                     onChange = {(e) => inputHandler(e)}
                     placeholder="Enter your Phone no."
+                  /> */}
+                   <PhoneInput
+                    country={"us"}
+                    enableSearch
+                    inputClass='!w-full !py-2 !px-4 !border !rounded-md'
+                    containerClass='!w-full'
+                    placeholder='Enter your phone number'
+                    value={signUpData.phone}
+                    onChange={(phone) => setSignUpData({ ...signUpData, phone })}
                   />
                 </div>
                 </div>
@@ -309,13 +320,13 @@ if (name === "country" || name === "state" || name === "city" || name === "pinco
                   {/* <!-- Last Name --> */}
                   <div className="sm:col-span-1">
                     <Label style={{color:"#6b00ad"}}>
-                    Pincode<span className="text-error-500">*</span>
+                    Zipcode<span className="text-error-500">*</span>
                     </Label>
                     <Input
                       type="text"
-                      id="pincode"
-                      name="pincode"
-                      value={signUpData?.address?.pincode}
+                      id="zipcode"
+                      name="zipcode"
+                      value={signUpData?.address?.zipcode}
                       onChange = {(e) => inputHandler(e)}
                       placeholder="Enter your pincode"
                     />
