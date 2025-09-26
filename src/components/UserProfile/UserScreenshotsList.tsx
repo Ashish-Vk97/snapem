@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router';
 import {
   fetchScreenshotListById,
@@ -6,14 +6,6 @@ import {
 } from '../../service/screenshotvideo.service';
 import { toast } from 'react-toastify';
 import { AuthContext } from '../../context/AuthContext';
-
-
-interface Screenshot {
-  imageName: string;
-  imageLink: string;
-  mimetype: string;
-  size: number;
-}
 
 interface Folderlist {
   _id: string;

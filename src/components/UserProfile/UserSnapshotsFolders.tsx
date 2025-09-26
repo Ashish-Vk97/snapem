@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaFolder } from "react-icons/fa";
-import { toast } from "react-toastify";
-import { hitScreenshotsFolders, hitSnapshotsFolders } from "../../service/screenshotvideo.service";
+import {  hitSnapshotsFolders } from "../../service/screenshotvideo.service";
 import { useNavigate } from "react-router";
 
 
@@ -22,7 +21,7 @@ const UserSnapshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFrom
  
   const Navigate = useNavigate();
 
-  const notify = (str: string) => toast(str);
+  
 
   const fetchSnapshotsFolders = async (userId: string) => {
     setLoading(true);  
