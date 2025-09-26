@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaFolder } from "react-icons/fa";
-import { hitScreenshotsFolders } from "../../service/screenshotvideo.service";
+import { toast } from "react-toastify";
+import { hitScreenshotsFolders, hitSnapshotsFolders } from "../../service/screenshotvideo.service";
 import { useNavigate } from "react-router";
 
 
@@ -9,26 +10,28 @@ const formatDate = (dateString: string) => {
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
-const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFromAdmin?:boolean;}) => {
-  interface Folder {
+const UserSnapshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFromAdmin?:boolean;}) => {
+
+   interface Folder {
     date: string;
     _id: string;
-    // add other properties if needed
+   
   }
   const [folderList, setFoldersList] = useState<Folder[]>([]);
   const [Loading, setLoading] = useState(false);
-  console.log("userId===>", userId, "isFromAdmin===>", isFromAdmin);
+ 
   const Navigate = useNavigate();
 
+  const notify = (str: string) => toast(str);
 
-  const fetchScreenshotsFolders = async (userId: string) => {
-    setLoading(true); 
+  const fetchSnapshotsFolders = async (userId: string) => {
+    setLoading(true);  
     try {
-      
+
       setLoading(true);
-      const response = await hitScreenshotsFolders(userId);
+      const response = await hitSnapshotsFolders(userId);
       if (response.data.status) {
-        console.log("users response data=====>", response);
+        console.log("users response data====>", response);
 
         setFoldersList((prev) => (prev = response.data.data));
         setLoading(false);
@@ -57,7 +60,7 @@ const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFr
   };
 
   useEffect(() => {
-    fetchScreenshotsFolders(userId);
+    fetchSnapshotsFolders(userId);
   }, []);
 
   if (Loading) {
@@ -70,7 +73,7 @@ const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFr
   return (
     <div>
       <h2 className="text-2xl font-semibold text-purple-900 mb-6">
-        {"Screenshot Folders"}
+        {"Snapshot Folders"}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {folderList && folderList?.length > 0 ? (
@@ -80,8 +83,8 @@ const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFr
               onClick={() =>
               Navigate( 
                 userId && isFromAdmin 
-                ? `/screenshots/${item?._id}?userId=${userId}&isFromAdmin=${isFromAdmin}`
-                : `/screenshots/${item?._id}` 
+                ? `/snapshots/${item?._id}?userId=${userId}&isFromAdmin=${isFromAdmin}`
+                : `/snapshots/${item?._id}` 
               )
               //  Navigate(`/screenshots/${item?._id}` )
               }
@@ -89,23 +92,23 @@ const UserScreenshotsFolders = ({userId, isFromAdmin=false}:{userId:string; isFr
             >
               <div className="bg-purple-600 text-white p-3 rounded-md group-purple:bg-purple-700 transition">
               <FaFolder size={24} />
-              </div>
-              <div>
+              </div> 
+              <div> 
               <p className="text-gray-800 font-medium">
                 {formatDate(item?.date)}
               </p>
-              {/* <p className="text-gray-500 text-sm">Folder {index + 1} </p> */}
+            
               </div>
             </div>
           ))
         ) : (
           <div className="text-center text-purple-900 mt-20">
-            No screenshot folders available.
+            No Snapshot folders available.
           </div>
         )}
       </div>
     </div>
   );
-};
+}
 
-export default UserScreenshotsFolders;
+export default UserSnapshotsFolders

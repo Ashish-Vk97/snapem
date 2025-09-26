@@ -1,19 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router';
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 import {
-  fetchScreenshotListById,
-  screenshotListDelete,
-} from '../../service/screenshotvideo.service';
-import { toast } from 'react-toastify';
-import { AuthContext } from '../../context/AuthContext';
-
-
-interface Screenshot {
-  imageName: string;
-  imageLink: string;
-  mimetype: string;
-  size: number;
-}
+  fetchSnapshotListById,
+  snapshotListDelete,
+} from "../../service/screenshotvideo.service";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../context/AuthContext";
 
 interface Folderlist {
   _id: string;
@@ -23,14 +15,15 @@ interface Folderlist {
   mimetype: string;
   size: number;
 }
-const UserScreenshotsList = () => {
+
+const UserSnapshotList = () => {
   const [Loading, setLoading] = useState(true);
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
-  const userId = searchParams.get('userId');
-  const isFromAdmin = searchParams.get('isFromAdmin') === 'true';
-  console.log(isFromAdmin, 'isFromAdmin');
-  console.log(userId, 'id from params');
+  const userId = searchParams.get("userId");
+  const isFromAdmin = searchParams.get("isFromAdmin") === "true";
+  console.log(isFromAdmin, "isFromAdmin");
+  console.log(userId, "id from params");
   const [screenshotList, setScreenshotList] = useState<Folderlist[]>([]);
   const Navigate = useNavigate();
 
@@ -39,147 +32,145 @@ const UserScreenshotsList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(10);
 
-   const authContext = useContext(AuthContext);
-    
-      if (!authContext) {
-        throw new Error('AuthContext must be used within an AuthProvider');
-      }
-    
-      const { setActiveTab } = authContext;
-  
+  const authContext = useContext(AuthContext);
 
-  const toggleSelect = (id: string) => {
-    setSelectedScreenshots((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
-  };
-
-  const isAllSelected =
-    screenshotList.length > 0 &&
-    selectedScreenshots.length === screenshotList.length;
-
-  const toggleSelectAll = () => {
-    if (isAllSelected) {
-      setSelectedScreenshots([]);
-    } else {
-      setSelectedScreenshots(screenshotList.map((s) => s?._id));
-    }
-  };
-
-  const notify = (str: string) => toast(str);
-
-  const getScreenshotListById = async (
-    id: string,
-    page: number = 1,
-    limit: number = 10
-  ) => {
-    try {
-      setLoading(true);
-      const response = await fetchScreenshotListById(id, page, limit);
-      if (response.data.status) {
-        setScreenshotList(response.data?.data?.screenshots ?? []);
-        setCurrentPage(response.data?.data?.currentPage);
-        setTotalPages(response.data?.data?.totalPages);
-        setLoading(false);
-      } else {
-        console.error(
-          'Failed to fetch user screenshot :',
-          response.data.message
-        );
-      }
-    } catch (error) {
-      console.error('Error fetching screenshot list details details:', error);
-      const { response } = error as {
-        response: { data: { code: number; data: string; message: string } };
-      };
-
-      console.log(response.data, 'error....');
-      if (response?.data?.code === 404) {
-        notify(response?.data?.message);
-        setLoading(false);
-      } else {
-        notify(response?.data?.data || 'Unable to fetch screenshots!');
-        setLoading(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (id) {
-      getScreenshotListById(id, currentPage, limit);
-    }
-  }, [id, currentPage, limit]);
-
-  const handleDelete = async () => {
-    let body: {
-      screenshotEntryId?: string;
-      deleteAll?: boolean;
-      screenshotIds?: string[];
-    } = {};
-    console.log('object');
-    try {
-      if (id || userId) {  
-      const isAllSelected =
-        screenshotList.length > 0 &&
-        selectedScreenshots.length === screenshotList.length;
-
-      body = {
-        screenshotEntryId: id,
-        ...(isAllSelected
-          ? { deleteAll: true }
-          : { screenshotIds: selectedScreenshots }),
-      };
-
-      console.log(body, '===>');
-      setLoading(true);
-
-      const { data } = await screenshotListDelete(body, userId ?? '');
-      if (data?.status) {
-         if(data?.data?.screenshots.length === 0) {
-          setActiveTab('media');
-          Navigate(-1); // Navigate back if no videos left
-           setSelectedScreenshots([]);
-
-        }
-
-
-        setLoading(false);
-        getScreenshotListById(id!);
-        setSelectedScreenshots([]);
-        notify(data?.message || 'Screenshots deleted successfully!');
-      }
-      }
-    } catch (error) {
-      console.error('Error deleting screenshot folders:', error);
-      const { response } = error as {
-        response: { data: { code: number; data: string; message: string } };
-      };
-
-      console.log(response.data, 'error....');
-      if (response?.data?.code === 404) {
-        // notify(response?.data?.message);
-        setLoading(false);
-      } else {
-        // notify(response?.data?.data || "Unable to update profile!");
-        setLoading(false);
-      }
-    }
-  };
-  if (Loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
-      </div>
-    );
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProvider");
   }
 
-  console.log(selectedScreenshots, 'selected screenshots');
+  const { setActiveTab } = authContext;
+
+  
+    const toggleSelect = (id: string) => {
+      setSelectedScreenshots((prev) =>
+        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+      );
+    };
+  
+    const isAllSelected =
+      screenshotList.length > 0 &&
+      selectedScreenshots.length === screenshotList.length;
+  
+    const toggleSelectAll = () => {
+      if (isAllSelected) {
+        setSelectedScreenshots([]);
+      } else {
+        setSelectedScreenshots(screenshotList.map((s) => s?._id));
+      }
+    };
+  
+    const notify = (str: string) => toast(str);
+  
+    const getSnapshotListById = async (
+      id: string,
+      page: number = 1,
+      limit: number = 10
+    ) => {
+      try {
+        setLoading(true);
+        const response = await fetchSnapshotListById(id, page, limit);
+        if (response.data.status) {
+          setScreenshotList(response.data?.data?.snapshots ?? []);
+          setCurrentPage(response.data?.data?.currentPage);
+          setTotalPages(response.data?.data?.totalPages);
+          setLoading(false);
+        } else {
+          console.error(
+            'Failed to fetch user screenshot :',
+            response.data.message
+          );
+        }
+      } catch (error) {
+        console.error('Error fetching screenshot list details details:', error);
+        const { response } = error as {
+          response: { data: { code: number; data: string; message: string } };
+        };
+  
+        console.log(response.data, 'error....');
+        if (response?.data?.code === 404) {
+          notify(response?.data?.message);
+          setLoading(false);
+        } else {
+          notify(response?.data?.data || 'Unable to fetch screenshots!');
+          setLoading(false);
+        }
+      }
+    };
+  
+    useEffect(() => {
+      if (id) {
+        getSnapshotListById(id, currentPage, limit);
+      }
+    }, [id, currentPage, limit]);
+
+    const handleDelete = async () => {
+        let body: {
+          snapshotEntryId?: string;
+          deleteAll?: boolean;
+          snapshotIds?: string[];
+        } = {};
+        console.log('object');
+        try {
+          if (id || userId) {  
+          const isAllSelected =
+            screenshotList.length > 0 &&
+            selectedScreenshots.length === screenshotList.length;
+    
+          body = {
+            snapshotEntryId: id,
+            ...(isAllSelected
+              ? { deleteAll: true }
+              : { snapshotIds: selectedScreenshots }),
+          };
+    
+          console.log(body, '===>');
+          setLoading(true);
+    
+          const { data } = await snapshotListDelete(body, userId ?? '');
+          if (data?.status) {
+             if(data?.data?.snapshots.length === 0) {
+              setActiveTab('media');
+              Navigate(-1); // Navigate back if no videos left
+               setSelectedScreenshots([]);
+    
+            }
+    
+            setLoading(false);
+            getSnapshotListById(id!);
+            setSelectedScreenshots([]);
+            notify(data?.message || 'Snapshots deleted successfully!');
+          }
+          }
+        } catch (error) {
+          console.error('Error deleting screenshot folders:', error);
+          const { response } = error as {
+            response: { data: { code: number; data: string; message: string } };
+          };
+    
+          console.log(response.data, 'error....');
+          if (response?.data?.code === 404) {
+            // notify(response?.data?.message);
+            setLoading(false);
+          } else {
+            // notify(response?.data?.data || "Unable to update profile!");
+            setLoading(false);
+          }
+        }
+      };
+      if (Loading) {
+        return (
+          <div className="flex items-center justify-center h-screen">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+          </div>
+        );
+      }
+
   return (
-    <div>
+      <div>
       <div className="p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Screenshots</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">Snapshots</h2>
           <button
             onClick={() => Navigate(-1)}
             className="bg-purple-900 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded"
@@ -252,7 +243,7 @@ const UserScreenshotsList = () => {
           </div>
         ) : (
           <div className="text-center text-gray-500 mt-20">
-            No screenshots available.
+            No snapshots available.
           </div>
         )}
       </div>
@@ -314,4 +305,4 @@ const UserScreenshotsList = () => {
   );
 };
 
-export default UserScreenshotsList;
+export default UserSnapshotList;

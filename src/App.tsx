@@ -9,16 +9,7 @@ import NotFound from "./pages/OtherPage/NotFound";
 import UserProfiles from "./pages/UserProfiles";
 import Videos from "./pages/UiElements/Videos";
 import Images from "./pages/UiElements/Images";
-import Alerts from "./pages/UiElements/Alerts";
-import Badges from "./pages/UiElements/Badges";
-import Avatars from "./pages/UiElements/Avatars";
-import Buttons from "./pages/UiElements/Buttons";
-import LineChart from "./pages/Charts/LineChart";
 import BarChart from "./pages/Charts/BarChart";
-import Calendar from "./pages/Calendar";
-import BasicTables from "./pages/Tables/BasicTables";
-import FormElements from "./pages/Forms/FormElements";
-import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 const Home = lazy(() => import("./pages/Dashboard/Home"));
@@ -28,6 +19,7 @@ const UserContent = lazy(
 ) 
 import ChangePassword from "./components/auth/ChangePassword";
 import { AuthContext } from "./context/AuthContext";
+import UserSnapshotList from './components/UserProfile/UserSnapshotList';
 
 const Users = lazy(() => import("./pages/users/Users"));
 const SubscriptionList = lazy(
@@ -398,6 +390,13 @@ export default function App() {
           element: <UserScreenshotsList />,
           // element: (
           //   <UserWrapper isUser={isUser} Component={<UserScreenshotsList />} />
+          // ),
+        },
+        {
+          path: "/snapshots/:id",
+          element: <UserSnapshotList />,
+          // element: (
+          //   <UserWrapper isUser={isUser} Component={<UserSnapshotsList />} />
           // ),
         },
         {
