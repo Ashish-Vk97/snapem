@@ -42,141 +42,150 @@ const UserSnapshotList = () => {
 
   const { setActiveTab } = authContext;
 
-  
-    const toggleSelect = (id: string) => {
-      setSelectedScreenshots((prev) =>
-        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-      );
-    };
-    console.log(screenshotList)
-  
-    const isAllSelected =
-      screenshotList.length > 0 &&
-      selectedScreenshots.length === screenshotList.length;
-  
-    const toggleSelectAll = () => {
-      if (isAllSelected) {
-        setSelectedScreenshots([]);
-      } else {
-        setSelectedScreenshots(screenshotList.map((s) => s?._id));
-      }
-    };
-  
-    const notify = (str: string) => toast(str);
-  
-    const getSnapshotListById = async (
-      id: string,
-      page: number = 1,
-      limit: number = 10
-    ) => {
-      try {
-        setLoading(true);
-        const response = await fetchSnapshotListById(id, page, limit);
-        if (response.data.status) {
-          setScreenshotList(response.data?.data?.snapshots ?? []);
-          setCurrentPage(response.data?.data?.currentPage);
-          setTotalPages(response.data?.data?.totalPages);
-          setLoading(false);
-        } else {
-          console.error(
-            'Failed to fetch user screenshot :',
-            response.data.message
-          );
-        }
-      } catch (error) {
-        console.error('Error fetching screenshot list details details:', error);
-        const { response } = error as {
-          response: { data: { code: number; data: string; message: string } };
-        };
-  
-        console.log(response.data, 'error....');
-        if (response?.data?.code === 404) {
-          notify(response?.data?.message);
-          setLoading(false);
-        } else {
-          notify(response?.data?.data || 'Unable to fetch screenshots!');
-          setLoading(false);
-        }
-      }
-    };
-  
-    useEffect(() => {
-      if (id) {
-        getSnapshotListById(id, currentPage, limit);
-      }
-    }, [id, currentPage, limit]);
+  const toggleSelect = (id: string) => {
+    setSelectedScreenshots((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+  console.log(screenshotList);
 
-    const handleDelete = async () => {
-        let body: {
-          snapshotEntryId?: string;
-          deleteAll?: boolean;
-          snapshotIds?: string[];
-        } = {};
-        console.log('object');
-        try {
-          if (id || userId) {  
-          const isAllSelected =
-            screenshotList.length > 0 &&
-            selectedScreenshots.length === screenshotList.length;
-    
-          body = {
-            snapshotEntryId: id,
-            ...(isAllSelected
-              ? { deleteAll: true }
-              : { snapshotIds: selectedScreenshots }),
-          };
-    
-          console.log(body, '===>');
-          setLoading(true);
-    
-          const { data } = await snapshotListDelete(body, userId ?? '');
-          if (data?.status) {
-             if(data?.data?.snapshots.length === 0) {
-              setActiveTab('media');
-              Navigate(-1); // Navigate back if no videos left
-               setSelectedScreenshots([]);
-    
-            }
-    
-            setLoading(false);
-            getSnapshotListById(id!);
-            setSelectedScreenshots([]);
-            notify(data?.message || 'Snapshots deleted successfully!');
-          }
-          }
-        } catch (error) {
-          console.error('Error deleting screenshot folders:', error);
-          const { response } = error as {
-            response: { data: { code: number; data: string; message: string } };
-          };
-    
-          console.log(response.data, 'error....');
-          if (response?.data?.code === 404) {
-            // notify(response?.data?.message);
-            setLoading(false);
-          } else {
-            // notify(response?.data?.data || "Unable to update profile!");
-            setLoading(false);
-          }
-        }
-      };
-      if (Loading) {
-        return (
-          <div className="flex items-center justify-center h-screen">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
-          </div>
+  const isAllSelected =
+    screenshotList.length > 0 &&
+    selectedScreenshots.length === screenshotList.length;
+
+  const toggleSelectAll = () => {
+    if (isAllSelected) {
+      setSelectedScreenshots([]);
+    } else {
+      setSelectedScreenshots(screenshotList.map((s) => s?._id));
+    }
+  };
+
+  const notify = (str: string) => toast(str);
+
+  const getSnapshotListById = async (
+    id: string,
+    page: number = 1,
+    limit: number = 10
+  ) => {
+    try {
+      setLoading(true);
+      const response = await fetchSnapshotListById(id, page, limit);
+      if (response.data.status) {
+        setScreenshotList(response.data?.data?.snapshots ?? []);
+        setCurrentPage(response.data?.data?.currentPage);
+        setTotalPages(response.data?.data?.totalPages);
+        setLoading(false);
+      } else {
+        console.error(
+          "Failed to fetch user screenshot :",
+          response.data.message
         );
       }
+    } catch (error) {
+      console.error("Error fetching screenshot list details details:", error);
+      const { response } = error as {
+        response: { data: { code: number; data: string; message: string } };
+      };
+
+      console.log(response.data, "error....");
+      if (response?.data?.code === 404) {
+        notify(response?.data?.message);
+        setLoading(false);
+      } else {
+        notify(response?.data?.data || "Unable to fetch screenshots!");
+        setLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      getSnapshotListById(id, currentPage, limit);
+    }
+  }, [id, currentPage, limit]);
+
+  const handleDelete = async () => {
+    let body: {
+      snapshotEntryId?: string;
+      deleteAll?: boolean;
+      snapshotIds?: string[];
+    } = {};
+    console.log("object");
+    try {
+      if (id || userId) {
+        const isAllSelected =
+          screenshotList.length > 0 &&
+          selectedScreenshots.length === screenshotList.length;
+
+        body = {
+          snapshotEntryId: id,
+          ...(isAllSelected
+            ? { deleteAll: true }
+            : { snapshotIds: selectedScreenshots }),
+        };
+
+        console.log(body, "===>");
+        setLoading(true);
+
+        const { data } = await snapshotListDelete(body, userId ?? "");
+        if (data?.status) {
+          if (data?.data?.snapshots.length === 0) {
+            setActiveTab("media");
+            Navigate(-1); // Navigate back if no videos left
+            setSelectedScreenshots([]);
+          }
+
+          setLoading(false);
+          getSnapshotListById(id!);
+          setSelectedScreenshots([]);
+          notify(data?.message || "Snapshots deleted successfully!");
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting screenshot folders:", error);
+      const { response } = error as {
+        response: { data: { code: number; data: string; message: string } };
+      };
+
+      console.log(response.data, "error....");
+      if (response?.data?.code === 404) {
+        // notify(response?.data?.message);
+        setLoading(false);
+      } else {
+        // notify(response?.data?.data || "Unable to update profile!");
+        setLoading(false);
+      }
+    }
+  };
+  if (Loading) {
+    return (
+      <div className='flex items-center justify-center h-screen'>
+        <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500'></div>
+      </div>
+    );
+  }
+
+  const formatTime = (iso?: string | null) => {
+    if (!iso) return "No Time";
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return "No Time";
+    return d.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
 
   return (
-      <div>
-      <div className="p-6">
+    <div>
+      <div className='p-6'>
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Snapshots</h2>
+        <div className='flex items-center justify-between mb-6'>
+          <h2 className='text-2xl font-semibold text-gray-800'>Snapshots</h2>
           <button
             onClick={() => Navigate(-1)}
-            className="bg-purple-900 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded"
+            className='bg-purple-900 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded'
           >
             ← Back to Folders
           </button>
@@ -185,22 +194,22 @@ const UserSnapshotList = () => {
         {/* Admin Controls */}
         {/* {isFromAdmin && screenshotList.length > 0 && ( */}
         {screenshotList.length > 0 && (
-          <div className="flex justify-between items-center mb-4">
-            <label className="flex items-center space-x-2">
+          <div className='flex justify-between items-center mb-4'>
+            <label className='flex items-center space-x-2'>
               <input
-                type="checkbox"
+                type='checkbox'
                 checked={isAllSelected}
                 onChange={toggleSelectAll}
-                className="form-checkbox h-4 w-4 text-purple-600"
+                className='form-checkbox h-4 w-4 text-purple-600'
               />
-              <span className="text-sm text-gray-700">Select All</span>
+              <span className='text-sm text-gray-700'>Select All</span>
             </label>
             <button
               onClick={handleDelete}
               className={`bg-red-500 text-white px-4 py-1.5 rounded hover:bg-red-600 text-sm ${
                 selectedScreenshots.length === 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : ''
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
               disabled={selectedScreenshots.length === 0}
             >
@@ -210,58 +219,55 @@ const UserSnapshotList = () => {
         )}
 
         {/* Empty state */}
-       { screenshotList && screenshotList.length > 0 ? (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    {screenshotList.map((screenshot, index) => {
-      const createdTime = new Date(screenshot.createdAt).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      });
+        {screenshotList && screenshotList.length > 0 ? (
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+            {screenshotList.map((screenshot, index) => {
+              const createdTime = formatTime(screenshot?.createdAt);
+              return (
+                <div
+                  key={index}
+                  className='group relative rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300'
+                >
+                  <img
+                    src={screenshot.imageLink}
+                    alt={screenshot.imageName || `Screenshot ${index + 1}`}
+                    loading='lazy'
+                    className='w-full h-48 object-contain bg-gray-100 transition-transform duration-300 group-hover:scale-105'
+                  />
 
-      return (
-        <div
-          key={index}
-          className="group relative rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300"
-        >
-          <img
-            src={screenshot.imageLink}
-            alt={screenshot.imageName || `Screenshot ${index + 1}`}
-            loading="lazy"
-            className="w-full h-48 object-contain bg-gray-100 transition-transform duration-300 group-hover:scale-105"
-          />
+                  {/* Checkbox - stays top left */}
+                  <input
+                    type='checkbox'
+                    checked={selectedScreenshots.includes(screenshot?._id)}
+                    onChange={() => toggleSelect(screenshot?._id)}
+                    className='absolute top-2 left-2 z-10 h-5 w-5 text-purple-600 bg-gray-500 rounded'
+                  />
 
-          {/* Checkbox - stays top left */}
-          <input
-            type="checkbox"
-            checked={selectedScreenshots.includes(screenshot?._id)}
-            onChange={() => toggleSelect(screenshot?._id)}
-            className="absolute top-2 left-2 z-10 h-5 w-5 text-purple-600 bg-gray-500 rounded"
-          />
- 
-          {/* Bottom overlay: filename + time */}
-          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs px-2 py-2 flex items-center justify-between">
-            <span className="truncate max-w-[70%]">{screenshot.imageName}</span>
-            <span className="ml-2 whitespace-nowrap text-gray-200">
-              {createdTime}
-            </span>
+                  {/* Bottom overlay: filename + time */}
+                  <div className='absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs px-2 py-2 flex items-center justify-between'>
+                    <span className='truncate max-w-[70%]'>
+                      {screenshot.imageName}
+                    </span>
+                    <span className='ml-2 whitespace-nowrap text-gray-200'>
+                      {createdTime}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
-        </div>
-      );
-    })}
-  </div>
-) : (
-  <div className="text-center text-gray-500 mt-20">
-    No snapshots available.
-  </div>
-)}
+        ) : (
+          <div className='text-center text-gray-500 mt-20'>
+            No snapshots available.
+          </div>
+        )}
       </div>
       {totalPages > 1 && (
-        <div className="flex justify-center items-center mt-6 space-x-2">
+        <div className='flex justify-center items-center mt-6 space-x-2'>
           <button
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            className="px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50"
+            className='px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50'
           >
             Prev
           </button>
@@ -272,8 +278,8 @@ const UserSnapshotList = () => {
               onClick={() => setCurrentPage(index + 1)}
               className={`px-3 py-1 border rounded text-sm shadow ${
                 currentPage === index + 1
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-white'
+                  ? "bg-purple-600 text-white"
+                  : "bg-white"
               }`}
             >
               {index + 1}
@@ -285,22 +291,22 @@ const UserSnapshotList = () => {
             onClick={() =>
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
-            className="px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50"
+            className='px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50'
           >
             Next
           </button>
         </div>
       )}
       {screenshotList.length > 0 && (
-        <div className="flex justify-end items-center space-x-2 mt-4">
-          <label className="text-sm text-gray-600">Items per page:</label>
+        <div className='flex justify-end items-center space-x-2 mt-4'>
+          <label className='text-sm text-gray-600'>Items per page:</label>
           <select
             value={limit}
             onChange={(e) => {
               setCurrentPage(1); // reset to first page on limit change
               setLimit(parseInt(e.target.value));
             }}
-            className="border border-gray-300 rounded-md w-20 p-2 text-sm focus:ring-2 focus:ring-purple-500"
+            className='border border-gray-300 rounded-md w-20 p-2 text-sm focus:ring-2 focus:ring-purple-500'
           >
             {[5, 10, 20, 50].map((option) => (
               <option key={option} value={option}>

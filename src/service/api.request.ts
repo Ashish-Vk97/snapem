@@ -21,7 +21,7 @@ export const environment = {
     LOCAL: "",
   };
 
-  const API_URL = getServerUrl(environment.LOCAL);
+  const API_URL = getServerUrl(environment.PRODUCTION);
 
 
   export async function hitAuthLessPostApi(path: string, body: any): Promise<any> {

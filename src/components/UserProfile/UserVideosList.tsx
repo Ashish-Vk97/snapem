@@ -174,7 +174,17 @@ const UserVideosList = () => {
       </div>
     );
   }
-  console.log(isFromAdmin, "isFromAdmin");
+  const formatTime = (iso?: string | null) => {
+  if (!iso) return "No Time";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "No Time";
+  return d.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+};
+
   return (
     <div>
       <div className='p-6'>
@@ -227,49 +237,10 @@ const UserVideosList = () => {
           </div>
         ) : (
           <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6'>
-            {/* {videos.map((video, index) => (
-              <div
-                key={index}
-                className="group rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300 bg-black"
-              >
-                <video
-                  controls
-                  preload="none"
-                  className="w-full h-48 object-cover bg-black"
-                >
-                  <source src={video.videoLink} type={video.mimetype} />
-                  Your browser does not support the video tag.
-                </video>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-white truncate">
-                        {video.videoName}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {formatFileSize(video.size)}
-                      </p>
-                    </div>
-
-                    <input
-                      type="checkbox"
-                      checked={selectedVideos.includes(video._id)}
-                      onChange={() => toggleSelectVideo(video._id)}
-                      className="w-4 h-4 accent-purple-600 ml-4"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))} */}
+        
             {videos.map((video, index) => {
-              const createdTime = new Date(video?.createdAt).toLocaleTimeString(
-                [],
-                {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                }
-              );
+             
+              const createdTime = formatTime(video?.createdAt);
 
               return (
                 <div
