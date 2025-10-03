@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router';
-import { toast } from 'react-toastify';
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router";
+import { toast } from "react-toastify";
 import {
   fetchVideoListById,
   videoListDelete,
-} from '../../service/screenshotvideo.service';
-import { AuthContext } from '../../context/AuthContext';
-
+} from "../../service/screenshotvideo.service";
+import { AuthContext } from "../../context/AuthContext";
 
 interface Folderlist {
   _id: string;
@@ -15,6 +14,8 @@ interface Folderlist {
   videoLink: string;
   mimetype: string;
   size: number;
+  createdAt: string;
+  updatedAt: string;
 }
 const formatFileSize = (bytes: number) => {
   if (bytes < 1024) return `${bytes} B`;
@@ -30,8 +31,8 @@ const UserVideosList = () => {
   const { id } = useParams<{ id: string }>();
 
   const [searchParams] = useSearchParams();
-  const userId = searchParams.get('userId');
-  const isFromAdmin = searchParams.get('isFromAdmin') === 'true';
+  const userId = searchParams.get("userId");
+  const isFromAdmin = searchParams.get("isFromAdmin") === "true";
 
   // const [selectAll, setSelectAll] = useState(false);
 
@@ -41,19 +42,19 @@ const UserVideosList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [limit, setLimit] = useState(10);
 
-  console.log(id, 'id from params');
+  console.log(id, "id from params");
 
   const Navigate = useNavigate();
 
   const notify = (str: string) => toast(str);
 
   const authContext = useContext(AuthContext);
-  
-    if (!authContext) {
-      throw new Error('AuthContext must be used within an AuthProvider');
-    }
-  
-    const { setActiveTab } = authContext;
+
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProvider");
+  }
+
+  const { setActiveTab } = authContext;
 
   const toggleSelectVideo = (id: string) => {
     setSelectedVideos((prev) =>
@@ -71,7 +72,7 @@ const UserVideosList = () => {
     }
   };
 
-  console.log(selectedVideos, ']]]');
+  console.log(selectedVideos, "]]]");
 
   const getVideoListById = async (
     id: string,
@@ -82,19 +83,19 @@ const UserVideosList = () => {
       setLoading(true);
       const response = await fetchVideoListById(id, page, limit);
       if (response.data.status) {
-        console.log('User details fetched:', response.data.data);
+        console.log("User details fetched:", response.data.data);
         setVideos(response.data?.data?.videos ?? []);
         setCurrentPage(response.data?.data?.currentPage);
         setTotalPages(response.data?.data?.totalPages);
         setLoading(false);
       } else {
         console.error(
-          'Failed to fetch user screenshot :',
+          "Failed to fetch user screenshot :",
           response.data.message
         );
       }
     } catch (error) {
-      console.error('Error fetching screenshot list details details:', error);
+      console.error("Error fetching screenshot list details details:", error);
       const { response } = error as {
         response: { data: { code: number; data: string; message: string } };
       };
@@ -103,59 +104,59 @@ const UserVideosList = () => {
         notify(response?.data?.message);
         setLoading(false);
       } else {
-        notify(response?.data?.data || 'Unable to fetch videos!');
+        notify(response?.data?.data || "Unable to fetch videos!");
         setLoading(false);
       }
     }
   };
   const handleDelete = async () => {
-    console.log('handle delete called');
+    console.log("handle delete called");
     let body: {
       videoEntryId?: string;
       deleteAll?: boolean;
       videoIds?: string[];
     } = {};
-    console.log('object');
+    console.log("object");
     try {
       if (id || userId) {
-      const isAllSelected =
-        videos.length > 0 && selectedVideos.length === videos.length;
+        const isAllSelected =
+          videos.length > 0 && selectedVideos.length === videos.length;
 
-      body = {
-        videoEntryId: id,
-        ...(isAllSelected ? { deleteAll: true } : { videoIds: selectedVideos }),
-      };
+        body = {
+          videoEntryId: id,
+          ...(isAllSelected
+            ? { deleteAll: true }
+            : { videoIds: selectedVideos }),
+        };
 
-      console.log(body, '===>');
-      setLoading(true);
+        console.log(body, "===>");
+        setLoading(true);
 
-      const { data } = await videoListDelete(body, userId ?? '');
-      if (data?.status) {
-         if(data?.data?.videos.length === 0) {
-          setActiveTab('media');
-          Navigate(-1); // Navigate back if no videos left
-           setSelectedVideos([]);
-          
+        const { data } = await videoListDelete(body, userId ?? "");
+        if (data?.status) {
+          if (data?.data?.videos.length === 0) {
+            setActiveTab("media");
+            Navigate(-1); // Navigate back if no videos left
+            setSelectedVideos([]);
+          }
+          setLoading(false);
+          getVideoListById(id!);
+          setSelectedVideos([]);
+          notify(data?.message || "Videos deleted successfully!");
         }
-        setLoading(false);
-        getVideoListById(id!);
-        setSelectedVideos([]);
-        notify(data?.message || 'Videos deleted successfully!');
       }
-      }        
-      
     } catch (error) {
-      console.error('Error deleting screenshot folders:', error);
+      console.error("Error deleting screenshot folders:", error);
       const { response } = error as {
         response: { data: { code: number; data: string; message: string } };
       };
 
-      console.log(response.data, 'error....');
+      console.log(response.data, "error....");
       if (response?.data?.code === 404) {
         notify(response?.data?.message);
         setLoading(false);
       } else {
-        notify(response?.data?.data || 'Unable to delete video!');
+        notify(response?.data?.data || "Unable to delete video!");
         setLoading(false);
       }
     }
@@ -168,34 +169,34 @@ const UserVideosList = () => {
   }, [id, currentPage, limit]);
   if (Loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+      <div className='flex items-center justify-center h-screen'>
+        <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500'></div>
       </div>
     );
   }
-  console.log(isFromAdmin, 'isFromAdmin');
+  console.log(isFromAdmin, "isFromAdmin");
   return (
     <div>
-      <div className="p-6">
+      <div className='p-6'>
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-semibold text-purple-900">Videos</h2>
+        <div className='flex items-center justify-between mb-6'>
+          <h2 className='text-2xl font-semibold text-purple-900'>Videos</h2>
           <button
             onClick={() => Navigate(-1)}
-            className="bg-purple-900 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded"
+            className='bg-purple-900 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded'
           >
             ← Back to Folders
           </button>
         </div>
         {/* {isFromAdmin && videos.length > 0 && ( */}
         {videos.length > 0 && (
-          <div className="flex items-center justify-between mb-4">
-            <label className="flex items-center space-x-2 text-sm text-gray-700">
+          <div className='flex items-center justify-between mb-4'>
+            <label className='flex items-center space-x-2 text-sm text-gray-700'>
               <input
-                type="checkbox"
+                type='checkbox'
                 checked={isAllSelected}
                 onChange={toggleSelectAll}
-                className="accent-purple-600"
+                className='accent-purple-600'
               />
               <span>Select All</span>
             </label>
@@ -210,8 +211,8 @@ const UserVideosList = () => {
               // }`}
               className={`bg-red-500 text-white px-4 py-1.5 rounded hover:bg-red-600 text-sm ${
                 selectedVideos.length === 0
-                  ? 'opacity-50 cursor-not-allowed'
-                  : ''
+                  ? "opacity-50 cursor-not-allowed"
+                  : ""
               }`}
             >
               Delete Selected
@@ -221,12 +222,12 @@ const UserVideosList = () => {
 
         {/* Empty state */}
         {videos.length === 0 ? (
-          <div className="text-center text-purple-700 mt-20">
+          <div className='text-center text-purple-700 mt-20'>
             No videos available.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-            {videos.map((video, index) => (
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6'>
+            {/* {videos.map((video, index) => (
               <div
                 key={index}
                 className="group rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300 bg-black"
@@ -259,16 +260,69 @@ const UserVideosList = () => {
                   </div>
                 </div>
               </div>
-            ))}
+            ))} */}
+            {videos.map((video, index) => {
+              const createdTime = new Date(video?.createdAt).toLocaleTimeString(
+                [],
+                {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                }
+              );
+
+              return (
+                <div
+                  key={index}
+                  className='group rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300 bg-black'
+                > 
+                  <video
+                    controls
+                    preload='none'
+                    className='w-full h-48 object-cover bg-black'
+                  >
+                    <source src={video.videoLink} type={video.mimetype} />
+                    Your browser does not support the video tag.
+                  </video>
+
+                  <div className='p-4'>
+                    <div className='flex items-center justify-between'>
+                      {/* Left side: Name + Time */}
+                      <div className='flex flex-col'>
+                        <div className='flex items-center space-x-2'>
+                          <p className='text-sm font-medium text-white truncate max-w-[150px]'>
+                            {video.videoName}
+                          </p>
+                          <span className='text-xs text-gray-200 whitespace-nowrap'>
+                            {createdTime}
+                          </span>
+                        </div>
+                        <p className='text-xs text-gray-200 mt-1'>
+                          {formatFileSize(video.size)}
+                        </p>
+                      </div>
+
+                      {/* Right side: Checkbox */}
+                      <input
+                        type='checkbox'
+                        checked={selectedVideos.includes(video._id)}
+                        onChange={() => toggleSelectVideo(video._id)}
+                        className='w-4 h-4 accent-purple-600 ml-4'
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
       {totalPages > 1 && (
-        <div className="flex justify-center items-center mt-6 space-x-2">
+        <div className='flex justify-center items-center mt-6 space-x-2'>
           <button
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            className="px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50"
+            className='px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50'
           >
             Prev
           </button>
@@ -279,8 +333,8 @@ const UserVideosList = () => {
               onClick={() => setCurrentPage(index + 1)}
               className={`px-3 py-1 border rounded text-sm shadow ${
                 currentPage === index + 1
-                  ? 'bg-purple-600 text-white'
-                  : 'bg-white'
+                  ? "bg-purple-600 text-white"
+                  : "bg-white"
               }`}
             >
               {index + 1}
@@ -292,22 +346,22 @@ const UserVideosList = () => {
             onClick={() =>
               setCurrentPage((prev) => Math.min(prev + 1, totalPages))
             }
-            className="px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50"
+            className='px-3 py-1 border rounded text-sm bg-white shadow disabled:opacity-50'
           >
             Next
           </button>
         </div>
       )}
       {videos.length > 0 && (
-        <div className="flex justify-end items-center space-x-2 mt-4">
-          <label className="text-sm text-gray-600">Items per page:</label>
+        <div className='flex justify-end items-center space-x-2 mt-4'>
+          <label className='text-sm text-gray-600'>Items per page:</label>
           <select
             value={limit}
             onChange={(e) => {
               setCurrentPage(1); // reset to first page on limit change
               setLimit(parseInt(e.target.value));
             }}
-            className="border border-gray-300 rounded-md w-20 p-2 text-sm focus:ring-2 focus:ring-purple-500"
+            className='border border-gray-300 rounded-md w-20 p-2 text-sm focus:ring-2 focus:ring-purple-500'
           >
             {[5, 10, 20, 50].map((option) => (
               <option key={option} value={option}>
