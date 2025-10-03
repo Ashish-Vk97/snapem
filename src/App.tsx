@@ -20,6 +20,7 @@ const UserContent = lazy(
 import ChangePassword from "./components/auth/ChangePassword";
 import { AuthContext } from "./context/AuthContext";
 import UserSnapshotList from './components/UserProfile/UserSnapshotList';
+import SmsOpt from './pages/AuthPages/SmsOpt';
 
 const Users = lazy(() => import("./pages/users/Users"));
 const SubscriptionList = lazy(
@@ -283,7 +284,8 @@ export default function App() {
     { path: "/reset-password", element: <ForgotPassword /> },
     { path: "/changePassword/:token", element: <ChangePassword /> },
     { path: "/success", element: <Success /> },
-    { path: "/cancel", element: <Cancel /> },
+    { path: "/cancel", element: <Cancel /> }, 
+    { path: "/sms", element: <SmsOpt /> },
 
     // Unauthenticated /home (default for unauthenticated users)
     // {

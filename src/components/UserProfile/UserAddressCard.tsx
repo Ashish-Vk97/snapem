@@ -159,7 +159,7 @@ try {
 
               <div>
                 <p className="mb-2 text-xs leading-normal text-purple-700 dark:text-gray-400">
-                  Postal Code
+                  Zip Code
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
                  {address?.pincode}

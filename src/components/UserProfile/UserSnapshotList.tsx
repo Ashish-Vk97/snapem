@@ -14,6 +14,8 @@ interface Folderlist {
   imageLink: string;
   mimetype: string;
   size: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const UserSnapshotList = () => {
@@ -46,6 +48,7 @@ const UserSnapshotList = () => {
         prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
       );
     };
+    console.log(screenshotList)
   
     const isAllSelected =
       screenshotList.length > 0 &&
@@ -207,45 +210,51 @@ const UserSnapshotList = () => {
         )}
 
         {/* Empty state */}
-        {screenshotList && screenshotList.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {screenshotList.map((screenshot, index) => (
-              <div
-                key={index}
-                className="group relative rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300"
-              >
-                {/* <img
-                  src={screenshot.imageLink}
-                  alt={screenshot.imageName || `Screenshot ${index + 1}`}
-                  loading="lazy"
-                  className="w-full h-48 object-cover transform group-hover:scale-105 transition-transform duration-300"
-                /> */}
-                <img
-                  src={screenshot.imageLink}
-                  alt={screenshot.imageName || `Screenshot ${index + 1}`}
-                  loading="lazy"
-                  className="w-full h-48 object-contain bg-gray-100 transition-transform duration-300 group-hover:scale-105"
-                />
+       { screenshotList && screenshotList.length > 0 ? (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {screenshotList.map((screenshot, index) => {
+      const createdTime = new Date(screenshot.createdAt).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
 
-                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-2 text-center truncate">
-                  {screenshot.imageName}
-                  {
-                    <input
-                      type="checkbox"
-                      checked={selectedScreenshots.includes(screenshot?._id)}
-                      onChange={() => toggleSelect(screenshot?._id)}
-                      className="absolute top-2 left-2 z-10 h-4 w-4 text-purple-600"
-                    />
-                  }
-                </div>
-              </div>
-            ))}
+      return (
+        <div
+          key={index}
+          className="group relative rounded-lg overflow-hidden shadow hover:shadow-lg transition duration-300"
+        >
+          <img
+            src={screenshot.imageLink}
+            alt={screenshot.imageName || `Screenshot ${index + 1}`}
+            loading="lazy"
+            className="w-full h-48 object-contain bg-gray-100 transition-transform duration-300 group-hover:scale-105"
+          />
+
+          {/* Checkbox - stays top left */}
+          <input
+            type="checkbox"
+            checked={selectedScreenshots.includes(screenshot?._id)}
+            onChange={() => toggleSelect(screenshot?._id)}
+            className="absolute top-2 left-2 z-10 h-5 w-5 text-purple-600 bg-gray-500 rounded"
+          />
+ 
+          {/* Bottom overlay: filename + time */}
+          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs px-2 py-2 flex items-center justify-between">
+            <span className="truncate max-w-[70%]">{screenshot.imageName}</span>
+            <span className="ml-2 whitespace-nowrap text-gray-200">
+              {createdTime}
+            </span>
           </div>
-        ) : (
-          <div className="text-center text-gray-500 mt-20">
-            No snapshots available.
-          </div>
-        )}
+        </div>
+      );
+    })}
+  </div>
+) : (
+  <div className="text-center text-gray-500 mt-20">
+    No snapshots available.
+  </div>
+)}
       </div>
       {totalPages > 1 && (
         <div className="flex justify-center items-center mt-6 space-x-2">
